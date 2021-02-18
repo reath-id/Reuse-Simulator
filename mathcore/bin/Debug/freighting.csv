@@ -1,0 +1,21 @@
+Vehicle,kg CO2e
+Vans,0.62001
+HGV,0.11021 
+HGV refrigerated,0.12909 
+Freight flights: Domestic: to/from UK,4.99674 
+Freight flights: Short-haul: to/from UK,2.37968 
+Freight flights: Long-haul: to/from UK,1.13174 
+Freight flights: International: to/from non-UK,1.13174 
+Rail,0.03333 
+Sea tanker: Crude tanker,0.00457
+Sea tanker: Products tanker,0.00903
+Sea tanker: Chemical tanker ,0.01032
+Sea tanker: LNG tanker,0.01155
+Sea tanker: LPG Tanker,0.01038
+Cargo ship: Bulk carrier,0.00354
+Cargo ship: General cargo,0.01323
+Cargo ship: Container ship,0.01614
+Cargo ship: Vehicle transport,0.03858
+Cargo ship: RoRo-Ferry,0.05166
+Cargo ship: Large RoPax ferry,0.37667
+Cargo ship: Refrigerated cargo,0.01308

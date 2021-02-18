@@ -1,0 +1,6 @@
+C:\Users\redsp\source\repos\mathcore\mathcore\bin\Debug\mathcore.exe.config
+C:\Users\redsp\source\repos\mathcore\mathcore\bin\Debug\mathcore.exe
+C:\Users\redsp\source\repos\mathcore\mathcore\bin\Debug\mathcore.pdb
+C:\Users\redsp\source\repos\mathcore\mathcore\obj\Debug\mathcore.csprojAssemblyReference.cache
+C:\Users\redsp\source\repos\mathcore\mathcore\obj\Debug\mathcore.exe
+C:\Users\redsp\source\repos\mathcore\mathcore\obj\Debug\mathcore.pdb
