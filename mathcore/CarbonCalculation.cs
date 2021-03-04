@@ -16,10 +16,6 @@ namespace mathcore
         }
         public static CarbonResults CalculateCarbon(ReusableAsset Asset)
         {
-            CarbonResults Results = new CarbonResults();
-
-            float linear = 0;
-
 
             /// MANUFACTURING COSTS
 
@@ -37,7 +33,7 @@ namespace mathcore
 
                 float mat2carbonfactor = ManufacturingCostFromEnum(Mat2MFC, Asset.AuxillaryMaterialManufacturing);
 
-                mat2carboncost = mat1carbonfactor * 0.001f * Asset.AuxillaryWeight * Asset.NoOfItems;
+                mat2carboncost = mat2carbonfactor * 0.001f * Asset.AuxillaryWeight * Asset.NoOfItems;
             }
 
             float ManufacturingCost = mat1carboncost + mat2carboncost;
@@ -80,8 +76,8 @@ namespace mathcore
             TransportCost exampletransport = DB.GetTransportCost("HGV");
 
             float totalweight = Asset.NoOfItems * (Asset.PrimaryWeight + Asset.AuxillaryWeight);
-
-            float transportcarbon = Asset.AvgDistanceToRecycle * totalweight * 0.001f * exampletransport.Cost;
+        
+            float transportcarbon = Asset.AvgDistanceToRecycle * totalweight * 0.001f * (exampletransport.Cost + exampletransport.WTTFactor);
 
 
             /// PREPARATION FOR REUSE COST
@@ -99,7 +95,7 @@ namespace mathcore
             float circularcost = reusemanufacturingcarbon + transportcarbon + prepreusecarbon + reusedisposalcarbon;
 
 
-            return new CarbonResults(Asset.AssetName, linearcost, circularcost);
+            return new CarbonResults(Asset.AssetName, linearcost, circularcost, ManufacturingCost, DisposalCost, transportcarbon, mat1carboncost, mat2carboncost, mat1disposalcost, mat2disposalcost);
 
 
         }
@@ -184,16 +180,30 @@ namespace mathcore
     public struct CarbonResults
     {
         public string AssetName;
-        public float LinearCarbon;
-        public float CircularCarbon;
+        public float LinearCarbonTotal;
+        public float CircularCarbonTotal;
+        public float RawManufacturingCarbon;
+        public float Mat1ManufacturingCarbon;
+        public float Mat2ManufacturingCarbon;
+        public float RawDisposalCarbon;
+        public float Mat1DisposalCarbon;
+        public float Mat2DisposalCarbon;
+        public float RawTransportCarbon;
         public float ReuseAsPercent;
 
-        public CarbonResults(string Asset, float Linear, float Circular)
+        public CarbonResults(string Asset, float Linear, float Circular, float Manuf, float Disp, float Trans, float Mat1M, float Mat2M, float Mat1D, float Mat2D)
         {
             AssetName = Asset;
-            LinearCarbon = Linear;
-            CircularCarbon = Circular;
-            ReuseAsPercent = Circular / Linear;
+            LinearCarbonTotal = Linear;
+            CircularCarbonTotal = Circular;
+            ReuseAsPercent = (1 - (Circular / Linear)) * 100;
+            RawManufacturingCarbon = Manuf;
+            RawDisposalCarbon = Disp;
+            RawTransportCarbon = Trans;
+            Mat1ManufacturingCarbon = Mat1M;
+            Mat2ManufacturingCarbon = Mat2M;
+            Mat1DisposalCarbon = Mat1D;
+            Mat2DisposalCarbon = Mat2D;
         }
     }
 }

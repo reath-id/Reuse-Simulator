@@ -14,6 +14,8 @@ namespace mathcore
             CarbonCalculation.SetDB(new MockDB("."));
 
             List<string> exampleassets = File.ReadAllLines("exampleassets.csv").Skip(1).ToList();
+            List<string> exampleresults = File.ReadAllLines("exampleres.csv").ToList();
+            int i = 0;
 
             foreach (string asset in exampleassets)
             {
@@ -42,13 +44,29 @@ namespace mathcore
 
                 CarbonResults res = CarbonCalculation.CalculateCarbon(reusableAsset);
 
+                string[] test_values = exampleresults[i++].Split(',');
+
                 Console.WriteLine("Asset: " + res.AssetName);
-                Console.WriteLine("Linear Carbon: " + res.LinearCarbon);
-                Console.WriteLine("Circular Carbon: " + res.CircularCarbon);
-                Console.WriteLine("Savings: " + res.ReuseAsPercent);
+                Console.WriteLine("Linear Carbon: " + res.LinearCarbonTotal);
+                Console.WriteLine("Circular Carbon: " + res.CircularCarbonTotal);
+                Console.WriteLine("Savings: " + res.ReuseAsPercent + "%");
+                Console.WriteLine("Diff from Expected Linear: " +  (Math.Abs(res.LinearCarbonTotal - float.Parse(test_values[0])) * 100) / res.LinearCarbonTotal + "%");
+                Console.WriteLine("Diff from Expected Circular: " + (Math.Abs(res.CircularCarbonTotal - float.Parse(test_values[1])) * 100) / res.CircularCarbonTotal + "%");
+                Console.WriteLine("Diff from Expected Manufacturing: " + (Math.Abs(res.RawManufacturingCarbon - float.Parse(test_values[2])) * 100) / res.RawManufacturingCarbon + "%");
+                Console.WriteLine("Diff from Expected Disposal: " + (Math.Abs(res.RawDisposalCarbon - float.Parse(test_values[3])) * 100) / res.RawDisposalCarbon + "%");            
+                
+                if (res.RawTransportCarbon != 0)
+                {
+                    Console.WriteLine("Diff from Expected Transport: " + (Math.Abs(res.RawTransportCarbon - float.Parse(test_values[4])) * 100) / res.RawTransportCarbon + "%");
+                }
+                else
+                {
+                    Console.WriteLine("No transport costs.");
+                }
+                
                 Console.WriteLine("---------------------------------------");
             }
-
+                
             Console.ReadLine();
         }
     }

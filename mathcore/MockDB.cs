@@ -33,7 +33,7 @@ namespace mathcore
             foreach (string entry in transport)
             {
                 string[] inputs = entry.Split(',');
-                transportCosts[inputs[0]] = new TransportCost(inputs[0], EmptyToInv(inputs[1]));
+                transportCosts[inputs[0]] = new TransportCost(inputs[0], EmptyToInv(inputs[1]), EmptyToInv(inputs[2]));
             }
         }
 
@@ -122,11 +122,13 @@ namespace mathcore
     {
         public string TransportName;
         public float Cost;
+        public float WTTFactor;
 
-        public TransportCost(string Name, float CostKM)
+        public TransportCost(string Name, float CostKM, float WTT)
         {
             TransportName = Name;
             Cost = CostKM;
+            WTTFactor = WTT;
         }
     }
 }

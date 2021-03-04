@@ -23,7 +23,7 @@ namespace mathcore
 
         public string AuxillaryMaterial;
         public ManufactoringMethod AuxillaryMaterialManufacturing;
-        public float AuxillaryWeight;
+        public float AuxillaryWeight = 0;
         public DisposalMethod AuxillaryDisposalMethod;
        
         public float AvgDistanceToRecycle;
