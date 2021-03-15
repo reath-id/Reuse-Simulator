@@ -100,13 +100,6 @@ namespace ReathUIv0._1
             set { OnPropertyChanged(ref material2, value); }
         }
 
-        private string material3;
-        public string Material3
-        {
-            get { return material3; }
-            set { OnPropertyChanged(ref material3, value); }
-        }
-
         private ChartValues<double> material1Value;
         public ChartValues<double> Material1Value
         {
@@ -119,13 +112,6 @@ namespace ReathUIv0._1
         {
             get { return material2Value; }
             set { OnPropertyChanged(ref material2Value, value); }
-        }
-
-        private ChartValues<double> material3Value;
-        public ChartValues<double> Material3Value
-        {
-            get { return material3Value; }
-            set { OnPropertyChanged(ref material3Value, value); }
         }
 
         private ChartValues<double> economicImpactValue;
@@ -167,13 +153,6 @@ namespace ReathUIv0._1
             set { OnPropertyChanged(ref material2Colour, value); }
         }
 
-        private Brush material3Colour;
-        public Brush Material3Colour
-        {
-            get { return material3Colour; }
-            set { OnPropertyChanged(ref material3Colour, value); }
-        }
-
         private Brush economicImpactColour;
         public Brush EconomicImpactColour
         {
@@ -210,9 +189,9 @@ namespace ReathUIv0._1
             Labels = new[] { "Linear", "Circular" };
             Formatter = (x) => string.Format("{0:N2}", x) + " kg CO2e";
 
+            //Change this so I can update it from input tab
             Material1 = "Aluminium";
             Material2 = "Plastic";
-            Material3 = "Cardboard";
 
             TitleLabelText2 = "Economic Impact per " + SampleSize + " packagings";
             Labels2 = new[] { "Linear", "Circular" };
@@ -232,14 +211,11 @@ namespace ReathUIv0._1
             // Adding mock-up Values
             Material1Value = new ChartValues<double>();
             Material2Value = new ChartValues<double>();
-            Material3Value = new ChartValues<double>();
 
             Material1Value.Add(rnd.Next(22, 54));
             Material1Value.Add(rnd.Next(9, 18));
             Material2Value.Add(rnd.Next(9, 30));
             Material2Value.Add(rnd.Next(1, 8));
-            Material3Value.Add(rnd.Next(13, 22));
-            Material3Value.Add(rnd.Next(2, 7));
         }
 
         void LoadEnvironmentalTheme()
@@ -249,13 +225,15 @@ namespace ReathUIv0._1
                 case 1:
                     Material1Colour = (Brush)new BrushConverter().ConvertFromString("#4C3F54");
                     Material2Colour = (Brush)new BrushConverter().ConvertFromString("#E5D8ED");
-                    Material3Colour = (Brush)new BrushConverter().ConvertFromString("#9BEBDD");
                     break;
                 case 2:
                     Material1Colour = (Brush)new BrushConverter().ConvertFromString("#A986C2");
-                    Material2Colour = (Brush)new BrushConverter().ConvertFromString("#FFA275");
-                    Material3Colour = (Brush)new BrushConverter().ConvertFromString("#FE4E61");
+                    Material2Colour = (Brush)new BrushConverter().ConvertFromString("#9BEBDD");
                     break;
+                case 3:
+                    Material1Colour = (Brush)new BrushConverter().ConvertFromString("#FFA275");
+                    Material2Colour = (Brush)new BrushConverter().ConvertFromString("#FE4E61");
+                    break;                  
             }
         }
 
@@ -313,6 +291,7 @@ namespace ReathUIv0._1
             dropDown_themeEnvironmentalImpact.SelectedIndex = 1;
             dropDown_themeEnvironmentalImpact.Items.Add("Default");
             dropDown_themeEnvironmentalImpact.Items.Add("Alternative");       
+            dropDown_themeEnvironmentalImpact.Items.Add("Alternative 2");       
         }
 
         //Added keybind so I can exit the application with ESC

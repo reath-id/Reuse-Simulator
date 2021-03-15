@@ -56,20 +56,6 @@
                                                      MaxColumnWidth="100"                                                     
                                                      Title="{Binding Material2,UpdateSourceTrigger=PropertyChanged}"
                                                      />
-                        <lvc:StackedColumnSeries Values="{Binding Material3Value ,UpdateSourceTrigger=PropertyChanged}"
-                                                     PointGeometry="{x:Null}"
-                                                     Fill="{Binding Material3Colour,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                     Stroke="{Binding Material3Colour,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                                     StrokeThickness="8"
-                                                     DataLabels="False"
-                                                     StackMode="Values"
-                                                     FontFamily="Roboto"
-                                                     FontWeight="Bold"
-                                                     FontSize="13"
-                                                     LabelsPosition="Perpendicular"
-                                                     MaxColumnWidth="100"
-                                                     Title="{Binding Material3,UpdateSourceTrigger=PropertyChanged}"
-                                                     />
                     </lvc:CartesianChart.Series>
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis Title="{Binding XLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="14" Foreground="Black"  
@@ -123,7 +109,7 @@
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis Title="{Binding XLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="14" Foreground="Black"  
                                       FontFamily="Roboto" FontWeight="Normal"
-                                      Labels="{Binding Labels}" LabelsRotation="{Binding XRotationText,UpdateSourceTrigger=PropertyChanged}">
+                                      Labels="{Binding Labels2}" LabelsRotation="{Binding XRotationText,UpdateSourceTrigger=PropertyChanged}">
                             <lvc:Axis.Separator>
                                 <lvc:Separator Stroke="Transparent"/>
                             </lvc:Axis.Separator>
@@ -131,7 +117,7 @@
                     </lvc:CartesianChart.AxisX>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Title="{Binding YLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="12" Foreground="#424548"
-                                      LabelFormatter="{Binding Formatter,UpdateSourceTrigger=PropertyChanged}" FontFamily="Roboto" FontWeight="Normal"
+                                      LabelFormatter="{Binding Formatter2,UpdateSourceTrigger=PropertyChanged}" FontFamily="Roboto" FontWeight="Normal"
                                       LabelsRotation="{Binding YRotationText,UpdateSourceTrigger=PropertyChanged}">
                             <lvc:Axis.Separator>
                                 <lvc:Separator Stroke="#4C3F54"/>
