@@ -75,13 +75,18 @@
                         <lvc:Axis Title="{Binding XLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="14" Foreground="Black"  
                                       FontFamily="Roboto" FontWeight="Normal"
                                       Labels="{Binding Labels}" LabelsRotation="{Binding XRotationText,UpdateSourceTrigger=PropertyChanged}">
-
+                            <lvc:Axis.Separator>
+                                <lvc:Separator Stroke="Transparent"/>
+                            </lvc:Axis.Separator>
                         </lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                     <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="{Binding YLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="12" Foreground="Black"
+                        <lvc:Axis Title="{Binding YLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="12" Foreground="#424548"
                                       LabelFormatter="{Binding Formatter,UpdateSourceTrigger=PropertyChanged}" FontFamily="Roboto" FontWeight="Normal"
                                       LabelsRotation="{Binding YRotationText,UpdateSourceTrigger=PropertyChanged}">
+                            <lvc:Axis.Separator>
+                                <lvc:Separator Stroke="#4C3F54"/>
+                            </lvc:Axis.Separator>
                         </lvc:Axis>
                     </lvc:CartesianChart.AxisY>
                 </lvc:CartesianChart>
@@ -99,9 +104,9 @@
             <Label Content="{Binding TitleLabelText2}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" FontFamily="FiraCode Nerd Font"></Label>
             <Border BorderBrush="Black" BorderThickness="0" Height="640" Width="640">
                 <lvc:CartesianChart LegendLocation="{Binding LegendPosition,UpdateSourceTrigger=PropertyChanged}"  Height="640" Width="640" Background="White"
-                                        FontSize="13" FontFamily="Roboto" FontWeight="Normal" AnimationsSpeed="{Binding SpeedValue, UpdateSourceTrigger=PropertyChanged}">
+                                        FontSize="12" FontFamily="Roboto" FontWeight="Normal" AnimationsSpeed="{Binding SpeedValue, UpdateSourceTrigger=PropertyChanged}">
                     <lvc:CartesianChart.Series>
-                        <lvc:ColumnSeries Values="{Binding Path=EconomicImpactValue ,UpdateSourceTrigger=PropertyChanged}"
+                        <lvc:ColumnSeries Values="{Binding EconomicImpactValue ,UpdateSourceTrigger=PropertyChanged}"
                                                      PointGeometry="{x:Null}" 
                                                      Fill="{Binding EconomicImpactColour,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                                      Stroke="{Binding EconomicImpactColour,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -118,14 +123,19 @@
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis Title="{Binding XLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="14" Foreground="Black"  
                                       FontFamily="Roboto" FontWeight="Normal"
-                                      Labels="{Binding Labels2}" LabelsRotation="{Binding XRotationText,UpdateSourceTrigger=PropertyChanged}">
-
+                                      Labels="{Binding Labels}" LabelsRotation="{Binding XRotationText,UpdateSourceTrigger=PropertyChanged}">
+                            <lvc:Axis.Separator>
+                                <lvc:Separator Stroke="Transparent"/>
+                            </lvc:Axis.Separator>
                         </lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                     <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="{Binding YLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="12" Foreground="Black"
-                                      LabelFormatter="{Binding Formatter2,UpdateSourceTrigger=PropertyChanged}" FontFamily="Roboto" FontWeight="Normal"
+                        <lvc:Axis Title="{Binding YLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="12" Foreground="#424548"
+                                      LabelFormatter="{Binding Formatter,UpdateSourceTrigger=PropertyChanged}" FontFamily="Roboto" FontWeight="Normal"
                                       LabelsRotation="{Binding YRotationText,UpdateSourceTrigger=PropertyChanged}">
+                            <lvc:Axis.Separator>
+                                <lvc:Separator Stroke="#4C3F54"/>
+                            </lvc:Axis.Separator>
                         </lvc:Axis>
                     </lvc:CartesianChart.AxisY>
                 </lvc:CartesianChart>

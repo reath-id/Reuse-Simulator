@@ -202,26 +202,22 @@ namespace ReathUIv0._1
             XRotationText = 0;
             YRotationText = 15;
             SpeedValue = "00:00:0.5";
-            TitleLabelText2 = "Economic Impact";
             XLabelText = "";
             YLabelText = "";
             SampleSize = 100;
 
-            TitleLabelText = "Environmental Impact";
+            TitleLabelText = "Environmental Impact per " + SampleSize + " packagings";
             Labels = new[] { "Linear", "Circular" };
             Formatter = (x) => string.Format("{0:N2}", x) + " kg CO2e";
-            Material1Value = new ChartValues<double>();
-            Material2Value = new ChartValues<double>();
-            Material3Value = new ChartValues<double>();
+
             Material1 = "Aluminium";
             Material2 = "Plastic";
             Material3 = "Cardboard";
 
             TitleLabelText2 = "Economic Impact per " + SampleSize + " packagings";
             Labels2 = new[] { "Linear", "Circular" };
-            EconomicImpact = "Cost in £";
             Formatter2 = (x) => string.Format("{0:N2}", x) + " £";
-            EconomicImpactValue = new ChartValues<double>();
+            EconomicImpact = "Cost in £";
         }
 
         void LoadGraphs()
@@ -234,9 +230,9 @@ namespace ReathUIv0._1
             Random rnd = new Random();
 
             // Adding mock-up Values
-            Material1Value.Clear();
-            Material2Value.Clear();
-            Material3Value.Clear();
+            Material1Value = new ChartValues<double>();
+            Material2Value = new ChartValues<double>();
+            Material3Value = new ChartValues<double>();
 
             Material1Value.Add(rnd.Next(22, 54));
             Material1Value.Add(rnd.Next(9, 18));
@@ -268,7 +264,8 @@ namespace ReathUIv0._1
             Random rnd = new Random();
 
             // Adding mock-up Values
-            EconomicImpactValue.Clear();
+            EconomicImpactValue = new ChartValues<double>();
+
             EconomicImpactValue.Add(rnd.Next(18, 66));
             EconomicImpactValue.Add(rnd.Next(2, 6));
         }
