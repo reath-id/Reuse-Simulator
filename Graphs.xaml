@@ -21,17 +21,17 @@
         <Image x:Name="img_logo_text_teal_1x_png" Margin="10,10,1602,1002" Source="resources/img_logo-text_teal@1x.png" Stretch="Fill" Width="300" Height="60"/>
         <Image x:Name="Circular_Economy_Simulator_ALT_color_png" Margin="315,45,1205,999" Source="Circular Economy Simulator ALT color.png" Stretch="Fill" Width="392" Height="28"/>
 
-        
-        <StackPanel x:Name="stackPanel_graphLeft" Margin="315,190,917,202" Background="#FFD9DCDF" Width="680" Height="680">
+
+        <StackPanel x:Name="stackPanel_graphLeft" Margin="315,190,917,202" Background="White" Width="680" Height="680">
             <Label Content="{Binding TitleLabelText}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" FontFamily="FiraCode Nerd Font"></Label>
             <Border BorderBrush="Black" BorderThickness="0" Height="640" Width="640">
-                <lvc:CartesianChart LegendLocation="{Binding LegendPosition,UpdateSourceTrigger=PropertyChanged}"
+                <lvc:CartesianChart LegendLocation="{Binding LegendPosition,UpdateSourceTrigger=PropertyChanged}" Background="White"
                                         FontSize="12" FontFamily="Roboto" FontWeight="Normal" AnimationsSpeed="{Binding SpeedValue, UpdateSourceTrigger=PropertyChanged}">
                     <lvc:CartesianChart.Series>
-                        <lvc:StackedColumnSeries Values="{Binding Path=Material1Value ,UpdateSourceTrigger=PropertyChanged}"
+                        <lvc:StackedColumnSeries Values="{Binding Material1Value ,UpdateSourceTrigger=PropertyChanged}"
                                                      PointGeometry="{x:Null}" 
-                                                     Fill="#4C3F54" 
-                                                     Stroke="#4C3F54"
+                                                     Fill="{Binding  Material1Colour,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                     Stroke="{Binding  Material1Colour,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                      StrokeThickness="8"
                                                      DataLabels="False"
                                                      StackMode="Values"
@@ -42,10 +42,10 @@
                                                      LabelsPosition="Perpendicular"
                                                      Title="{Binding Material1,UpdateSourceTrigger=PropertyChanged}"
                                                      />
-                        <lvc:StackedColumnSeries Values="{Binding Path=Material2Value ,UpdateSourceTrigger=PropertyChanged}"
+                        <lvc:StackedColumnSeries Values="{Binding Material2Value ,UpdateSourceTrigger=PropertyChanged}"
                                                      PointGeometry="{x:Null}"     
-                                                     Fill="#E5D8ED"  
-                                                     Stroke="#E5D8ED"
+                                                     Fill="{Binding Material2Colour,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  
+                                                     Stroke="{Binding Material2Colour,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                      StrokeThickness="8"
                                                      DataLabels="False"
                                                      StackMode="Values"
@@ -56,10 +56,10 @@
                                                      MaxColumnWidth="100"                                                     
                                                      Title="{Binding Material2,UpdateSourceTrigger=PropertyChanged}"
                                                      />
-                        <lvc:StackedColumnSeries Values="{Binding Path=Material3Value ,UpdateSourceTrigger=PropertyChanged}"
+                        <lvc:StackedColumnSeries Values="{Binding Material3Value ,UpdateSourceTrigger=PropertyChanged}"
                                                      PointGeometry="{x:Null}"
-                                                     Fill="#9BEBDD" 
-                                                     Stroke="#9BEBDD"
+                                                     Fill="{Binding Material3Colour,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                     Stroke="{Binding Material3Colour,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                      StrokeThickness="8"
                                                      DataLabels="False"
                                                      StackMode="Values"
@@ -71,21 +71,6 @@
                                                      Title="{Binding Material3,UpdateSourceTrigger=PropertyChanged}"
                                                      />
                     </lvc:CartesianChart.Series>
-                    <lvc:CartesianChart.Resources>
-                        <Style TargetType="lvc:DefaultTooltip">
-                            <Setter Property="Background" Value="DarkOrange"></Setter>
-                            <Setter Property="Foreground" Value="Black"></Setter>
-                            <Setter Property="FontSize" Value="12"></Setter>
-                            <Setter Property="Opacity" Value="0.90"></Setter>
-                            <Setter Property="FontWeight" Value="Normal"></Setter>
-                            <Setter Property="CornerRadius" Value="8"></Setter>
-                            <Setter Property="BorderThickness" Value="0"></Setter>
-                            <Setter Property="BulletSize" Value="25"/>
-                        </Style>
-                        <Style TargetType="lvc:DefaultLegend">
-                            <Setter Property="BulletSize" Value="25"/>
-                        </Style>
-                    </lvc:CartesianChart.Resources>
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis Title="{Binding XLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="14" Foreground="Black"  
                                       FontFamily="Roboto" FontWeight="Normal"
@@ -103,19 +88,23 @@
             </Border>
             <StackPanel.Effect>
                 <DropShadowEffect BlurRadius="50"/>
-            </StackPanel.Effect>
+            </StackPanel.Effect>            
+        </StackPanel>
+        <StackPanel>
+            <ComboBox Width="200" Height="40" Margin="315,900,917,202" />
         </StackPanel>
 
-        <StackPanel x:Name="stackPanel_graphRight" Margin="1110,190,122,202" Background="#FFD9DCDF" Width="680" Height="680">
+
+        <StackPanel x:Name="stackPanel_graphRight" Margin="1110,190,122,202" Background="White" Width="680" Height="680">
             <Label Content="{Binding TitleLabelText2}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" FontFamily="FiraCode Nerd Font"></Label>
             <Border BorderBrush="Black" BorderThickness="0" Height="640" Width="640">
-                <lvc:CartesianChart LegendLocation="{Binding LegendPosition,UpdateSourceTrigger=PropertyChanged}"  Height="640" Width="640"
+                <lvc:CartesianChart LegendLocation="{Binding LegendPosition,UpdateSourceTrigger=PropertyChanged}"  Height="640" Width="640" Background="White"
                                         FontSize="13" FontFamily="Roboto" FontWeight="Normal" AnimationsSpeed="{Binding SpeedValue, UpdateSourceTrigger=PropertyChanged}">
                     <lvc:CartesianChart.Series>
                         <lvc:ColumnSeries Values="{Binding Path=EconomicImpactValue ,UpdateSourceTrigger=PropertyChanged}"
                                                      PointGeometry="{x:Null}" 
-                                                     Fill="#D5440B" 
-                                                     Stroke="#D5440B"
+                                                     Fill="{Binding EconomicImpactColour,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                     Stroke="{Binding EconomicImpactColour,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                      StrokeThickness="8"
                                                      DataLabels="False"
                                                      FontFamily="Roboto"
@@ -145,8 +134,17 @@
                 <DropShadowEffect BlurRadius="50"/>
             </StackPanel.Effect>
         </StackPanel>
-
-
+        <StackPanel>
+            <ComboBox x:Name="dropDown_themeEnvironmentalImpact" Width="240" Height="60" Margin="315,900,917,202" Loaded="dropDown_themeEnvironmentalImpact_Loaded"
+                       SelectedIndex="{Binding Path=EnvironmentalSelectedTheme, Mode=TwoWay}">
+            </ComboBox>
+        </StackPanel>
+        <StackPanel>
+            <ComboBox x:Name="dropDown_themeEconomicImpact" Width="240" Height="60"  Margin="1110,900,122,202"  Loaded="dropDown_themeEconomicImpact_Loaded"
+                      SelectedIndex="{Binding Path=EconomicsSelectedTheme, Mode=TwoWay}">
+            </ComboBox>
+        </StackPanel>
+        
         <StackPanel Margin="950,29,742,987" Orientation="Vertical">
             <Button x:Name="btnInput" Content="Input" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnInput_Click"/>
         </StackPanel>

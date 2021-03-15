@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace ReathUIv0._1
 {
     /// <summary>
     /// Interaction logic for Graphs.xaml
     /// </summary>
-    public partial class Graphs : Window
+    public partial class Graphs : Window, INotifyPropertyChanged
     {
 
         private string xLabelText;
@@ -151,6 +153,47 @@ namespace ReathUIv0._1
             set { OnPropertyChanged(ref formatter2, value); }
         }
 
+        private Brush material1Colour;
+        public Brush Material1Colour
+        {
+            get { return material1Colour; }
+            set { OnPropertyChanged(ref material1Colour, value); }
+        }
+
+        private Brush material2Colour;
+        public Brush Material2Colour
+        {
+            get { return material2Colour; }
+            set { OnPropertyChanged(ref material2Colour, value); }
+        }
+
+        private Brush material3Colour;
+        public Brush Material3Colour
+        {
+            get { return material3Colour; }
+            set { OnPropertyChanged(ref material3Colour, value); }
+        }
+
+        private Brush economicImpactColour;
+        public Brush EconomicImpactColour
+        {
+            get { return economicImpactColour; }
+            set { OnPropertyChanged(ref economicImpactColour, value); }
+        }        
+        
+        private int environmentalSelectedTheme;
+        public int EnvironmentalSelectedTheme
+        {
+            get { return environmentalSelectedTheme; }
+            set { OnPropertyChanged(ref environmentalSelectedTheme, value); LoadEnvironmentalTheme(); }
+        }        
+        
+        private int economicsSelectedTheme;
+        public int EconomicsSelectedTheme
+        {
+            get { return economicsSelectedTheme; }
+            set { OnPropertyChanged(ref economicsSelectedTheme, value); LoadEconomicsTheme(); }
+        }
         public Graphs()
         {
             InitializeComponent();
@@ -179,8 +222,6 @@ namespace ReathUIv0._1
             EconomicImpact = "Cost in £";
             Formatter2 = (x) => string.Format("{0:N2}", x) + " £";
             EconomicImpactValue = new ChartValues<double>();
-
-           
         }
 
         void LoadGraphs()
@@ -190,29 +231,64 @@ namespace ReathUIv0._1
         }
         void LoadEnvironmentalGraph()
         {
+            Random rnd = new Random();
+
             // Adding mock-up Values
             Material1Value.Clear();
             Material2Value.Clear();
             Material3Value.Clear();
 
-            Material1Value.Add(15);
-            Material1Value.Add(6);
-            Material2Value.Add(26);
-            Material2Value.Add(12);
-            Material3Value.Add(43);
-            Material3Value.Add(1);
+            Material1Value.Add(rnd.Next(22, 54));
+            Material1Value.Add(rnd.Next(9, 18));
+            Material2Value.Add(rnd.Next(9, 30));
+            Material2Value.Add(rnd.Next(1, 8));
+            Material3Value.Add(rnd.Next(13, 22));
+            Material3Value.Add(rnd.Next(2, 7));
+        }
+
+        void LoadEnvironmentalTheme()
+        {
+            switch (EnvironmentalSelectedTheme)
+            {
+                case 1:
+                    Material1Colour = (Brush)new BrushConverter().ConvertFromString("#4C3F54");
+                    Material2Colour = (Brush)new BrushConverter().ConvertFromString("#E5D8ED");
+                    Material3Colour = (Brush)new BrushConverter().ConvertFromString("#9BEBDD");
+                    break;
+                case 2:
+                    Material1Colour = (Brush)new BrushConverter().ConvertFromString("#A986C2");
+                    Material2Colour = (Brush)new BrushConverter().ConvertFromString("#FFA275");
+                    Material3Colour = (Brush)new BrushConverter().ConvertFromString("#FE4E61");
+                    break;
+            }
         }
 
         void LoadEconomicsGraph()
         {
+            Random rnd = new Random();
+
             // Adding mock-up Values
             EconomicImpactValue.Clear();
-            EconomicImpactValue.Add(26);
-            EconomicImpactValue.Add(5);
+            EconomicImpactValue.Add(rnd.Next(18, 66));
+            EconomicImpactValue.Add(rnd.Next(2, 6));
+        }
+
+        void LoadEconomicsTheme()
+        {
+            switch (EconomicsSelectedTheme)
+            {
+                case 1:
+                    EconomicImpactColour = (Brush)new BrushConverter().ConvertFromString("#D5440B");
+                    break;
+                case 2:
+                    EconomicImpactColour = (Brush)new BrushConverter().ConvertFromString("#42454B");
+                    break;
+
+            }
         }
         private void btnInput_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void btnData_Click(object sender, RoutedEventArgs e)
@@ -223,6 +299,23 @@ namespace ReathUIv0._1
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+
+        private void dropDown_themeEconomicImpact_Loaded(object sender, RoutedEventArgs e)
+        {
+            dropDown_themeEconomicImpact.Items.Add("Theme for Economic Impact");
+            dropDown_themeEconomicImpact.SelectedIndex = 1;
+            dropDown_themeEconomicImpact.Items.Add("Default");
+            dropDown_themeEconomicImpact.Items.Add("Alternative"); 
+        }
+
+        private void dropDown_themeEnvironmentalImpact_Loaded(object sender, RoutedEventArgs e)
+        {
+            dropDown_themeEnvironmentalImpact.Items.Add("Theme for Environmnetal Impact");
+            dropDown_themeEnvironmentalImpact.SelectedIndex = 1;
+            dropDown_themeEnvironmentalImpact.Items.Add("Default");
+            dropDown_themeEnvironmentalImpact.Items.Add("Alternative");       
         }
 
         //Added keybind so I can exit the application with ESC
