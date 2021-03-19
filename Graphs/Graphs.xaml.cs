@@ -206,17 +206,17 @@ namespace ReathUIv0._1
             set { OnPropertyChanged(ref assetSelected, value); LoadGraphs(); }
         }
 
-        private SeriesCollection environmnetalSeriesCollection;
+        private SeriesCollection environmentalSeriesCollection;
 
-        public SeriesCollection EnvironmnetalSeriesCollection
+        public SeriesCollection EnvironmentalSeriesCollection
         {
-            get { return environmnetalSeriesCollection; }
-            set { OnPropertyChanged(ref environmnetalSeriesCollection, value); }
+            get { return environmentalSeriesCollection; }
+            set { OnPropertyChanged(ref environmentalSeriesCollection, value); }
         }
 
         private SeriesCollection economicSeriesCollection;
 
-        public SeriesCollection EconomicalSeriesCollection
+        public SeriesCollection EconomicSeriesCollection
         {
             get { return economicSeriesCollection; }
             set { OnPropertyChanged(ref economicSeriesCollection, value); }
@@ -228,10 +228,8 @@ namespace ReathUIv0._1
         private CarbonResults carbonResults;
         private ReusableAsset[] reusableAssets;
         private ReusableAsset currentAsset;
-        private double PrimaryMaterialEconomicImpactLinear;
-        private double PrimaryMaterialEconomicImpactCircular;
-        private double AuxiliaryMaterialEconomicImpactLinear;
-        private double AuxiliaryMaterialEconomicImpactCircular;
+        private double totalEconomicImpactLinear;
+        private double totalEconomicImpactCircular;
 
         public Graphs()
         {
@@ -296,12 +294,9 @@ namespace ReathUIv0._1
             //Create random values for the input of primary and Auxiliary material cost
             Random rdn = new Random();
 
-            float PrimaryMaterialCostUnit = (float)rdn.Next(10, 120) / 100;
-            PrimaryMaterialEconomicImpactLinear = PrimaryMaterialCostUnit * currentAsset.NoOfItems;
-            PrimaryMaterialEconomicImpactCircular = PrimaryMaterialEconomicImpactLinear / currentAsset.MaximumReuses;
-            double AuxiliaryMaterialCostUnit = rdn.Next(3, 55) / 100;
-            AuxiliaryMaterialEconomicImpactLinear = AuxiliaryMaterialCostUnit * currentAsset.NoOfItems;
-            AuxiliaryMaterialEconomicImpactCircular = AuxiliaryMaterialEconomicImpactLinear / currentAsset.MaximumReuses;
+            float UnitCost = (float)rdn.Next(12, 120) / 100;
+            totalEconomicImpactLinear = UnitCost * currentAsset.NoOfItems;
+            totalEconomicImpactCircular = totalEconomicImpactLinear / currentAsset.MaximumReuses;
         }
         private void LoadGraphLabels()
         {
@@ -332,7 +327,7 @@ namespace ReathUIv0._1
             // Adding mock-up Values
             Material1 = currentAsset.PrimaryMaterial;
 
-            EnvironmnetalSeriesCollection = new SeriesCollection {
+            EnvironmentalSeriesCollection = new SeriesCollection {
                 new StackedColumnSeries
                 {
                     Values = new ChartValues<ObservableValue> {
@@ -357,7 +352,7 @@ namespace ReathUIv0._1
             {
                 Material2 = currentAsset.AuxiliaryMaterial;
 
-                EnvironmnetalSeriesCollection.Add(
+                EnvironmentalSeriesCollection.Add(
                     new StackedColumnSeries
                     {
                         Values = new ChartValues<ObservableValue> {
@@ -408,10 +403,25 @@ namespace ReathUIv0._1
             LoadEconomicsTheme();
 
             // Adding mock-up Values
-            EconomicImpactValue = new ChartValues<double>();
-
-            EconomicImpactValue.Add(PrimaryMaterialEconomicImpactLinear + AuxiliaryMaterialEconomicImpactLinear);
-            EconomicImpactValue.Add(PrimaryMaterialEconomicImpactCircular + AuxiliaryMaterialEconomicImpactCircular);
+            EconomicSeriesCollection = new SeriesCollection {
+                new ColumnSeries
+                {
+                    Values = new ChartValues<ObservableValue>
+                    {
+                        new ObservableValue(totalEconomicImpactLinear),
+                        new ObservableValue(totalEconomicImpactCircular)
+                    },
+                    PointGeometry = null,
+                    Fill = EconomicImpactColour,
+                    Stroke = EconomicImpactColour,
+                    StrokeThickness = 8,
+                    DataLabels = false,
+                    FontSize = 13,
+                    MaxColumnWidth = 100,
+                    LabelsPosition = BarLabelPosition.Perpendicular,
+                    Title = EconomicImpact
+                }
+            };
         }
         private void LoadEconomicsTheme()
         {
