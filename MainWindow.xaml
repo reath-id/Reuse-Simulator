@@ -1,0 +1,158 @@
+﻿<Window x:Class="ReathUIv0._1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ReathUIv0._1"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        WindowStyle="None"
+        Title="reath Circular Economy Simulator" Height="1080" Width="1920">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="145*"/>
+            <RowDefinition Height="391*"/>
+        </Grid.RowDefinitions>
+        <Border CornerRadius="5" BorderThickness="5" BorderBrush="#FF0E7E85" HorizontalAlignment="Left" Height="928" Margin="210,80,0,0" VerticalAlignment="Top" Width="1660" Background="#FFE0EFEA" Grid.RowSpan="2">
+            <Border.Effect>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" BlurRadius="98"/>
+            </Border.Effect>
+        </Border>
+
+        <Button x:Name="btn_addAsset" Content="Add Assets" Margin="1287,152,383,78.059" RenderTransformOrigin="0.5,0.5" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Height="60" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" Click="btn_addAsset_Click">
+            <Button.Effect>
+                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85"/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="btn_randomData" Content="Generate Random Data" Margin="1557,152,106,78.059" RenderTransformOrigin="0.5,0.5" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Height="60" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" Click="btn_randomData_Click">
+            <Button.Effect>
+                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85"/>
+            </Button.Effect>
+        </Button>
+
+        <Image x:Name="img_logo_text_teal_1x_png" Margin="10,10,1602,220.059" Source="img_logo-text_teal@1x.png" Stretch="Fill" Width="300" Height="60"/>
+        <Image x:Name="Circular_Economy_Simulator_ALT_color_png" Margin="315,45,1205,217.059" Source="Circular Economy Simulator ALT color.png" Stretch="Fill" Width="392" Height="28"/>
+
+        <TextBox x:Name="textBox_dataSampleSize" TextWrapping="Wrap" Text="Data Sample Size" Margin="270,152,1402,78.059" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" FontFamily="Nunito Sans" FontSize="26" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_dataSampleSize_TextChanged" >
+            <TextBox.Effect>
+                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85"/>
+            </TextBox.Effect>
+        </TextBox>
+        <TextBox x:Name="textBox_nameOfAsset" TextWrapping="Wrap" Text="Name of Asset" Margin="270,274,1402,738" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" FontFamily="Nunito Sans"  FontSize="26" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_nameOfAsset_TextChanged" Grid.RowSpan="2">
+            <TextBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" BlurRadius="20"/>
+            </TextBox.Effect>
+        </TextBox>
+        <TextBox x:Name="textBox_unitCost" TextWrapping="Wrap" Text="Unit Cost GBP" Margin="714,274,958,738" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" FontFamily="Nunito Sans" FontSize="26" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_unitCost_TextChanged" Grid.RowSpan="2">
+            <TextBox.Effect>
+                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85"/>
+            </TextBox.Effect>
+        </TextBox>
+        <TextBox x:Name="textBox_unitWeight" TextWrapping="Wrap" Text="Unit Weight" Margin="1006,274,666,738" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" FontFamily="Nunito Sans" FontSize="26" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_unitWeight_TextChanged" Grid.RowSpan="2">
+            <TextBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" BlurRadius="20"/>
+            </TextBox.Effect>
+        </TextBox>
+        <TextBox x:Name="textBox_primaryMaterialPercent" TextWrapping="Wrap" Text="Primary Weight" Margin="550,209.941,1242,512" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="120" Height="60" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_primaryMaterialPercent_TextChanged" Grid.Row="1">
+            <TextBox.Effect>
+                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85"/>
+            </TextBox.Effect>
+        </TextBox>
+        <TextBox x:Name="textBox_auxMaterialPercent" TextWrapping="Wrap" Text="Aux Weight" Margin="1006,209.941,786,512" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="120" Height="60" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_auxMaterialPercent_TextChanged" Grid.Row="1">
+            <TextBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" BlurRadius="20"/>
+            </TextBox.Effect>
+        </TextBox>
+        <TextBox x:Name="textBox_RecycledPercent" TextWrapping="Wrap" Text="Recycled Percent" Margin="550,329.941,1242,392" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="120" Height="60" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_RecycledPercent_TextChanged" Grid.Row="1">
+            <TextBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" BlurRadius="20"/>
+            </TextBox.Effect>
+        </TextBox>
+        <TextBox x:Name="textBox_mePercent" TextWrapping="Wrap" Text="ME Percent" Margin="1006,569.941,786,152" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="120" Height="60" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_mePercent_TextChanged" Grid.Row="1">
+            <TextBox.Effect>
+                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85"/>
+            </TextBox.Effect>
+        </TextBox>
+        <TextBox x:Name="textBox_infoBox" TextWrapping="Wrap" Text="{Binding InfoBoxText}" Margin="1287,274,106,129" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="26" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_infoBox_TextChanged" Grid.RowSpan="2">
+            <TextBox.Effect>
+                <DropShadowEffect BlurRadius="50"/>
+            </TextBox.Effect>
+        </TextBox>
+
+
+        <ComboBox x:Name="dropDown_dateRangeofSample" HorizontalAlignment="Left" Margin="714,152,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_dateRangeofSample_SelectionChanged" Loaded="dropDown_dateRangeofSample_Loaded">
+            <ComboBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+            </ComboBox.Effect>
+        </ComboBox>
+        <ComboBox x:Name="dropDown_countryOfOrigin" HorizontalAlignment="Left" Margin="270,89.941,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_countryOfOrigin_SelectionChanged" Loaded="dropDown_countryOfOrigin_Loaded" Grid.Row="1">
+            <ComboBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+            </ComboBox.Effect>
+        </ComboBox>
+        <ComboBox x:Name="dropDown_primaryMaterial" HorizontalAlignment="Left" Margin="270,209.941,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_primaryMaterial_SelectionChanged" Loaded="dropDown_primaryMaterial_Loaded" Grid.Row="1">
+            <ComboBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+            </ComboBox.Effect>
+        </ComboBox>
+        <ComboBox x:Name="dropDown_auxMaterial" HorizontalAlignment="Left" Margin="714,209.941,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_auxMaterial_SelectionChanged" Grid.Row="1">
+            <ComboBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+            </ComboBox.Effect>
+        </ComboBox>
+        <ComboBox x:Name="dropDown_isRecycled" HorizontalAlignment="Left" Margin="270,329.941,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_isRecycled_SelectionChanged" Loaded="dropDown_isRecycled_Loaded" Grid.Row="1">
+            <ComboBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+            </ComboBox.Effect>
+        </ComboBox>
+        <ComboBox x:Name="dropDown_recycledCountryOfOrigin" HorizontalAlignment="Left" Margin="714,329.941,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_recycledCountryOfOrigin_SelectionChanged" Grid.Row="1">
+            <ComboBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+            </ComboBox.Effect>
+        </ComboBox>
+        <ComboBox x:Name="dropDown_cleaningMethod" HorizontalAlignment="Left" Margin="1006,329.941,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_cleaningMethod_SelectionChanged" Loaded="dropDown_cleaningMethod_Loaded" Grid.Row="1">
+            <ComboBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+            </ComboBox.Effect>
+        </ComboBox>
+        <ComboBox x:Name="dropDown_reuseTimeCycle" HorizontalAlignment="Left" Margin="270,449.941,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_reuseTimeCycle_SelectionChanged" Loaded="dropDown_reuseTimeCycle_Loaded" Grid.Row="1">
+            <ComboBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+            </ComboBox.Effect>
+        </ComboBox>
+        <ComboBox x:Name="dropDown_methodOfDisposal" HorizontalAlignment="Left" Margin="714,449.941,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_methodOfDisposal_SelectionChanged" Loaded="dropDown_methodOfDisposal_Loaded" Grid.Row="1">
+            <ComboBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+            </ComboBox.Effect>
+        </ComboBox>
+        <ComboBox x:Name="dropDown_averageDistancePerReuse" HorizontalAlignment="Left" Margin="270,569.941,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_averageDistancePerReuse_SelectionChanged" Loaded="dropDown_averageDistancePerReuse_Loaded" Grid.Row="1">
+            <ComboBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+            </ComboBox.Effect>
+        </ComboBox>
+        <ComboBox x:Name="dropDown_maxReuseOfAsset" HorizontalAlignment="Left" Margin="714,569.941,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_maxReuseOfAsset_SelectionChanged" Loaded="dropDown_maxReuseOfAsset_Loaded" Grid.Row="1">
+            <ComboBox.Effect>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+            </ComboBox.Effect>
+        </ComboBox>
+
+
+        <StackPanel Margin="950,29,742,205.059" Orientation="Vertical">
+            <Button x:Name="btnInput" Content="Input" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnInput_Click"/>
+        </StackPanel>
+
+        <StackPanel Margin="1175,29,507,205.059" Orientation="Vertical">
+            <Button x:Name="btnGraphs" Content="Graphs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="230" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnGraphs_Click" Loaded="btnGraphs_Loaded"/>
+        </StackPanel>
+
+        <StackPanel Margin="1410,29,282,205.059" Orientation="Vertical">
+            <Button x:Name="btnData" Content="Data" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnData_Click" Loaded="btnData_Loaded"/>
+        </StackPanel>
+
+        <StackPanel Margin="1635,29,57,205.059" Orientation="Vertical">
+            <Button x:Name="btnSettings" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnSettings_Click"/>
+        </StackPanel>
+
+    </Grid>
+</Window>
