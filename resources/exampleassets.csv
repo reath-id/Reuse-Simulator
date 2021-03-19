@@ -1,0 +1,10 @@
+Asset Name,No of Items,Primary material,Primary material weight,primary material manufacturing,Secondary material,Secondary material weight,Secondary material manufacturing,Primary Disposal Method,Secondary Disposal Method,Maximum Reuses,Avg Distance to Recycle,Prep for Reuse carbon factor
+Regular turntable cardboard box,1000,Paper: Paper and board: board,1,Primary,None,,,Closed Loop,,1,100,0
+Durable turntable cardboard box,500,Paper: Paper and board: board,1.5,Primary,None,,,Closed Loop,,2,100,0
+Draught Drop,1,Other: Glass,1,Primary,Plastic: Plastics: PP (incl. forming),0.001,Primary,Open Loop,Landfill,25,50,0.20
+White Rabbit Skincare,100,Plastic: Plastics: HDPE (incl. forming),0.1,Primary,None,,,Open Loop,,6,0,0
+Concrete Aeroplane,13,Construction: Concrete,150000,Open Loop,Construction: Metals,20000,Closed Loop,Landfill,Closed Loop,1000,1250,0.70
+Portable Road,1000,Construction: Asphalt,600,Reused,None,,,Reuse,,666,0,12
+Can of Conk,10000,Metal: Metal: aluminium cans and foil (excl. forming),0.05,Closed Loop,Plastic: Plastics: average plastic film,0.001,Primary,Closed Loop,Landfill,3,14,0.01
+Tesla’s Gigabattery,100,Electrical items: Batteries,1000,Primary,Metal: Metal: scrap metal,30,Closed Loop,Landfill,Landfill,100,1000,0.60
+Another Plastic Piece Of Trash,42069,Plastic: Plastics: average plastics,0.5,Primary,None,,,Landfill,,1,100,1.00

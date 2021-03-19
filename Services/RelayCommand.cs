@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ReathUIv0._1
@@ -14,7 +10,7 @@ namespace ReathUIv0._1
         private readonly Action<object> _execute;
         private readonly Predicate<object> _canExecute;
 
-        #endregion // Fields
+        #endregion Fields
 
         #region Constructors
 
@@ -36,9 +32,10 @@ namespace ReathUIv0._1
             _execute = execute; _canExecute = canExecute;
         }
 
-        #endregion // Constructors
+        #endregion Constructors
 
         #region ICommand Members
+
         public bool CanExecute(object parameter)
         {
             return _canExecute == null ? true : _canExecute(parameter);
@@ -54,6 +51,7 @@ namespace ReathUIv0._1
         {
             _execute(parameter);
         }
-        #endregion // ICommand Members
+
+        #endregion ICommand Members
     }
 }

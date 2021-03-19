@@ -12,132 +12,129 @@
     <Grid>
         <Border CornerRadius="5" BorderThickness="5" BorderBrush="#FF0E7E85" HorizontalAlignment="Left" Height="928" Margin="210,80,0,0" VerticalAlignment="Top" Width="1660" Background="#FFE0EFEA">
             <Border.Effect>
-                <DropShadowEffect Color="#FF0E7E85" Direction="300" BlurRadius="98"/>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" BlurRadius="98" />
             </Border.Effect>
         </Border>
 
-        <Image x:Name="img_logo_text_teal_1x_png" Margin="10,10,1602,1002" Source="resources/img_logo-text_teal@1x.png" Stretch="Fill" Width="300" Height="60"/>
-        <Image x:Name="Circular_Economy_Simulator_ALT_color_png" Margin="315,45,1205,999" Source="Circular Economy Simulator ALT color.png" Stretch="Fill" Width="392" Height="28"/>
+        <Image x:Name="img_logo_text_teal_1x_png" Margin="10,10,1602,1002" Source="resources/img_logo-text_teal@1x.png" Stretch="Fill" Width="300" Height="60" />
+        <Image x:Name="Circular_Economy_Simulator_ALT_color_png" Margin="315,45,1205,999" Source="Circular Economy Simulator ALT color.png" Stretch="Fill" Width="392" Height="28" />
 
-        <TextBox x:Name="textBox_dataSampleSize" TextWrapping="Wrap" Text="Data Sample Size" Margin="270,140,1402,847" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" FontFamily="Nunito Sans" FontSize="26" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_dataSampleSize_TextChanged" >
+        <TextBox x:Name="textBox_dataSampleSize" TextWrapping="Wrap" Text="Data Sample Size" Margin="270,140,1402,847" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" FontFamily="Nunito Sans" FontSize="26" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_dataSampleSize_TextChanged">
             <TextBox.Effect>
-                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85"/>
+                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85" />
             </TextBox.Effect>
         </TextBox>
         <TextBox x:Name="textBox_nameOfAsset" TextWrapping="Wrap" Text="Name of Asset" Margin="270,260,1402,723" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" FontFamily="Nunito Sans"  FontSize="26" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_nameOfAsset_TextChanged">
             <TextBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" BlurRadius="20"/>
+                <DropShadowEffect Color="#FF0E7E85" BlurRadius="20" />
             </TextBox.Effect>
         </TextBox>
         <TextBox x:Name="textBox_unitCost" TextWrapping="Wrap" Text="Unit Cost GBP" Margin="714,263,958,726" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" FontFamily="Nunito Sans" FontSize="26" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_unitCost_TextChanged">
             <TextBox.Effect>
-                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85"/>
+                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85" />
             </TextBox.Effect>
         </TextBox>
         <TextBox x:Name="textBox_unitWeight" TextWrapping="Wrap" Text="Unit Weight" Margin="1006,263,666,726" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" FontFamily="Nunito Sans" FontSize="26" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_unitWeight_TextChanged">
             <TextBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" BlurRadius="20"/>
+                <DropShadowEffect Color="#FF0E7E85" BlurRadius="20" />
             </TextBox.Effect>
         </TextBox>
         <TextBox x:Name="textBox_primaryMaterialPercent" TextWrapping="Wrap" Text="Primary Percent" Margin="550,500,1242,512" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="120" Height="60" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_primaryMaterialPercent_TextChanged">
             <TextBox.Effect>
-                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85"/>
+                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85" />
             </TextBox.Effect>
         </TextBox>
         <TextBox x:Name="textBox_auxMaterialPercent" TextWrapping="Wrap" Text="Aux Percent" Margin="1006,500,786,512" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="120" Height="60" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_auxMaterialPercent_TextChanged">
             <TextBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" BlurRadius="20"/>
+                <DropShadowEffect Color="#FF0E7E85" BlurRadius="20" />
             </TextBox.Effect>
         </TextBox>
         <TextBox x:Name="textBox_RecycledPercent" TextWrapping="Wrap" Text="Recycled Percent" Margin="550,620,1242,392" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="120" Height="60" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_RecycledPercent_TextChanged">
             <TextBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" BlurRadius="20"/>
+                <DropShadowEffect Color="#FF0E7E85" BlurRadius="20" />
             </TextBox.Effect>
         </TextBox>
         <TextBox x:Name="textBox_mePercent" TextWrapping="Wrap" Text="ME Percent" Margin="1006,860,786,152" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="120" Height="60" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_mePercent_TextChanged">
             <TextBox.Effect>
-                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85"/>
+                <DropShadowEffect BlurRadius="20" Color="#FF0E7E85" />
             </TextBox.Effect>
         </TextBox>
         <TextBox x:Name="textBox_infoBox" TextWrapping="Wrap" Text="Info Box" Margin="1287,141,106,129" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="26" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_infoBox_TextChanged">
             <TextBox.Effect>
-                <DropShadowEffect BlurRadius="50"/>
+                <DropShadowEffect BlurRadius="50" />
             </TextBox.Effect>
         </TextBox>
 
-
         <ComboBox x:Name="dropDown_dataRangeofSample" HorizontalAlignment="Left" Margin="714,152,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_dataRangeofSample_SelectionChanged">
             <ComboBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" />
             </ComboBox.Effect>
         </ComboBox>
         <ComboBox x:Name="dropDown_countryOfOrigin" HorizontalAlignment="Left" Margin="270,380,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_countryOfOrigin_SelectionChanged">
             <ComboBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" />
             </ComboBox.Effect>
         </ComboBox>
         <ComboBox x:Name="dropDown_primaryMaterial" HorizontalAlignment="Left" Margin="270,500,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_primaryMaterial_SelectionChanged">
             <ComboBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" />
             </ComboBox.Effect>
         </ComboBox>
         <ComboBox x:Name="dropDown_auxMaterial" HorizontalAlignment="Left" Margin="714,500,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_auxMaterial_SelectionChanged">
             <ComboBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" />
             </ComboBox.Effect>
         </ComboBox>
         <ComboBox x:Name="dropDown_isRecycled" HorizontalAlignment="Left" Margin="270,620,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_isRecycled_SelectionChanged">
             <ComboBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" />
             </ComboBox.Effect>
         </ComboBox>
         <ComboBox x:Name="dropDown_recycledCountryOfOrigin" HorizontalAlignment="Left" Margin="714,620,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_recycledCountryOfOrigin_SelectionChanged">
             <ComboBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" />
             </ComboBox.Effect>
         </ComboBox>
         <ComboBox x:Name="dropDown_cleaningMethod" HorizontalAlignment="Left" Margin="1006,620,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_cleaningMethod_SelectionChanged">
             <ComboBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" />
             </ComboBox.Effect>
         </ComboBox>
         <ComboBox x:Name="dropDown_reuseTimeCycle" HorizontalAlignment="Left" Margin="270,740,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_reuseTimeCycle_SelectionChanged">
             <ComboBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" />
             </ComboBox.Effect>
         </ComboBox>
         <ComboBox x:Name="dropDown_methodOfDisposal" HorizontalAlignment="Left" Margin="714,740,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_methodOfDisposal_SelectionChanged">
             <ComboBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" />
             </ComboBox.Effect>
         </ComboBox>
         <ComboBox x:Name="dropDown_averageDistancePerReuse" HorizontalAlignment="Left" Margin="270,860,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_averageDistancePerReuse_SelectionChanged">
             <ComboBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" />
             </ComboBox.Effect>
         </ComboBox>
         <ComboBox x:Name="dropDown_maxReuseOfAsset" HorizontalAlignment="Left" Margin="714,860,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_maxReuseOfAsset_SelectionChanged">
             <ComboBox.Effect>
-                <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                <DropShadowEffect Color="#FF0E7E85" Direction="300" />
             </ComboBox.Effect>
         </ComboBox>
 
-
         <StackPanel Margin="950,29,742,987" Orientation="Vertical">
-            <Button x:Name="btnInput" Content="Input" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnInput_Click"/>
+            <Button x:Name="btnInput" Content="Input" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnInput_Click" />
         </StackPanel>
 
         <StackPanel Margin="1175,29,507,987" Orientation="Vertical">
-            <Button x:Name="btnGraphs" Content="Graphs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="230" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnGraphs_Click"/>
+            <Button x:Name="btnGraphs" Content="Graphs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="230" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnGraphs_Click" />
         </StackPanel>
 
         <StackPanel Margin="1410,29,282,987" Orientation="Vertical">
-            <Button x:Name="btnData" Content="Data" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnData_Click"/>
+            <Button x:Name="btnData" Content="Data" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnData_Click" />
         </StackPanel>
 
         <StackPanel Margin="1635,29,57,987" Orientation="Vertical">
-            <Button x:Name="btnSettings" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnSettings_Click"/>
+            <Button x:Name="btnSettings" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Click="btnSettings_Click" />
         </StackPanel>
-
     </Grid>
 </Window>
