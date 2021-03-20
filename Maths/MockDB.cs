@@ -13,21 +13,21 @@ namespace ReathUIv0._1
 
         public MockDB()
         {
-            List<string> manufacturing = File.ReadAllLines("manufacturing.csv").Skip(1).ToList();
+            List<string> manufacturing = File.ReadAllLines("Resources/manufacturing.csv").Skip(1).ToList();
             foreach (string entry in manufacturing)
             {
                 string[] inputs = entry.Split(',');
                 manufacturingCosts[inputs[0]] = new ManufacturingCost(inputs[0], EmptyToInv(inputs[1]), EmptyToInv(inputs[2]), EmptyToInv(inputs[3]), EmptyToInv(inputs[4]));
             }
 
-            List<string> disposal = File.ReadAllLines("disposal.csv").Skip(1).ToList();
+            List<string> disposal = File.ReadAllLines("Resources/disposal.csv").Skip(1).ToList();
             foreach (string entry in disposal)
             {
                 string[] inputs = entry.Split(',');
                 disposalCosts[inputs[0]] = new DisposalCost(inputs[0], EmptyToInv(inputs[2]), EmptyToInv(inputs[3]), EmptyToInv(inputs[4]), EmptyToInv(inputs[5]), EmptyToInv(inputs[6]), EmptyToInv(inputs[7]), EmptyToInv(inputs[8]));
             }
 
-            List<string> transport = File.ReadAllLines("freighting.csv").Skip(1).ToList();
+            List<string> transport = File.ReadAllLines("Resources/freighting.csv").Skip(1).ToList();
             foreach (string entry in transport)
             {
                 string[] inputs = entry.Split(',');

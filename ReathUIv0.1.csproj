@@ -108,31 +108,51 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="resources\disposal.csv" />
-    <None Include="resources\exampleassets.csv" />
-    <None Include="resources\freighting.csv" />
-    <None Include="resources\manufacturing.csv" />
+    <None Include="Resources\disposal.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\exampleassets.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\freighting.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\manufacturing.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\img_logo-text_teal%401x.png" />
+    <Resource Include="Resources\img_logo-text_teal%401x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\Circular_Economy_Simulator_ALT_color.png" />
+    <Resource Include="Resources\Circular_Economy_Simulator_ALT_color.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\ico_dashboard%401x.png" />
+    <Resource Include="Resources\ico_dashboard%401x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\ico_report%401x.png" />
+    <Resource Include="Resources\ico_report%401x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\ico_nav-reuse-data_pressed%401x.png" />
+    <Resource Include="Resources\ico_nav-reuse-data_pressed%401x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\ico_nav-settings_pressed%401x.png" />
+    <Resource Include="Resources\ico_nav-settings_pressed%401x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

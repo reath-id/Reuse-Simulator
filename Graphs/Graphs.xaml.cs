@@ -239,7 +239,7 @@ namespace ReathUIv0._1
 
             CarbonCalculation.SetDB(new MockDB());
 
-            List<string> exampleassets = File.ReadLines("exampleassets.csv").Skip(1).ToList();
+            List<string> exampleassets = File.ReadLines("Resources/exampleassets.csv").Skip(1).ToList();
             reusableAssets = new ReusableAsset[exampleassets.Count];
 
             int index = 0;
@@ -357,7 +357,7 @@ namespace ReathUIv0._1
                     {
                         Values = new ChartValues<ObservableValue> {
                             new ObservableValue(carbonResults.Auxillary.LinearCarbon),
-                            new ObservableValue(carbonResults.Auxiliary.CircularCarbon)
+                            new ObservableValue(carbonResults.Auxillary.CircularCarbon)
                         },
                         PointGeometry = null,
                         Fill = Material2Colour,
