@@ -331,8 +331,8 @@ namespace ReathUIv0._1
                 new StackedColumnSeries
                 {
                     Values = new ChartValues<ObservableValue> {
-                        new ObservableValue(carbonResults.PrimaryMaterialLinearCarbon),
-                        new ObservableValue(carbonResults.PrimaryMaterialCircularCarbon)
+                        new ObservableValue(carbonResults.Primary.LinearCarbon),
+                        new ObservableValue(carbonResults.Primary.CircularCarbon)
                     },
                     PointGeometry=null,
                     Fill=Material1Colour,
@@ -356,8 +356,8 @@ namespace ReathUIv0._1
                     new StackedColumnSeries
                     {
                         Values = new ChartValues<ObservableValue> {
-                            new ObservableValue(carbonResults.AuxiliaryMaterialLinearCarbon),
-                            new ObservableValue(carbonResults.AuxiliaryMaterialCircularCarbon)
+                            new ObservableValue(carbonResults.Auxillary.LinearCarbon),
+                            new ObservableValue(carbonResults.Auxiliary.CircularCarbon)
                         },
                         PointGeometry = null,
                         Fill = Material2Colour,
