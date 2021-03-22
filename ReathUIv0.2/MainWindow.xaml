@@ -74,14 +74,14 @@
                         <DropShadowEffect Color="#FF0E7E85" BlurRadius="20"/>
                     </TextBox.Effect>
                 </TextBox>
-                <Label x:Name="label_recycledPercent" Content="Recycled %" Margin="565,583,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" FontFamily="Nunito Sans" FontSize="16"/>
-                <TextBox x:Name="textBox_RecycledPercent" TextWrapping="Wrap" Text="Recycled Percent" Margin="550,620,0,0" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_RecycledPercent_TextChanged" Panel.ZIndex="1" MaxWidth="120" MaxHeight="65" HorizontalAlignment="Left" VerticalAlignment="Top" Width="124">
+                <Label x:Name="label_recycledPercent" Content="Recycled %" Margin="565,694,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" FontFamily="Nunito Sans" FontSize="16"/>
+                <TextBox x:Name="textBox_RecycledPercent" TextWrapping="Wrap" Text="Recycled Percent" Margin="550,726,0,0" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_RecycledPercent_TextChanged" Panel.ZIndex="1" MaxWidth="120" MaxHeight="65" HorizontalAlignment="Left" VerticalAlignment="Top" Width="124">
                     <TextBox.Effect>
                         <DropShadowEffect Color="#FF0E7E85" BlurRadius="20"/>
                     </TextBox.Effect>
                 </TextBox>
-                <Label x:Name="label_MEPercent" Content="ME %" Margin="1030,828,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="88" FontFamily="Nunito Sans" FontSize="16"/>
-                <TextBox x:Name="textBox_mePercent" TextWrapping="Wrap" Text="ME Percent" Margin="1006,860,0,0" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_mePercent_TextChanged" Panel.ZIndex="1" MaxWidth="120" MaxHeight="65" HorizontalAlignment="Left" VerticalAlignment="Top" Height="60">
+                <Label x:Name="label_MEPercent" Content="ME %" Margin="1030,888,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="88" FontFamily="Nunito Sans" FontSize="16"/>
+                <TextBox x:Name="textBox_mePercent" TextWrapping="Wrap" Text="ME Percent" Margin="1006,921,0,0" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_mePercent_TextChanged" Panel.ZIndex="1" MaxWidth="120" MaxHeight="65" HorizontalAlignment="Left" VerticalAlignment="Top" Height="60">
                     <TextBox.Effect>
                         <DropShadowEffect BlurRadius="20" Color="#FF0E7E85"/>
                     </TextBox.Effect>
@@ -112,50 +112,79 @@
                         <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
                     </ComboBox.Effect>
                 </ComboBox>
+
+                <Label x:Name="label_primaryDisposalMethod" Content="Primary Disposal Method" Margin="270,575,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
+                <ComboBox x:Name="dropDown_primaryDisposalMethod" HorizontalAlignment="Left" Margin="270,607,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="200" Height="60" SelectionChanged="dropDown_primaryDisposalMethod_SelectionChanged">
+                    <ComboBox.Effect>
+                        <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                    </ComboBox.Effect>
+                </ComboBox>
+
+                <Label x:Name="label_primaryCleaningMethod" Content="Primary Cleaning Method" Margin="515,575,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
+                <ComboBox x:Name="dropDown_primaryCleaningMethod" HorizontalAlignment="Left" Margin="515,607,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="200" Height="60" SelectionChanged="dropDown_primaryCleaningMethod_SelectionChanged">
+                    <ComboBox.Effect>
+                        <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                    </ComboBox.Effect>
+                </ComboBox>
+
+                <Label x:Name="label_auxDisposalMethod" Content="Auxiliary Disposal Method" Margin="760,575,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
+                <ComboBox x:Name="dropDown_auxDisposalMethod" HorizontalAlignment="Left" Margin="760,607,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="200" Height="60" SelectionChanged="dropDown_auxDisposalMethod_SelectionChanged">
+                    <ComboBox.Effect>
+                        <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                    </ComboBox.Effect>
+                </ComboBox>
+                
+                <Label x:Name="label_auxCleaningMethod" Content="Auxiliary Cleaning Method" Margin="1006,575,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
+                <ComboBox x:Name="dropDown_auxCleaningMethod" HorizontalAlignment="Left" Margin="1006,607,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="200" Height="60" SelectionChanged="dropDown_auxCleaningMethod_SelectionChanged">
+                    <ComboBox.Effect>
+                        <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
+                    </ComboBox.Effect>
+                </ComboBox>
+
                 <Label x:Name="label_auxMaterial" Content="Aux Material" Margin="714,468,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
                 <ComboBox x:Name="dropDown_auxMaterial" HorizontalAlignment="Left" Margin="714,500,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_auxMaterial_SelectionChanged">
                     <ComboBox.Effect>
                         <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
                     </ComboBox.Effect>
                 </ComboBox>
-                <Label x:Name="label_isRecycled" Content="Recycled?" Margin="270,588,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
-                <ComboBox x:Name="dropDown_isRecycled" HorizontalAlignment="Left" Margin="270,620,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_isRecycled_SelectionChanged">
+                <Label x:Name="label_isRecycled" Content="Recycled?" Margin="270,694,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
+                <ComboBox x:Name="dropDown_isRecycled" HorizontalAlignment="Left" Margin="270,726,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_isRecycled_SelectionChanged">
                     <ComboBox.Effect>
                         <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
                     </ComboBox.Effect>
                 </ComboBox>
-                <Label x:Name="label_recycledCountryOfOrigin" Content="Recycled Country of Origin" Margin="714,588,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
-                <ComboBox x:Name="dropDown_recycledCountryOfOrigin" HorizontalAlignment="Left" Margin="714,620,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_recycledCountryOfOrigin_SelectionChanged">
+                <Label x:Name="label_recycledCountryOfOrigin" Content="Recycled Country of Origin" Margin="714,694,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
+                <ComboBox x:Name="dropDown_recycledCountryOfOrigin" HorizontalAlignment="Left" Margin="715,726,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_recycledCountryOfOrigin_SelectionChanged">
                     <ComboBox.Effect>
                         <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
                     </ComboBox.Effect>
                 </ComboBox>
-                <Label x:Name="label_cleaningMethod" Content="Cleaning Method Used" Margin="1006,588,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
-                <ComboBox x:Name="dropDown_cleaningMethod" HorizontalAlignment="Left" Margin="1006,620,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_cleaningMethod_SelectionChanged">
+                <Label x:Name="label_cleaningMethod" Content="Cleaning Method Used" Margin="1006,694,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
+                <ComboBox x:Name="dropDown_cleaningMethod" HorizontalAlignment="Left" Margin="1006,726,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_cleaningMethod_SelectionChanged">
                     <ComboBox.Effect>
                         <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
                     </ComboBox.Effect>
                 </ComboBox>
-                <Label x:Name="label_reuseTimeCycle" Content="Time Cycle of Reuse" Margin="270,708,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
-                <ComboBox x:Name="dropDown_reuseTimeCycle" HorizontalAlignment="Left" Margin="270,740,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_reuseTimeCycle_SelectionChanged">
+                <Label x:Name="label_reuseTimeCycle" Content="Time Cycle of Reuse" Margin="270,791,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
+                <ComboBox x:Name="dropDown_reuseTimeCycle" HorizontalAlignment="Left" Margin="270,823,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_reuseTimeCycle_SelectionChanged">
                     <ComboBox.Effect>
                         <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
                     </ComboBox.Effect>
                 </ComboBox>
-                <Label x:Name="label_methodOfDisposal" Content="Disposal Method" Margin="715,708,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
-                <ComboBox x:Name="dropDown_methodOfDisposal" HorizontalAlignment="Left" Margin="714,740,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_methodOfDisposal_SelectionChanged">
+                <Label x:Name="label_methodOfDisposal" Content="Disposal Method" Margin="715,791,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
+                <ComboBox x:Name="dropDown_methodOfDisposal" HorizontalAlignment="Left" Margin="714,823,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_methodOfDisposal_SelectionChanged">
                     <ComboBox.Effect>
                         <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
                     </ComboBox.Effect>
                 </ComboBox>
-                <Label x:Name="label_averageDistancePerReuse" Content="Average Distance per Reuse" Margin="270,823,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
-                <ComboBox x:Name="dropDown_averageDistancePerReuse" HorizontalAlignment="Left" Margin="270,860,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_averageDistancePerReuse_SelectionChanged">
+                <Label x:Name="label_averageDistancePerReuse" Content="Average Distance per Reuse" Margin="270,888,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
+                <ComboBox x:Name="dropDown_averageDistancePerReuse" HorizontalAlignment="Left" Margin="270,921,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_averageDistancePerReuse_SelectionChanged">
                     <ComboBox.Effect>
                         <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
                     </ComboBox.Effect>
                 </ComboBox>
-                <Label x:Name="label_maxReuseOfAsset" Content="Maximum Reuses of Asset" Margin="714,823,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
-                <ComboBox x:Name="dropDown_maxReuseOfAsset" HorizontalAlignment="Left" Margin="714,860,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_maxReuseOfAsset_SelectionChanged">
+                <Label x:Name="label_maxReuseOfAsset" Content="Maximum Reuses of Asset" Margin="715,888,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
+                <ComboBox x:Name="dropDown_maxReuseOfAsset" HorizontalAlignment="Left" Margin="714,921,0,0" VerticalAlignment="Top" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" Width="240" Height="60" SelectionChanged="dropDown_maxReuseOfAsset_SelectionChanged">
                     <ComboBox.Effect>
                         <DropShadowEffect Color="#FF0E7E85" Direction="300"/>
                     </ComboBox.Effect>

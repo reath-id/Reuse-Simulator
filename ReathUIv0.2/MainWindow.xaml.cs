@@ -85,7 +85,30 @@ namespace ReathUIv0._1
         {
 
         }
-        
+
+        // Primary Disposal Method
+        private void dropDown_primaryDisposalMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        //Primary Cleaning Method
+        private void dropDown_primaryCleaningMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        //Auxiliary Disposal Method
+        private void dropDown_auxDisposalMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        //Auxiliary Cleaning Method
+        private void dropDown_auxCleaningMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
         //Is Recycled? [9]
         private void dropDown_isRecycled_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
