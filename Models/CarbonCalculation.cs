@@ -1,22 +1,26 @@
-﻿using ReathUIv0._3.Models;
+﻿using ReathUIv0._3.Connections;
+using ReathUIv0._3.Models;
 using System;
+using System.Collections.Generic;
 using static ReathUIv0._3.Models.ReusableAsset;
 
 namespace ReathUIv0._3
 {
     internal static class CarbonCalculation
     {
-        private static MockDB DB;
-
-        public static void SetDB(MockDB DB_)
-        {
-            DB = DB_;
-        }
+        private static List<Material> manufacturingCosts = SqliteDatabaseAccess.RetreiveMaterial();
+        private static List<Disposal> disposalCosts = SqliteDatabaseAccess.LoadDisposal();
+        private static List<Transport> transportCosts = SqliteDatabaseAccess.LoadTransport();
 
         public static CarbonResults CalculateCarbon(ReusableAsset Asset)
         {
+
+            manufacturingCosts = SqliteDatabaseAccess.RetreiveMaterial();
+            disposalCosts = SqliteDatabaseAccess.LoadDisposal();
+            transportCosts = SqliteDatabaseAccess.LoadTransport();
+
             /// MANUFACTURING COSTS
-            Material Mat1MFC = DB.GetManufacturingCost(Asset.PrimaryMaterial);
+            Material Mat1MFC = GetManufacturingCost(Asset.PrimaryMaterial);
             float primaryMaterialcarbonfactor = ManufacturingCostFromEnum(Mat1MFC, Asset.PrimaryMaterialManufacturing);
 
             float primaryMaterialcarboncost = primaryMaterialcarbonfactor * 0.001f * Asset.PrimaryWeight * Asset.SampleSize;
@@ -24,7 +28,7 @@ namespace ReathUIv0._3
 
             if (!String.IsNullOrWhiteSpace(Asset.AuxiliaryMaterial))
             {
-                Material Mat2MFC = DB.GetManufacturingCost(Asset.AuxiliaryMaterial);
+                Material Mat2MFC = GetManufacturingCost(Asset.AuxiliaryMaterial);
                 float mat2carbonfactor = ManufacturingCostFromEnum(Mat2MFC, Asset.AuxiliaryMaterialManufacturing);
                 AuxiliaryMaterialcarboncost = mat2carbonfactor * 0.001f * Asset.AuxiliaryWeight * Asset.SampleSize;
             }
@@ -32,14 +36,14 @@ namespace ReathUIv0._3
             float ManufacturingCost = primaryMaterialcarboncost + AuxiliaryMaterialcarboncost;
 
             /// DISPOSAL COSTS
-            Disposal Mat1DSC = DB.GetDisposalCost(Asset.PrimaryMaterial);
+            Disposal Mat1DSC = GetDisposalCost(Asset.PrimaryMaterial);
             float primaryMaterialdisposalfactor = DisposalCostFromEnum(Mat1DSC, Asset.PrimaryDisposalMethod);
             float primaryMaterialdisposalcost = primaryMaterialdisposalfactor * 0.001f * Asset.PrimaryWeight * Asset.SampleSize;
             float AuxiliaryMaterialdisposalcost = 0;
 
             if (!String.IsNullOrWhiteSpace(Asset.AuxiliaryMaterial))
             {
-                Disposal Mat2DSC = DB.GetDisposalCost(Asset.AuxiliaryMaterial);
+                Disposal Mat2DSC = GetDisposalCost(Asset.AuxiliaryMaterial);
                 float AuxiliaryMaterialdisposalfactor = DisposalCostFromEnum(Mat2DSC, Asset.AuxiliaryDisposalMethod);
                 AuxiliaryMaterialdisposalcost = AuxiliaryMaterialdisposalfactor * 0.001f * Asset.AuxiliaryWeight * Asset.SampleSize;
             }
@@ -56,7 +60,7 @@ namespace ReathUIv0._3
             float AuxiliaryMaterialReusemanuFacturingCarbon = AuxiliaryMaterialcarboncost / Asset.MaximumReuses;
 
             /// BACKHAUL COST
-            Transport exampletransport = DB.GetTransportCost("HGV");
+            Transport exampletransport = GetTransportCost("HGV");
             float totalweight = Asset.SampleSize * (Asset.PrimaryWeight + Asset.AuxiliaryWeight);
             float transportcarbon = Asset.AverageDistanceToReuse * totalweight * 0.001f * (exampletransport.CarbonCost + exampletransport.WttConvFactor);
             float primaryMaterialTransportCarbon = Asset.AverageDistanceToReuse * Asset.PrimaryWeight * 0.001f * (exampletransport.CarbonCost + exampletransport.WttConvFactor);
@@ -161,6 +165,56 @@ namespace ReathUIv0._3
                     throw new ArgumentException(cost.MaterialOption + ": Invalid disposal method.");
             }
         }
+
+        public static Material GetManufacturingCost(string MaterialName)
+        {
+
+            foreach (Material mat in manufacturingCosts)
+            {
+                if (mat.ManufacturingMaterial.Equals(MaterialName) == true)
+                {
+                    return mat;
+                }
+            }
+
+            return null;
+        }
+
+        public static Disposal GetDisposalCost(string DisposalName)
+        {
+
+            foreach (Disposal dispo in disposalCosts)
+            {
+                if (dispo.MaterialOption.Equals(DisposalName) == true)
+                {
+                    return dispo;
+                }
+            }
+
+            return null;
+        }
+
+        public static Transport GetTransportCost(string TransportName)
+        {
+            foreach (Transport trans in transportCosts)
+            {
+                if (trans.VehicleName.Equals(TransportName) == true)
+                {
+                    return trans;
+                }
+            }
+
+            return null;
+        }
+
+        private static float EmptyToInv(string field)
+        {
+            if (string.IsNullOrWhiteSpace(field))
+            {
+                return -1;
+            }
+            else return float.Parse(field);
+        }
     }
 
     public struct CarbonResults
@@ -201,4 +255,6 @@ namespace ReathUIv0._3
             RawTransportCarbon = Trans;
         }
     }
+
+    
 }

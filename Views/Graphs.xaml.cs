@@ -223,7 +223,6 @@ namespace ReathUIv0._3.Views
 
             InitializeComponent();
 
-            CarbonCalculation.SetDB(new MockDB()); // Setting the Database for the calculations
             loadedAssets = SqliteDatabaseAccess.RetreiveAssetAndId();  // Retrieving all assets from the user's database
 
             // By default selects the first value from the dropdown menu and displays it when the graph tab is loaded
