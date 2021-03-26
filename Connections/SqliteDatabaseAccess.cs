@@ -262,7 +262,7 @@ namespace ReathUIv0._3.Connections
                 try
                 {
                     SQLiteCommand cmd = new SQLiteCommand();
-                    cmd.CommandText = @"SELECT ReusableAssetId,SampleSize,DateRange,AssetName,UnitCost,UnitWeight,AssetCountryOfOrigin,PrimaryWeight,AuxiliarWeight,ReuseOccurence,MaximumReuses,AverageDistanceToReuse,PercentageOfManufacturingCarbon,RecycledId,PrimaryDisposalMethod,PrimaryCleaningMethod,AuxiliaryDisposalMethod,AuxiliaryCleaningMethod,PrimaryEmission,AuxiliaryEmission,PrimaryMaterialCost,AuxiliaryMaterialCost " +
+                    cmd.CommandText = @"SELECT ReusableAssetId,SampleSize,DateRange,AssetName,UnitCost,UnitWeight,AssetCountryOfOrigin,PrimaryWeight,AuxiliarWeight,ReuseOccurence,MaximumReuses,AverageDistanceToReuse,PercentageOfManufacturingCarbon,RecycledId,PrimaryDisposalMethod,PrimaryCleaningMethod,AuxiliaryDisposalMethod,AuxiliaryCleaningMethod,PrimaryEmission,AuxiliaryEmission " +
                                         "FROM reusable_asset WHERE ReusableAssetId ||'-'||AssetName = @NameSelected;";
                     cmd.Connection = cnn;
                     cmd.Parameters.Add(new SQLiteParameter("@NameSelected", optionSelected));
@@ -294,15 +294,14 @@ namespace ReathUIv0._3.Connections
                         string auxiliaryDispoMethod = rdr.GetString(16);
                         string auxiliaryCleaningMethod = rdr.GetString(17);
                         string primaryMaterialEmission = rdr.GetString(18);
-                        float primaryMaterialCost = (float)(double)rdr.GetValue(20);
                         string auxiliaryMaterialEmission = rdr.GetString(19);
-                        float auxiliaryMaterialCost = (float)(double)rdr.GetValue(21);
+
 
 
                         reusableAssetId = rdr.GetInt32(0);
                         recycleId = rdr.GetInt32(13);
 
-                        temp = new ReusableAsset(sampleSize, dateRange, assetName, unitCost, unitWeight, assetCountryOfOrigin,primaryWeight,auxiliaryWeight,reuseOccurence, averageDistanceToReuse, maximumReuses, percentageOfManufacturingCarbon,primaryMaterialEmission,primaryMaterialCost,auxiliaryMaterialEmission,auxiliaryMaterialCost);
+                        temp = new ReusableAsset(sampleSize, dateRange, assetName, unitCost, unitWeight, assetCountryOfOrigin,primaryWeight,auxiliaryWeight,reuseOccurence, averageDistanceToReuse, maximumReuses, percentageOfManufacturingCarbon,primaryMaterialEmission,auxiliaryMaterialEmission);
 
                         temp.PrimaryDisposalMethod = ReusableAsset.StringToDisposalMethod(rdr.GetString(15));
                         temp.AuxiliaryDisposalMethod = ReusableAsset.StringToDisposalMethod(rdr.GetString(17));
@@ -509,8 +508,8 @@ namespace ReathUIv0._3.Connections
                 try
                 {
                     SQLiteCommand cmd = new SQLiteCommand();
-                    cmd.CommandText = @"INSERT INTO reusable_asset(SampleSize,DateRange,AssetName,UnitCost,UnitWeight,AssetCountryOfOrigin,PrimaryWeight,AuxiliarWeight,ReuseOccurence,MaximumReuses,AverageDistanceToReuse,PercentageOfManufacturingCarbon,RecycledId,PrimaryDisposalMethod,PrimaryCleaningMethod,AuxiliaryDisposalMethod,AuxiliaryCleaningMethod,PrimaryEmission,AuxiliaryEmission,PrimaryMaterialCost,AuxiliaryMaterialCost)" +
-                    "VALUES (@SampleSize,@DateRange,@AssetName,@UnitCost,@UnitWeight,@AssetCountryOfOrigin,@PrimaryWeight,@AuxiliarWeight,@ReuseOccurence,@MaximumReuses,@AverageDistanceToReuse,@PercentageOfManufacturingCarbon,@recycleId,@primaryDisposalMethod,@primaryCleaningMethod,@auxiliaryDisposalMethod,@auxiliaryCleaningMethod,@primaryEmission,@auxiliaryEmission,@primaryMaterialCost,@auxiliaryMaterialCost)";
+                    cmd.CommandText = @"INSERT INTO reusable_asset(SampleSize,DateRange,AssetName,UnitCost,UnitWeight,AssetCountryOfOrigin,PrimaryWeight,AuxiliarWeight,ReuseOccurence,MaximumReuses,AverageDistanceToReuse,PercentageOfManufacturingCarbon,RecycledId,PrimaryDisposalMethod,PrimaryCleaningMethod,AuxiliaryDisposalMethod,AuxiliaryCleaningMethod,PrimaryEmission,AuxiliaryEmission)" +
+                    "VALUES (@SampleSize,@DateRange,@AssetName,@UnitCost,@UnitWeight,@AssetCountryOfOrigin,@PrimaryWeight,@AuxiliarWeight,@ReuseOccurence,@MaximumReuses,@AverageDistanceToReuse,@PercentageOfManufacturingCarbon,@recycleId,@primaryDisposalMethod,@primaryCleaningMethod,@auxiliaryDisposalMethod,@auxiliaryCleaningMethod,@primaryEmission,@auxiliaryEmission)";
                     cmd.Connection = cnn;
                     cmd.Parameters.Add(new SQLiteParameter("@SampleSize", reusableAsset.SampleSize));
                     cmd.Parameters.Add(new SQLiteParameter("@DateRange", reusableAsset.DateRange));
@@ -522,12 +521,10 @@ namespace ReathUIv0._3.Connections
                     cmd.Parameters.Add(new SQLiteParameter("@primaryDisposalMethod",reusableAsset.PrimaryDispoMethod));
                     cmd.Parameters.Add(new SQLiteParameter("@primaryCleaningMethod",reusableAsset.PrimaryCleaningMethod));
                     cmd.Parameters.Add(new SQLiteParameter("@primaryEmission", reusableAsset.PrimaryMaterialEmission));
-                    cmd.Parameters.Add(new SQLiteParameter("@primaryMaterialCost", reusableAsset.PrimaryMaterialCost));
                     cmd.Parameters.Add(new SQLiteParameter("@AuxiliarWeight", reusableAsset.AuxiliaryWeight));
                     cmd.Parameters.Add(new SQLiteParameter("@auxiliaryDisposalMethod",reusableAsset.AuxiliaryDispoMethod));
                     cmd.Parameters.Add(new SQLiteParameter("@auxiliaryCleaningMethod",reusableAsset.AuxiliaryCleaningMethod));
                     cmd.Parameters.Add(new SQLiteParameter("@auxiliaryEmission", reusableAsset.AuxiliaryMaterialEmission));
-                    cmd.Parameters.Add(new SQLiteParameter("@auxiliaryMaterialCost", reusableAsset.AuxiliaryMaterialCost));
                     cmd.Parameters.Add(new SQLiteParameter("@ReuseOccurence", reusableAsset.ReuseOccurence));
                     cmd.Parameters.Add(new SQLiteParameter("@MaximumReuses", reusableAsset.MaximumReuses));
                     cmd.Parameters.Add(new SQLiteParameter("@AverageDistanceToReuse", reusableAsset.AverageDistanceToReuse));

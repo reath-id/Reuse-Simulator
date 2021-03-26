@@ -30,7 +30,7 @@ namespace ReathUIv0._3.ViewModel
             InfoBoxText = "Info Box";
         }
 
-        public InputViewModel(ReusableAsset partReusableAsset,string dataSampleSize, string nameOfAsset, string unitCost, string unitWeight, string primaryMaterialWeight, string auxiliarMaterialWeight, string recycledPercent, string mePercent,string primaryMaterialCost,string auxiliaryMaterialCost)
+        public InputViewModel(ReusableAsset partReusableAsset,string dataSampleSize, string nameOfAsset, string unitCost, string unitWeight, string primaryMaterialWeight, string auxiliarMaterialWeight, string recycledPercent, string mePercent)
         {
 
             InfoBoxText = "Info Box";
@@ -40,9 +40,9 @@ namespace ReathUIv0._3.ViewModel
             {
                 InfoBoxText = "Part of the Main Asset Information has been entered incorrectly see below for more information. \n" + InfoBoxText;
             }
-            else if (CheckMaterialEmissionAndCost(primaryMaterialCost,auxiliaryMaterialCost) == false)
+            else if (CheckMaterialEmission() == false)
             {
-                InfoBoxText = "Part of the Emission and Cost for Materials has been enterd incorrectly see below for more information. \n" + InfoBoxText;
+                InfoBoxText = "Part of the Emission for Materials has been enterd incorrectly see below for more information. \n" + InfoBoxText;
             }
             else if (CheckAssetMaterial(primaryMaterialWeight, auxiliarMaterialWeight) == false)
             {
@@ -212,66 +212,13 @@ namespace ReathUIv0._3.ViewModel
         }
         #endregion
 
-        private bool CheckMaterialEmissionAndCost(string primaryMaterialCost,string auxiliaryMaterialCost)
+        #region CheckMaterialEmission
+        /// <summary>
+        /// Checks the Material Emission is saved and ensures that there is a primary emission set and will also check if there is an auxiliary if auxiliary has been selected
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckMaterialEmission()
         {
-            if (primaryMaterialCost.Length == 0 || decimalNumbers.IsMatch(primaryMaterialCost) == false)
-            {
-                InfoBoxText = "There has been nothing entered into the Primary Material cost box or does not match the format. The format must follow '0.00' being the minimum and '000000.00' being the maximum to enter";
-                return false;
-            }
-            else
-            {
-                try
-                {
-                    float primMatCost = float.Parse(primaryMaterialCost);
-
-                    if (primMatCost <= 0.00)
-                    {
-                        InfoBoxText = "Primary Material Cost entered is less than or equal to 0. Please enter a sufficient amount";
-                        return false;
-                    }
-                    else
-                    {
-                        reusableAsset.PrimaryMaterialCost = primMatCost;
-                    }
-
-                }
-                catch (FormatException)
-                {
-                    InfoBoxText = "Error occured formatting primary material cost into a float. Please try again";
-                    return false;
-                }
-            }
-
-            if (auxiliaryMaterialCost.Length == 0 || decimalNumbers.IsMatch(primaryMaterialCost) == false && reusableAsset.AuxiliaryMaterial != null)
-            {
-                InfoBoxText = "There has been nothing entered into the Auxiliary Material cost box or does not match the format. The format must follow '0.00' being the minimum and '000000.00' being the maximum to enter";
-                return false;
-            }
-            else
-            {
-                try
-                {
-                    float auxMatCost = float.Parse(auxiliaryMaterialCost);
-
-                    if (auxMatCost <= 0.00)
-                    {
-                        InfoBoxText = "Auxiliary Material Cost entered is less than or equal to 0. Please enter a sufficient amount";
-                        return false;
-                    }
-                    else
-                    {
-                        reusableAsset.AuxiliaryMaterialCost = auxMatCost;
-                    }
-
-                }
-                catch (FormatException)
-                {
-                    InfoBoxText = "Error occured formatting auxiliary material cost into a float. Please try again";
-                    return false;
-                }
-            }
-
             if (reusableAsset.PrimaryMaterialEmission.Length == 0)
             {
                 InfoBoxText = "No Primary Emission method has been selected. Please select a Primary Emission method";
@@ -293,6 +240,7 @@ namespace ReathUIv0._3.ViewModel
 
             return true;
         }
+        #endregion
 
         #region Asset Material Check
         /// <summary>
