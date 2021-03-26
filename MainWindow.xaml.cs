@@ -1,21 +1,12 @@
 ﻿using ReathUIv0._3.Connections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Globalization;
 using ReathUIv0._3.Models;
 using ReathUIv0._3.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace ReathUIv0._3
 {
@@ -30,8 +21,7 @@ namespace ReathUIv0._3
         private List<string> materialEmissionChoice = new List<string>();
         private List<string> countries = new List<string>();
         private ReusableAsset reusableAsset = new ReusableAsset();
-        private string dataSampleSize, nameOfAsset, unitCost, unitWeight, primaryMaterialWeight, primaryMaterialCost,auxiliarMaterialWeight, auxiliaryMaterialCost,recycledPercent, mePercent;
-
+        private string dataSampleSize, nameOfAsset, unitCost, unitWeight, primaryMaterialWeight, primaryMaterialCost, auxiliarMaterialWeight, auxiliaryMaterialCost, recycledPercent, mePercent;
 
         public MainWindow()
         {
@@ -48,7 +38,7 @@ namespace ReathUIv0._3
         //Data Range of Sample [2]
         private void dropDown_dateRangeofSample_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(dropDown_dateRangeofSample.SelectedItem.ToString().Equals("Date Range of Sample Size") == false)
+            if (dropDown_dateRangeofSample.SelectedItem.ToString().Equals("Date Range of Sample Size") == false)
             {
                 reusableAsset.DateRange = dropDown_dateRangeofSample.SelectedItem.ToString().Trim();
             }
@@ -79,7 +69,7 @@ namespace ReathUIv0._3
         //Country of Orgin [6]
         private void dropDown_countryOfOrigin_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(dropDown_countryOfOrigin.SelectedItem.ToString().Equals("Country of Origin") == false)
+            if (dropDown_countryOfOrigin.SelectedItem.ToString().Equals("Country of Origin") == false)
             {
                 reusableAsset.AssetCountryOfOrigin = dropDown_countryOfOrigin.SelectedItem.ToString().Trim();
             }
@@ -87,13 +77,12 @@ namespace ReathUIv0._3
             {
                 reusableAsset.AssetCountryOfOrigin = null;
             }
-            
         }
 
         //Primary Material [7]
         private void dropDown_primaryMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(dropDown_primaryMaterial.SelectedItem.ToString().Equals("Primary Material") == false)
+            if (dropDown_primaryMaterial.SelectedItem.ToString().Equals("Primary Material") == false)
             {
                 textBox_primaryMaterialPercent.IsEnabled = true;
                 reusableAsset.PrimaryMaterial = dropDown_primaryMaterial.SelectedItem.ToString().Trim();
@@ -109,9 +98,8 @@ namespace ReathUIv0._3
                 reusableAsset.PrimaryDispoMethod = "";
                 reusableAsset.PrimaryCleaningMethod = "";
                 dropDown_primaryDisposalMethod.SelectedIndex = 0;
-                
 
-                if(dropDown_primaryDisposalMethod.Items.Count.Equals(2) == true)
+                if (dropDown_primaryDisposalMethod.Items.Count.Equals(2) == true)
                 {
                     dropDown_primaryDisposalMethod.Items.RemoveAt(1);
                 }
@@ -123,9 +111,7 @@ namespace ReathUIv0._3
                 reusableAsset.PrimaryMaterialEmission = "";
                 textBox_primaryMaterialCost.IsEnabled = false;
                 textBox_primaryMaterialCost.Text = "Prim Cost";
-
             }
-            
         }
 
         private void FillPrimaryEmissions()
@@ -136,12 +122,10 @@ namespace ReathUIv0._3
 
             dropDown_primaryManufacturingEmissions.Items.Clear();
 
-
             foreach (Material method in materialChoices)
             {
                 if (dropDown_primaryMaterial.SelectedItem.ToString().Trim().Equals(method.ManufacturingMaterial))
                 {
-
                     if (method.MaterialProduction != 0)
                     {
                         materialEmissionChoice.Add("Primary");
@@ -161,7 +145,6 @@ namespace ReathUIv0._3
                     {
                         materialEmissionChoice.Add("Closed Loop");
                     }
-
                 }
             }
 
@@ -203,7 +186,7 @@ namespace ReathUIv0._3
         //Aux Material [8]
         private void dropDown_auxMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(dropDown_auxMaterial.SelectedItem.ToString().Equals("Auxiliar Material") == false)
+            if (dropDown_auxMaterial.SelectedItem.ToString().Equals("Auxiliar Material") == false)
             {
                 textBox_auxMaterialPercent.IsEnabled = true;
                 reusableAsset.AuxiliaryMaterial = dropDown_auxMaterial.SelectedItem.ToString().Trim();
@@ -232,7 +215,6 @@ namespace ReathUIv0._3
                 textBox_auxiliaryMaterialCost.Text = "Aux Cost";
                 textBox_auxiliaryMaterialCost.IsEnabled = false;
             }
-            
         }
 
         private void FillAuxiliaryEmissions()
@@ -243,12 +225,10 @@ namespace ReathUIv0._3
 
             dropDown_auxiliaryManufacturingEmissions.Items.Clear();
 
-
             foreach (Material method in materialChoices)
             {
                 if (dropDown_auxMaterial.SelectedItem.ToString().Trim().Equals(method.ManufacturingMaterial))
                 {
-
                     if (method.MaterialProduction != 0)
                     {
                         materialEmissionChoice.Add("Primary");
@@ -268,7 +248,6 @@ namespace ReathUIv0._3
                     {
                         materialEmissionChoice.Add("Closed Loop");
                     }
-
                 }
             }
 
@@ -311,7 +290,6 @@ namespace ReathUIv0._3
         {
             if (dropDown_primaryDisposalMethod.SelectedItem.ToString().Equals("Method of Disposal") == false)
             {
-
                 dropDown_primaryDisposalMethod.IsEnabled = true;
 
                 reusableAsset.PrimaryDispoMethod = dropDown_primaryDisposalMethod.SelectedItem.ToString().Trim();
@@ -320,12 +298,10 @@ namespace ReathUIv0._3
 
                 dropDown_primaryCleaningMethod.Items.Clear();
 
-
                 foreach (Disposal method in disposalChoices)
                 {
                     if (dropDown_primaryDisposalMethod.SelectedItem.ToString().Trim().Equals(method.MaterialOption))
                     {
-
                         if (method.Reuse != 0)
                         {
                             cleaningMethodChoice.Add("Reuse");
@@ -395,6 +371,7 @@ namespace ReathUIv0._3
                 reusableAsset.PrimaryCleaningMethod = "";
             }
         }
+
         //Auxiliary Disposal Method
         private void dropDown_auxDisposalMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -408,12 +385,10 @@ namespace ReathUIv0._3
 
                 dropDown_auxCleaningMethod.Items.Clear();
 
-
                 foreach (Disposal method in disposalChoices)
                 {
                     if (dropDown_auxDisposalMethod.SelectedItem.ToString().Trim().Equals(method.MaterialOption))
                     {
-
                         if (method.Reuse != 0)
                         {
                             cleaningMethodChoice.Add("Reuse");
@@ -487,13 +462,13 @@ namespace ReathUIv0._3
         //Is Recycled? [9]
         private void dropDown_isRecycled_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(dropDown_isRecycled.SelectedItem.ToString() == "Yes")
+            if (dropDown_isRecycled.SelectedItem.ToString() == "Yes")
             {
                 reusableAsset.IsRecylced = 1;
                 textBox_RecycledPercent.IsEnabled = true;
                 dropDown_recycledCountryOfOrigin.IsEnabled = true;
             }
-            else if(dropDown_isRecycled.SelectedItem.ToString().Equals("Is the Item Recycled"))
+            else if (dropDown_isRecycled.SelectedItem.ToString().Equals("Is the Item Recycled"))
             {
                 reusableAsset.IsRecylced = 2;
                 textBox_RecycledPercent.IsEnabled = false;
@@ -527,14 +502,12 @@ namespace ReathUIv0._3
             {
                 reusableAsset.RecycledCountryOfOrigin = "";
             }
-            
         }
-
 
         //Reuse Time Cycle [12]
         private void dropDown_reuseTimeCycle_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(dropDown_reuseTimeCycle.SelectedItem.ToString().Equals("Reuse Time Cycle") == false)
+            if (dropDown_reuseTimeCycle.SelectedItem.ToString().Equals("Reuse Time Cycle") == false)
             {
                 reusableAsset.ReuseOccurence = dropDown_reuseTimeCycle.SelectedItem.ToString().Trim();
             }
@@ -542,14 +515,12 @@ namespace ReathUIv0._3
             {
                 reusableAsset.ReuseOccurence = "";
             }
-            
         }
-
 
         //Average Distance p/reuse cycle [14]
         private void dropDown_averageDistancePerReuse_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(dropDown_averageDistancePerReuse.SelectedItem.ToString().Equals("Average Distance Per Reuse") == false)
+            if (dropDown_averageDistancePerReuse.SelectedItem.ToString().Equals("Average Distance Per Reuse") == false)
             {
                 reusableAsset.AverageDistanceToReuse = (int)dropDown_averageDistancePerReuse.SelectedItem;
             }
@@ -557,13 +528,12 @@ namespace ReathUIv0._3
             {
                 reusableAsset.AverageDistanceToReuse = 0;
             }
-            
         }
 
         //Maximum Reuses of Asset [15]
         private void dropDown_maxReuseOfAsset_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(dropDown_maxReuseOfAsset.SelectedItem.ToString().Equals("Maximum Reuse of Asset") == false)
+            if (dropDown_maxReuseOfAsset.SelectedItem.ToString().Equals("Maximum Reuse of Asset") == false)
             {
                 reusableAsset.MaximumReuses = (int)dropDown_maxReuseOfAsset.SelectedItem;
             }
@@ -571,7 +541,6 @@ namespace ReathUIv0._3
             {
                 reusableAsset.MaximumReuses = 0;
             }
-            
         }
 
         //M E % [16]
@@ -583,7 +552,7 @@ namespace ReathUIv0._3
         //Info Box [17]
         private void textBox_infoBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(textBox_infoBox.Text.Equals("Asset Successfully saved") && btnGraphs.IsEnabled.Equals(false) == true)
+            if (textBox_infoBox.Text.Equals("Asset Successfully saved") && btnGraphs.IsEnabled.Equals(false) == true)
             {
                 btnGraphs.IsEnabled = true;
                 btnData.IsEnabled = true;
@@ -596,8 +565,8 @@ namespace ReathUIv0._3
             this.Hide();
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
-
         }
+
         //Tab button Graphs
         private void btnGraphs_Click(object sender, RoutedEventArgs e)
         {
@@ -607,23 +576,22 @@ namespace ReathUIv0._3
             Window window = new Views.Graphs();
             window.DataContext = context;
             window.Show();
-
         }
+
         //Tab button Data
         private void btnData_Click(object sender, RoutedEventArgs e)
         {
-
         }
+
         //Tab button Settings
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
-
         }
-        
+
         //Button add Assets
         private void btn_addAsset_Click(object sender, RoutedEventArgs e)
         {
-            this.DataContext = new InputViewModel(reusableAsset, dataSampleSize, nameOfAsset, unitCost, unitWeight, primaryMaterialWeight, auxiliarMaterialWeight, recycledPercent, mePercent,primaryMaterialCost,auxiliaryMaterialCost);
+            this.DataContext = new InputViewModel(reusableAsset, dataSampleSize, nameOfAsset, unitCost, unitWeight, primaryMaterialWeight, auxiliarMaterialWeight, recycledPercent, mePercent, primaryMaterialCost, auxiliaryMaterialCost);
         }
 
         //Button generate Random Data
@@ -667,13 +635,13 @@ namespace ReathUIv0._3
             }
             else
             {
-                if(sum == 2)
+                if (sum == 2)
                 {
                     textBox_unitCost.Text = temp;
                 }
                 else
                 {
-                    while(sum != 2)
+                    while (sum != 2)
                     {
                         temp.Remove(0, temp.Length - 1);
                         sum = temp.Length - decimalPoint;
@@ -681,7 +649,6 @@ namespace ReathUIv0._3
 
                     textBox_unitCost.Text = temp;
                 }
-                
             }
 
             //unitweight
@@ -726,7 +693,6 @@ namespace ReathUIv0._3
 
                     textBox_unitWeight.Text = temp;
                 }
-                
             }
 
             //countryoforigin
@@ -801,7 +767,7 @@ namespace ReathUIv0._3
 
             sum = temp.Length - decimalPoint;
 
-            if(decimalPoint == 0)
+            if (decimalPoint == 0)
             {
                 temp = temp + ".000";
                 textBox_auxMaterialPercent.Text = temp;
@@ -832,26 +798,24 @@ namespace ReathUIv0._3
 
                     textBox_auxMaterialPercent.Text = temp;
                 }
-
             }
 
             //isrecycled
             dropDown_isRecycled.SelectedIndex = rnd.Next(1, 3);
 
             //recycledpercent
-            if(dropDown_isRecycled.SelectedIndex == 1)
+            if (dropDown_isRecycled.SelectedIndex == 1)
             {
                 textBox_RecycledPercent.Text = Convert.ToString(rnd.Next(1, 100));
             }
 
             //recycledcountry
-            if(dropDown_isRecycled.SelectedIndex == 1)
+            if (dropDown_isRecycled.SelectedIndex == 1)
             {
                 dropDown_recycledCountryOfOrigin.SelectedIndex = rnd.Next(dropDown_recycledCountryOfOrigin.Items.Count);
             }
-            
 
-            //reusetimecycle 
+            //reusetimecycle
             dropDown_reuseTimeCycle.SelectedIndex = rnd.Next(1, 6);
 
             /*
@@ -913,7 +877,7 @@ namespace ReathUIv0._3
 
         private void btnGraphs_Loaded(object sender, RoutedEventArgs e)
         {
-            if(SqliteDatabaseAccess.CheckData() == true)
+            if (SqliteDatabaseAccess.CheckData() == true)
             {
                 btnGraphs.IsEnabled = true;
             }
@@ -921,7 +885,6 @@ namespace ReathUIv0._3
             {
                 btnGraphs.IsEnabled = false;
             }
-            
         }
 
         private void btnData_Loaded(object sender, RoutedEventArgs e)
@@ -936,7 +899,6 @@ namespace ReathUIv0._3
             }
         }
 
-
         private void dropDown_primaryMaterial_Loaded(object sender, RoutedEventArgs e)
         {
             materialChoices = SqliteDatabaseAccess.LoadMaterials();
@@ -946,21 +908,18 @@ namespace ReathUIv0._3
 
             dropDown_auxMaterial.Items.Add("Auxiliar Material");
             dropDown_auxMaterial.SelectedIndex = 0;
-            
-            foreach(Material material in materialChoices)
+
+            foreach (Material material in materialChoices)
             {
                 dropDown_primaryMaterial.Items.Add(material.ManufacturingMaterial);
                 dropDown_auxMaterial.Items.Add(material.ManufacturingMaterial);
             }
-            
         }
 
         private void dropDown_primaryDisposalMethod_Loaded(object sender, RoutedEventArgs e)
         {
-
             dropDown_primaryDisposalMethod.Items.Add("Method of Disposal");
             dropDown_primaryDisposalMethod.SelectedIndex = 0;
-
         }
 
         private void FillPrimaryDisposalMethod(string selectionMade)
@@ -996,7 +955,7 @@ namespace ReathUIv0._3
             }
             else
             {
-                if(dropDown_primaryDisposalMethod.Items.Count.Equals(1))
+                if (dropDown_primaryDisposalMethod.Items.Count.Equals(1))
                 {
                     dropDown_primaryDisposalMethod.Items.Add(selectionMade);
                     dropDown_primaryDisposalMethod.SelectedIndex = 1;
@@ -1008,7 +967,6 @@ namespace ReathUIv0._3
                     dropDown_primaryDisposalMethod.Items.Add(selectionMade);
                     dropDown_primaryDisposalMethod.SelectedIndex = 1;
                 }
-              
             }
         }
 
@@ -1057,16 +1015,13 @@ namespace ReathUIv0._3
                     dropDown_auxDisposalMethod.Items.Add(selectionMade);
                     dropDown_auxDisposalMethod.SelectedIndex = 1;
                 }
-
             }
         }
 
         private void dropDown_auxDisposalMethod_Loaded(object sender, RoutedEventArgs e)
         {
-            
             dropDown_auxDisposalMethod.Items.Add("Method of Disposal");
             dropDown_auxDisposalMethod.SelectedIndex = 0;
-
         }
 
         private void dropDown_primaryManufacturingEmissions_Loaded(object sender, RoutedEventArgs e)
@@ -1096,15 +1051,13 @@ namespace ReathUIv0._3
 
             dropDown_isRecycled.SelectedIndex = 0;
             reusableAsset.IsRecylced = 2;
-
         }
 
         private void dropDown_countryOfOrigin_Loaded(object sender, RoutedEventArgs e)
         {
-
             CultureInfo[] getCultureInfo = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
 
-            foreach(CultureInfo getCulture in getCultureInfo)
+            foreach (CultureInfo getCulture in getCultureInfo)
             {
                 RegionInfo getRegionInfo = new RegionInfo(getCulture.LCID);
                 if (!(countries.Contains(getRegionInfo.EnglishName)))
@@ -1120,11 +1073,10 @@ namespace ReathUIv0._3
             dropDown_recycledCountryOfOrigin.Items.Add("Recycled Country of Origin");
             dropDown_recycledCountryOfOrigin.SelectedIndex = 0;
 
-            foreach(string country in countries)
+            foreach (string country in countries)
             {
                 dropDown_countryOfOrigin.Items.Add(country);
                 dropDown_recycledCountryOfOrigin.Items.Add(country);
-
             }
         }
 
@@ -1138,7 +1090,6 @@ namespace ReathUIv0._3
             dropDown_reuseTimeCycle.Items.Add("Triweekly");
             dropDown_reuseTimeCycle.Items.Add("Monthly");
             dropDown_reuseTimeCycle.Items.Add("Bimonthly");
-
         }
 
         private void dropDown_averageDistancePerReuse_Loaded(object sender, RoutedEventArgs e)
@@ -1146,7 +1097,7 @@ namespace ReathUIv0._3
             dropDown_averageDistancePerReuse.Items.Add("Average Distance Per Reuse");
             dropDown_averageDistancePerReuse.SelectedIndex = 0;
 
-            for(int i = 1;i < 51; i++)
+            for (int i = 1; i < 51; i++)
             {
                 dropDown_averageDistancePerReuse.Items.Add(i);
             }
@@ -1182,6 +1133,7 @@ namespace ReathUIv0._3
             dropDown_dateRangeofSample.Items.Add("11 Months");
             dropDown_dateRangeofSample.Items.Add("1 year");
         }
-        #endregion
+
+        #endregion Loading data/When loaded
     }
 }

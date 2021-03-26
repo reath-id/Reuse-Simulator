@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -121,7 +120,7 @@ namespace ReathUIv0._3.Views
 
         #endregion Graph Settings properties
 
-        #region Mats properties
+        #region Materials properties
 
         private string economicImpact;
 
@@ -163,20 +162,11 @@ namespace ReathUIv0._3.Views
             set { OnPropertyChanged(ref material2Value, value); }
         }
 
-        #endregion Mats properties
+        #endregion Materials properties
 
-        #region other properties
-
-        private ChartValues<double> economicImpactValue;
-
-        public ChartValues<double> EconomicImpactValue
-        {
-            get { return economicImpactValue; }
-            set { OnPropertyChanged(ref economicImpactValue, value); }
-        }
+        #region Other properties
 
         private Brush economicImpactColour;
-
         public Brush EconomicImpactColour
         {
             get { return economicImpactColour; }
@@ -184,7 +174,6 @@ namespace ReathUIv0._3.Views
         }
 
         private int environmentalSelectedTheme;
-
         public int EnvironmentalSelectedTheme
         {
             get { return environmentalSelectedTheme; }
@@ -192,7 +181,6 @@ namespace ReathUIv0._3.Views
         }
 
         private int economicsSelectedTheme;
-
         public int EconomicsSelectedTheme
         {
             get { return economicsSelectedTheme; }
@@ -200,7 +188,6 @@ namespace ReathUIv0._3.Views
         }
 
         private int assetSelected;
-
         public int AssetSelected
         {
             get { return assetSelected; }
@@ -208,7 +195,6 @@ namespace ReathUIv0._3.Views
         }
 
         private SeriesCollection environmnetalSeriesCollection;
-
         public SeriesCollection EnvironmnetalSeriesCollection
         {
             get { return environmnetalSeriesCollection; }
@@ -216,43 +202,48 @@ namespace ReathUIv0._3.Views
         }
 
         private SeriesCollection economicSeriesCollection;
-
-        public SeriesCollection EconomicalSeriesCollection
+        public SeriesCollection EconomicSeriesCollection
         {
             get { return economicSeriesCollection; }
             set { OnPropertyChanged(ref economicSeriesCollection, value); }
         }
 
-        #endregion other properties
+        #endregion Other properties
 
         public ICommand GraphsCommand { get; set; }
         private CarbonResults carbonResults;
         private ReusableAsset currentAsset;
-        private List<string> loadedAssets;
+        private readonly List<string> loadedAssets;
+
+        #region Methods
 
         public Graphs()
         {
-            GraphsCommand = new RelayCommand(param => LoadGraphs());
+            GraphsCommand = new RelayCommand(param => LoadGraphs()); // Setting the command to its method
 
             InitializeComponent();
-            CarbonCalculation.SetDB(new MockDB());
-            loadedAssets = SqliteDatabaseAccess.RetreiveAssetAndId();
-            currentAsset = SqliteDatabaseAccess.RetrieveAssets(loadedAssets[0]);
-            AssetSelected = 0;
-            //Loading the graphs labels and settings
-            LoadGraphSettings();
-            LoadGraphs();
 
+            CarbonCalculation.SetDB(new MockDB()); // Setting the Database for the calculations
+            loadedAssets = SqliteDatabaseAccess.RetreiveAssetAndId();  // Retrieving all assets from the user's database
+
+            // By default selects the first value from the dropdown menu and displays it when the graph tab is loaded
+            currentAsset = SqliteDatabaseAccess.RetrieveAssets(loadedAssets[0]); // Sets the currentAsset to the first asset found in the database
+            AssetSelected = 0; // Sets the selected asset from the dropdown menu as 0, to match the currentAsset
+
+            LoadGraphs();  //Loading the graphs labels and settings
         }
 
         private void LoadGraphs()
         {
             currentAsset = SqliteDatabaseAccess.RetrieveAssets(loadedAssets[AssetSelected]);
 
-            if (currentAsset != null)
+            if (currentAsset != null) // Check if currentAsset is not null
             {
+                // Using hte currentAsset information to perform the calculations necessary for the graphs
                 carbonResults = CarbonCalculation.CalculateCarbon(currentAsset);
 
+                // Loading settings, graphs and setting the graph's labels
+                LoadGraphSettings();
                 LoadEnvironmentalGraph();
                 LoadEconomicsGraph();
                 LoadGraphLabels();
@@ -264,36 +255,42 @@ namespace ReathUIv0._3.Views
             //Labels and title for the Environmental Impact graph
             TitleLabelText = "Environmental Impact per " + currentAsset.SampleSize + " packagings";
             Labels = new[] { "Linear", "Circular" };
-            Formatter = (x) => string.Format("{0:N2}", x) + " kg CO2e"; // Formatter sets the y axis label. String  display 2 decimals
+            Formatter = (x) => string.Format("{0:N2}", x) + " kg CO2e"; // Formatter sets the y axis label, displaying 2 decimals
 
             //Labels and title for the Economic Impact graph
             TitleLabelText2 = "Economic Impact per " + currentAsset.SampleSize + " packagings";
             Labels2 = new[] { "Linear", "Circular" };
-            Formatter2 = (x) => string.Format("{0:N2}", x) + " £"; // Formatter sets the y axis label. String  display 2 decimals
+            Formatter2 = (x) => string.Format("{0:N2}", x) + " £"; // Formatter sets the y axis label, displaying 2 decimals
             EconomicImpact = "Cost in £";
         }
+
         private void LoadGraphSettings()
         {
-            LegendPosition = "Top";
-            XRotationText = 0;
-            YRotationText = 15;
-            SpeedValue = "00:00:0.5";
+            // Settings
+            LegendPosition = "Top"; // Position of the legend
+            XRotationText = 0; // X axis text rotation
+            YRotationText = 15; // Y axis text rotation
+            SpeedValue = "00:00:0.5"; // Animation speed for the graphs
             XLabelText = "";
             YLabelText = "";
         }
+
         private void LoadEnvironmentalGraph()
         {
-            LoadEnvironmentalTheme();
+            LoadEnvironmentalTheme(); // Loads theme
 
-            // Adding mock-up Values
+            // Loading Material2 from the currentAsset. Material1 is used to
+            // display the current material on the graph's legend
             Material1 = currentAsset.PrimaryMaterial;
 
+            // Creating environmental graph
             EnvironmnetalSeriesCollection = new SeriesCollection {
                 new StackedColumnSeries
                 {
+                    // Adding values for the linear and circular column
                     Values = new ChartValues<ObservableValue> {
-                        new ObservableValue(carbonResults.PrimaryMaterialLinearCarbon),
-                        new ObservableValue(carbonResults.PrimaryMaterialCircularCarbon)
+                        new ObservableValue(carbonResults.PrimaryMaterialLinearCarbon), // Primary material Linear environmnetal impact
+                        new ObservableValue(carbonResults.PrimaryMaterialCircularCarbon) // Primary material Circular environmental impact
                     },
                     PointGeometry=null,
                     Fill=Material1Colour,
@@ -308,16 +305,21 @@ namespace ReathUIv0._3.Views
                 },
             };
 
+            // If auxiliary material exists in the asset, add it to the environmnetal graph
             if (!String.IsNullOrWhiteSpace(currentAsset.AuxiliaryMaterial))
             {
+                // Loading Material2 from the currentAsset. Material2 is used to
+                // display the current material on the graph's legend
                 Material2 = currentAsset.AuxiliaryMaterial;
 
+                // Adding auxiliar material into the environmental graph
                 EnvironmnetalSeriesCollection.Add(
                     new StackedColumnSeries
                     {
+                        // Adding values for the linear and circular column
                         Values = new ChartValues<ObservableValue> {
-                            new ObservableValue(carbonResults.AuxiliaryMaterialLinearCarbon),
-                            new ObservableValue(carbonResults.AuxiliaryMaterialCircularCarbon)
+                            new ObservableValue(carbonResults.AuxiliaryMaterialLinearCarbon), // Auxiliary material Linear environmnetal impact
+                            new ObservableValue(carbonResults.AuxiliaryMaterialCircularCarbon) // Auxiliary material Circular environmental impact
                         },
                         PointGeometry = null,
                         Fill = Material2Colour,
@@ -333,8 +335,10 @@ namespace ReathUIv0._3.Views
                 );
             }
         }
+
         private void LoadEnvironmentalTheme()
         {
+            // Switches colours for the environmental graph's theme
             switch (EnvironmentalSelectedTheme)
             {
                 case 0:
@@ -358,19 +362,39 @@ namespace ReathUIv0._3.Views
                     break;
             }
         }
+
         private void LoadEconomicsGraph()
         {
-            LoadEconomicsTheme();
+            LoadEconomicsTheme(); // Loads theme
 
-            // Adding mock-up Values
-            EconomicImpactValue = new ChartValues<double>();
+            // Calculating the total of the economic impact: linear and circular
+            var totalEconomicImpactLinear = currentAsset.UnitCost * currentAsset.SampleSize; // Linear economic impact
+            var totalEconomicImpactCircular = totalEconomicImpactLinear / currentAsset.MaximumReuses; // Circular economic impact
 
-            var totalEconomicImpact = currentAsset.UnitCost * currentAsset.SampleSize;
-            EconomicImpactValue.Add(totalEconomicImpact);
-            EconomicImpactValue.Add(totalEconomicImpact / currentAsset.MaximumReuses);
+            EconomicSeriesCollection = new SeriesCollection {
+                new ColumnSeries
+                {
+                    Values = new ChartValues<ObservableValue>
+                    {
+                        new ObservableValue(totalEconomicImpactLinear),
+                        new ObservableValue(totalEconomicImpactCircular)
+                    },
+                    PointGeometry = null,
+                    Fill = EconomicImpactColour,
+                    Stroke = EconomicImpactColour,
+                    StrokeThickness = 8,
+                    DataLabels = false,
+                    FontSize = 13,
+                    MaxColumnWidth = 100,
+                    LabelsPosition = BarLabelPosition.Perpendicular,
+                    Title = EconomicImpact
+                }
+            };
         }
+
         private void LoadEconomicsTheme()
         {
+            // Switches colours for the economics graph's theme
             switch (EconomicsSelectedTheme)
             {
                 case 0:
@@ -387,47 +411,56 @@ namespace ReathUIv0._3.Views
             }
         }
 
+        #endregion Methods
+
         #region RoutedEventArgs
+
         private void btnInput_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
         }
+
         private void btnData_Click(object sender, RoutedEventArgs e)
         {
         }
+
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
         }
 
         #endregion RoutedEventArgs
 
-        #region dropdown menus
+        #region Dropdown menus
+
         private void dropDown_themeEconomicImpact_Loaded(object sender, RoutedEventArgs e)
         {
-            dropDown_themeEconomicImpact.SelectedIndex = 0;
+            dropDown_themeEconomicImpact.SelectedIndex = 0; // By default, the selected item will be the one at index 0
             dropDown_themeEconomicImpact.Items.Add("Default");
             dropDown_themeEconomicImpact.Items.Add("Alternative");
         }
+
         private void dropDown_themeEnvironmentalImpact_Loaded(object sender, RoutedEventArgs e)
         {
-            dropDown_themeEnvironmentalImpact.SelectedIndex = 0;
+            dropDown_themeEnvironmentalImpact.SelectedIndex = 0; // By default, the selected item will be the one at index 0
             dropDown_themeEnvironmentalImpact.Items.Add("Default");
             dropDown_themeEnvironmentalImpact.Items.Add("Alternative");
             dropDown_themeEnvironmentalImpact.Items.Add("Alternative 2");
         }
+
         private void dropDown_AssetSelection_Loaded(object sender, RoutedEventArgs e)
         {
+            // Adds all the asset names from the loadedAssets array into the dropdown menu
             foreach (string asset in loadedAssets)
             {
                 dropDown_assetSelection.Items.Add(asset);
             }
 
-            dropDown_assetSelection.SelectedIndex = 0;
+            dropDown_assetSelection.SelectedIndex = 0; // By default, the selected item will be the one at index 0
         }
 
-        #endregion dropdown menus
+        #endregion Dropdown menus
 
         #region INotifyPropertyChanged Members
 
@@ -476,7 +509,5 @@ namespace ReathUIv0._3.Views
                 Environment.Exit(0);
             }
         }
-
-
     }
 }
