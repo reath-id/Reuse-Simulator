@@ -21,7 +21,7 @@ namespace ReathUIv0._3
         private List<string> materialEmissionChoice = new List<string>();
         private List<string> countries = new List<string>();
         private ReusableAsset reusableAsset = new ReusableAsset();
-        private string dataSampleSize, nameOfAsset, unitCost, unitWeight, primaryMaterialWeight, primaryMaterialCost, auxiliarMaterialWeight, auxiliaryMaterialCost, recycledPercent, mePercent;
+        private string dataSampleSize, nameOfAsset, unitCost, unitWeight, primaryMaterialWeight, auxiliarMaterialWeight, recycledPercent, mePercent;
 
         public MainWindow()
         {
@@ -88,7 +88,6 @@ namespace ReathUIv0._3
                 reusableAsset.PrimaryMaterial = dropDown_primaryMaterial.SelectedItem.ToString().Trim();
                 FillPrimaryDisposalMethod(dropDown_primaryMaterial.SelectedItem.ToString().Trim());
                 FillPrimaryEmissions();
-                textBox_primaryMaterialCost.IsEnabled = true;
             }
             else
             {
@@ -109,8 +108,6 @@ namespace ReathUIv0._3
                 dropDown_primaryManufacturingEmissions.SelectedIndex = 0;
                 dropDown_primaryManufacturingEmissions.IsEnabled = false;
                 reusableAsset.PrimaryMaterialEmission = "";
-                textBox_primaryMaterialCost.IsEnabled = false;
-                textBox_primaryMaterialCost.Text = "Prim Cost";
             }
         }
 
@@ -178,11 +175,6 @@ namespace ReathUIv0._3
             }
         }
 
-        private void textBox_primaryMaterialCost_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            primaryMaterialCost = textBox_primaryMaterialCost.Text.ToString().Trim();
-        }
-
         //Aux Material [8]
         private void dropDown_auxMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -193,7 +185,6 @@ namespace ReathUIv0._3
                 dropDown_auxDisposalMethod.IsEnabled = true;
                 FillAuxiliaryDisposalMethod(dropDown_auxMaterial.SelectedItem.ToString().Trim());
                 FillAuxiliaryEmissions();
-                textBox_auxiliaryMaterialCost.IsEnabled = true;
             }
             else
             {
@@ -211,9 +202,6 @@ namespace ReathUIv0._3
                 dropDown_auxiliaryManufacturingEmissions.SelectedIndex = 0;
                 dropDown_auxiliaryManufacturingEmissions.IsEnabled = false;
                 reusableAsset.AuxiliaryMaterialEmission = "";
-
-                textBox_auxiliaryMaterialCost.Text = "Aux Cost";
-                textBox_auxiliaryMaterialCost.IsEnabled = false;
             }
         }
 
@@ -278,11 +266,6 @@ namespace ReathUIv0._3
             {
                 reusableAsset.PrimaryMaterialEmission = "";
             }
-        }
-
-        private void textBox_auxiliaryMaterialCost_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            auxiliaryMaterialCost = textBox_auxiliaryMaterialCost.Text.ToString().Trim();
         }
 
         // Primary Disposal Method
@@ -591,7 +574,7 @@ namespace ReathUIv0._3
         //Button add Assets
         private void btn_addAsset_Click(object sender, RoutedEventArgs e)
         {
-            this.DataContext = new InputViewModel(reusableAsset, dataSampleSize, nameOfAsset, unitCost, unitWeight, primaryMaterialWeight, auxiliarMaterialWeight, recycledPercent, mePercent, primaryMaterialCost, auxiliaryMaterialCost);
+            this.DataContext = new InputViewModel(reusableAsset, dataSampleSize, nameOfAsset, unitCost, unitWeight, primaryMaterialWeight, auxiliarMaterialWeight, recycledPercent, mePercent);
         }
 
         //Button generate Random Data

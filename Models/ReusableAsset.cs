@@ -17,13 +17,11 @@ namespace ReathUIv0._3.Models
         public string PrimaryMaterial { get; set; }
         public float PrimaryWeight { get; set; }
         public string PrimaryMaterialEmission { get; set; }
-        public float PrimaryMaterialCost { get; set; }
         public string PrimaryDispoMethod { get; set; }
         public string PrimaryCleaningMethod { get; set; }
         public string AuxiliaryMaterial { get; set; }
         public float AuxiliaryWeight { get; set; }
         public string AuxiliaryMaterialEmission { get; set; }
-        public float AuxiliaryMaterialCost { get; set; }
         public string AuxiliaryDispoMethod { get; set; }
         public string AuxiliaryCleaningMethod { get; set; }
         public int IsRecylced { get; set; }
@@ -50,13 +48,11 @@ namespace ReathUIv0._3.Models
             PrimaryMaterial = string.Empty;
             PrimaryWeight = 0F;
             PrimaryMaterialEmission = string.Empty;
-            PrimaryMaterialCost = 0F;
             PrimaryDispoMethod = string.Empty;
             PrimaryCleaningMethod = string.Empty;
             AuxiliaryMaterial = string.Empty;
             AuxiliaryWeight = 0F;
             AuxiliaryMaterialEmission = string.Empty;
-            AuxiliaryMaterialCost = 0F;
             AuxiliaryDispoMethod = string.Empty;
             AuxiliaryCleaningMethod = string.Empty;
             IsRecylced = 0;
@@ -68,7 +64,7 @@ namespace ReathUIv0._3.Models
             PercentageOfManufacturingCarbon = 0F;
         }
 
-        public ReusableAsset(int sampleSize,string dateRange,string assetName ,float unitCost, float unitWeight,string assetCountryOfOrigin, float primaryWeight,float auxiliaryWeight,string reuseOccurence,int averageDistanceToReuse,float maximumReuses,float percentageOfManufacturingCarbon,string primaryMaterialEmission,float primaryMaterialCost,string auxiliaryMaterialEmission,float auxiliaryMaterialCost)
+        public ReusableAsset(int sampleSize,string dateRange,string assetName ,float unitCost, float unitWeight,string assetCountryOfOrigin, float primaryWeight,float auxiliaryWeight,string reuseOccurence,int averageDistanceToReuse,float maximumReuses,float percentageOfManufacturingCarbon,string primaryMaterialEmission,string auxiliaryMaterialEmission)
         {
             SampleSize = sampleSize;
             DateRange = dateRange;
@@ -80,13 +76,11 @@ namespace ReathUIv0._3.Models
             PrimaryMaterialManufacturing = 0;
             PrimaryWeight = primaryWeight;
             PrimaryMaterialEmission = primaryMaterialEmission;
-            PrimaryMaterialCost = primaryMaterialCost;
             PrimaryDisposalMethod = 0;
             AuxiliaryMaterial = string.Empty;
             AuxiliaryMaterialManufacturing = 0;
             AuxiliaryWeight = auxiliaryWeight;
             AuxiliaryMaterialEmission = auxiliaryMaterialEmission;
-            AuxiliaryMaterialCost = auxiliaryMaterialCost;
             IsRecylced = 0; ;
             RecycledPercentage = 0;
             RecycledCountryOfOrigin = string.Empty;

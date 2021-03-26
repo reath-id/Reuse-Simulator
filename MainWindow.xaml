@@ -64,19 +64,6 @@
                     </TextBox.Effect>
                 </TextBox>
 
-                <Label x:Name="label_primaryMaterialCost" Content="Primary Material Cost" Margin="811,346,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
-                <TextBox x:Name="textBox_primaryMaterialCost" TextWrapping="Wrap" Text="Prim Cost" Margin="835,378,0,0" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" Panel.ZIndex="1" MaxWidth="240" MaxHeight="65" Width="120" Height="57" HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="textBox_primaryMaterialCost_TextChanged">
-                    <TextBox.Effect>
-                        <DropShadowEffect Color="#FF0E7E85" BlurRadius="20"/>
-                    </TextBox.Effect>
-                </TextBox>
-                <Label x:Name="label_auxiliaryMaterialCost" Content="Aux Material Cost" Margin="991,346,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
-                <TextBox x:Name="textBox_auxiliaryMaterialCost" TextWrapping="Wrap" Text="Aux Cost" Margin="1006,378,0,0" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" Panel.ZIndex="1" MaxWidth="240" MaxHeight="65" Width="120" Height="57" HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="textBox_auxiliaryMaterialCost_TextChanged">
-                    <TextBox.Effect>
-                        <DropShadowEffect Color="#FF0E7E85" BlurRadius="20"/>
-                    </TextBox.Effect>
-                </TextBox>
-
                 <Label x:Name="label_primaryMatPercent" Content="Primary Material %" Margin="536,468,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" FontFamily="Nunito Sans" FontSize="16"/>
                 <TextBox x:Name="textBox_primaryMaterialPercent" TextWrapping="Wrap" Text="Primary Percent" Margin="550,500,0,0" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="20" FontStretch="UltraExpanded" TextAlignment="Center" TextChanged="textBox_primaryMaterialPercent_TextChanged" Panel.ZIndex="1" MaxWidth="120" MaxHeight="65" HorizontalAlignment="Left" VerticalAlignment="Top" Width="124">
                     <TextBox.Effect>
