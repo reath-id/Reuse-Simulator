@@ -141,6 +141,10 @@ namespace ReathUIv0._3.Models
             else if (s == "Anaerobic")
             {
                 return EntireDisposalMethod.Anaerobic;
+            }            
+            else if (s == "None")
+            {
+                return EntireDisposalMethod.None;
             }
             else throw new ArgumentException("Disposal Method " + s + " doesn't exist.");
         }
@@ -153,7 +157,7 @@ namespace ReathUIv0._3.Models
         
         public enum EntireDisposalMethod
         {
-            Reuse, OpenLoop, ClosedLoop, Combustion, Composting, Landfill, Anaerobic
+            Reuse, OpenLoop, ClosedLoop, Combustion, Composting, Landfill, Anaerobic, None
         }
     }
 }

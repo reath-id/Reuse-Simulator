@@ -67,9 +67,9 @@ namespace ReathUIv0._3
             float AuxiliaryMaterialTransportCarbon = Asset.AverageDistanceToReuse * Asset.AuxiliaryWeight * 0.001f * (exampletransport.CarbonCost + exampletransport.WttConvFactor);
 
             /// PREPARATION FOR REUSE COST
-            float prepreusecarbon = Asset.PercentageOfManufacturingCarbon * ManufacturingCost;
-            float primaryMaterialPrePreuseCarbon = Asset.PercentageOfManufacturingCarbon * primaryMaterialcarboncost;
-            float AuxiliaryMaterialPrePreuseCarbon = Asset.PercentageOfManufacturingCarbon * AuxiliaryMaterialcarboncost;
+            float prepreusecarbon = Asset.PercentageOfManufacturingCarbon / 100 * ManufacturingCost;
+            float primaryMaterialPrePreuseCarbon = Asset.PercentageOfManufacturingCarbon / 100 * primaryMaterialcarboncost;
+            float AuxiliaryMaterialPrePreuseCarbon = Asset.PercentageOfManufacturingCarbon / 100 * AuxiliaryMaterialcarboncost;
 
             /// REUSE DISPOSAL
             float reusedisposalcarbon = DisposalCost / Asset.MaximumReuses;
@@ -78,6 +78,7 @@ namespace ReathUIv0._3
 
             /// CIRCULAR COST
             float circularcost = reusemanufacturingcarbon + transportcarbon + prepreusecarbon + reusedisposalcarbon;
+            // TODO check primaryMaterialPrePreuseCarbon & AuxiliaryMaterialPrePreuseCarbon
             float primaryMaterialCircularCostt = primaryMaterialReusemanuFacturingCarbon + primaryMaterialTransportCarbon + primaryMaterialPrePreuseCarbon + primaryMaterialreusedisposalcarbon;
             float AuxiliaryMaterialCircularCostt = AuxiliaryMaterialReusemanuFacturingCarbon + AuxiliaryMaterialTransportCarbon + AuxiliaryMaterialPrePreuseCarbon + AuxiliaryMaterialreusedisposalcarbon;
 
@@ -160,7 +161,11 @@ namespace ReathUIv0._3
                     {
                         return cost.AnaerobicDigestion;
                     }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be digested anaerobically.");
+                    else throw new ArgumentException(cost.MaterialOption + " cannot be digested anaerobically.");        
+                // Carlos did this - please remove? or change? 
+                case EntireDisposalMethod.None:
+                        return 0;
+                    
                 default:
                     throw new ArgumentException(cost.MaterialOption + ": Invalid disposal method.");
             }
