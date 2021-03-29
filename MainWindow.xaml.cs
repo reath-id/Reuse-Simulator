@@ -773,7 +773,7 @@ namespace ReathUIv0._3
                 }
                 else
                 {
-                    while (sum != 3)
+                    while (sum != 3) // does the big oof
                     {
                         temp.Remove(0, temp.Length - 1);
                         sum = temp.Length - decimalPoint;
