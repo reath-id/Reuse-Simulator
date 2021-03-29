@@ -543,11 +543,13 @@ namespace ReathUIv0._3.ViewModel
 
             idRetrieval = SqliteDatabaseAccess.RetrieveMaterialId(reusableAsset.AuxiliaryMaterial);
 
-            auxiliarId = idRetrieval[0];
-
-            if(auxiliarId == 0)
+            if (idRetrieval.Count.Equals(0))
             {
-             
+                auxiliarId = 0;
+            }
+            else
+            {
+                auxiliarId = idRetrieval[0];
             }
 
             idRetrieval = SqliteDatabaseAccess.RetrieveRecycleId();
