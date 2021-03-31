@@ -288,8 +288,8 @@ namespace ReathUIv0._3.Views
                 {
                     // Adding values for the linear and circular column
                     Values = new ChartValues<ObservableValue> {
-                        new ObservableValue(carbonResults.PrimaryMaterialLinearCarbon), // Primary material Linear environmnetal impact
-                        new ObservableValue(carbonResults.PrimaryMaterialCircularCarbon) // Primary material Circular environmental impact
+                        new ObservableValue(carbonResults.Primary.LinearCarbon), // Primary material Linear environmnetal impact
+                        new ObservableValue(carbonResults.Primary.CircularCarbon) // Primary material Circular environmental impact
                     },
                     PointGeometry=null,
                     Fill=Material1Colour,
@@ -317,8 +317,8 @@ namespace ReathUIv0._3.Views
                     {
                         // Adding values for the linear and circular column
                         Values = new ChartValues<ObservableValue> {
-                            new ObservableValue(carbonResults.AuxiliaryMaterialLinearCarbon), // Auxiliary material Linear environmnetal impact
-                            new ObservableValue(carbonResults.AuxiliaryMaterialCircularCarbon) // Auxiliary material Circular environmental impact
+                            new ObservableValue(carbonResults.Auxiliary.LinearCarbon), // Auxiliary material Linear environmnetal impact
+                            new ObservableValue(carbonResults.Auxiliary.CircularCarbon) // Auxiliary material Circular environmental impact
                         },
                         PointGeometry = null,
                         Fill = Material2Colour,
