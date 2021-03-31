@@ -592,91 +592,14 @@ namespace ReathUIv0._3
             textBox_nameOfAsset.Text = "Asset" + rnd.Next(1, 50);
 
             //unitcost
-            double minimum = 1.001;
-            double maximum = 9999.001;
-            double decimalinsurance = 0.001;
-
             double gbp = rnd.NextDouble() * (9999.00 - 1.01) + 1.01 + 00.01;
             gbp = Math.Round(gbp, 2);
-            //textBox_unitCost.Text = Convert.ToString(gbp);
+            textBox_unitCost.Text = Convert.ToString(gbp);
 
-            string temp = Convert.ToString(gbp);
-
-            int decimalPoint = temp.IndexOf('.') + 1;
-
-            int sum = temp.Length - decimalPoint;
-
-            if (decimalPoint == 0)
-            {
-                temp = temp + ".00";
-                textBox_unitCost.Text = temp;
-            }
-            if (sum == 1)
-            {
-                temp = temp + "0";
-                textBox_unitCost.Text = temp;
-            }
-            else
-            {
-                if (sum == 2)
-                {
-                    textBox_unitCost.Text = temp;
-                }
-                else
-                {
-                    while (sum != 2)
-                    {
-                        temp.Remove(0, temp.Length - 1);
-                        sum = temp.Length - decimalPoint;
-                    }
-
-                    textBox_unitCost.Text = temp;
-                }
-            }
 
             //unitweight
-            double unitweight = rnd.NextDouble() * (9999.000 - 1.001) + 1.001 + decimalinsurance;
-            unitweight = Math.Round(unitweight, 3);
-            //textBox_unitWeight.Text = Convert.ToString(unitweight + 0.000);
-
-            temp = Convert.ToString(unitweight);
-
-            decimalPoint = temp.IndexOf('.') + 1;
-
-            sum = temp.Length - decimalPoint;
-
-            if (decimalPoint == 0)
-            {
-                temp = temp + ".00";
-                textBox_unitWeight.Text = temp;
-            }
-            else if (sum == 1)
-            {
-                temp = temp + "00";
-                textBox_unitWeight.Text = temp;
-            }
-            else if (sum == 2)
-            {
-                temp = temp + "0";
-                textBox_unitWeight.Text = temp;
-            }
-            else
-            {
-                if (sum == 3)
-                {
-                    textBox_unitWeight.Text = temp;
-                }
-                else
-                {
-                    while (sum != 3)
-                    {
-                        temp.Remove(0, temp.Length - 1);
-                        sum = temp.Length - decimalPoint;
-                    }
-
-                    textBox_unitWeight.Text = temp;
-                }
-            }
+            int unitweight = rnd.Next(400, 9999);
+            textBox_unitWeight.Text = Convert.ToString(unitweight);
 
             //countryoforigin
             dropDown_countryOfOrigin.SelectedIndex = rnd.Next(dropDown_countryOfOrigin.Items.Count);
@@ -685,103 +608,18 @@ namespace ReathUIv0._3
             dropDown_primaryMaterial.SelectedIndex = rnd.Next(1, 40);
 
             //primaryweight
-            double primaryweight = rnd.NextDouble() * (maximum - minimum) + minimum + decimalinsurance;
-            primaryweight = Math.Round(primaryweight, 3);
+            int y = rnd.Next(1, 47);
+            int x = unitweight / 2 + y;
+            int primaryweight = x;
             textBox_primaryMaterialPercent.Text = Convert.ToString(primaryweight);
-
-            double weightcheck = (unitweight / 2 + 1);
-
-            while (primaryweight >= unitweight || primaryweight < weightcheck)
-            {
-                primaryweight = rnd.NextDouble() * (maximum - minimum) + minimum + decimalinsurance;
-                primaryweight = Math.Round(primaryweight, 3);
-                //textBox_primaryMaterialPercent.Text = Convert.ToString(primaryweight);
-
-                temp = Convert.ToString(primaryweight);
-
-                decimalPoint = temp.IndexOf('.') + 1;
-
-                sum = temp.Length - decimalPoint;
-
-                if (decimalPoint == 0)
-                {
-                    temp = temp + ".000";
-                    textBox_primaryMaterialPercent.Text = temp;
-                }
-                else if (sum == 1)
-                {
-                    temp = temp + "00";
-                    textBox_primaryMaterialPercent.Text = temp;
-                }
-                else if (sum == 2)
-                {
-                    temp = temp + "0";
-                    textBox_primaryMaterialPercent.Text = temp;
-                }
-                else
-                {
-                    if (sum == 3)
-                    {
-                        textBox_primaryMaterialPercent.Text = temp;
-                    }
-                    else
-                    {
-                        while (sum != 3)
-                        {
-                            temp.Remove(0, temp.Length - 1);
-                            sum = temp.Length - decimalPoint;
-                        }
-
-                        textBox_primaryMaterialPercent.Text = temp;
-                    }
-                }
-            }
 
             //auxmaterial
             dropDown_auxMaterial.SelectedIndex = rnd.Next(1, 40);
 
             //auxweight
             double auxweight = unitweight - primaryweight;
-            //textBox_auxMaterialPercent.Text = Convert.ToString(auxweight);
+            textBox_auxMaterialPercent.Text = Convert.ToString(auxweight);
 
-            temp = Convert.ToString(auxweight);
-
-            decimalPoint = temp.IndexOf('.') + 1;
-
-            sum = temp.Length - decimalPoint;
-
-            if (decimalPoint == 0)
-            {
-                temp = temp + ".000";
-                textBox_auxMaterialPercent.Text = temp;
-            }
-            else if (sum == 1)
-            {
-                temp = temp + "00";
-                textBox_auxMaterialPercent.Text = temp;
-            }
-            else if (sum == 2)
-            {
-                temp = temp + "0";
-                textBox_auxMaterialPercent.Text = temp;
-            }
-            else
-            {
-                if (sum == 3)
-                {
-                    textBox_auxMaterialPercent.Text = temp;
-                }
-                else
-                {
-                    while (sum != 3) // does the big oof
-                    {
-                        temp.Remove(0, temp.Length - 1);
-                        sum = temp.Length - decimalPoint;
-                    }
-
-                    textBox_auxMaterialPercent.Text = temp;
-                }
-            }
 
             //isrecycled
             dropDown_isRecycled.SelectedIndex = rnd.Next(1, 3);
@@ -820,40 +658,17 @@ namespace ReathUIv0._3
             mepercent = Math.Round(mepercent, 2);
             textBox_mePercent.Text = Convert.ToString(mepercent + 0.00);
 
-            temp = Convert.ToString(mepercent);
+            //Primary Manufacturing Emissions
+            dropDown_primaryManufacturingEmissions.SelectedIndex = rnd.Next(dropDown_primaryManufacturingEmissions.Items.Count);
 
-            decimalPoint = temp.IndexOf('.') + 1;
+            //Auxiliary Manufacturing Emissions
+            dropDown_auxiliaryManufacturingEmissions.SelectedIndex = rnd.Next(dropDown_auxiliaryManufacturingEmissions.Items.Count);
 
-            sum = temp.Length - decimalPoint;
+            //Primary Disposal Method
+            dropDown_primaryCleaningMethod.SelectedIndex = rnd.Next(dropDown_primaryCleaningMethod.Items.Count);
 
-            if (decimalPoint == 0)
-            {
-                temp = temp + ".00";
-                textBox_auxMaterialPercent.Text = temp;
-            }
-            else if (sum == 1)
-            {
-                temp = temp + "0";
-                textBox_mePercent.Text = temp;
-            }
-            else
-            {
-                if (sum == 2)
-                {
-                    textBox_mePercent.Text = temp;
-                }
-                else
-                {
-                    while (sum != 2)
-                    {
-                        temp.Remove(0, temp.Length - 1);
-                        sum = temp.Length - decimalPoint;
-                    }
-
-                    textBox_mePercent.Text = temp;
-                }
-                textBox_mePercent.Text = temp;
-            }
+            //Auxiliary Disposal Method
+            dropDown_auxCleaningMethod.SelectedIndex = rnd.Next(dropDown_auxCleaningMethod.Items.Count);
         }
 
         #region Loading data/When loaded
