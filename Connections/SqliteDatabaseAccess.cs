@@ -125,9 +125,9 @@ namespace ReathUIv0._3.Connections
                         float composting = (float)(double)rdr.GetValue(6);
                         float landfill = (float)(double)rdr.GetValue(7);
                         float anaerobicDigestion = (float)(double)rdr.GetValue(8);
-                        float _none = 0;
+                        
 
-                        temp.Add(new Disposal(rdr.GetString(0),conversion,reuse,openLoop,closedLoop,combustion,composting,landfill,anaerobicDigestion, _none));
+                        temp.Add(new Disposal(rdr.GetString(0),conversion,reuse,openLoop,closedLoop,combustion,composting,landfill,anaerobicDigestion));
 
                     }
 
@@ -168,9 +168,9 @@ namespace ReathUIv0._3.Connections
                         float composting = (float)(double)rdr.GetValue(6);
                         float landfill = (float)(double)rdr.GetValue(7);
                         float anaerobicDigestion = (float)(double)rdr.GetValue(8);
-                        float _none = 0;
+                        
 
-                        temp.Add(new Disposal(rdr.GetString(0), conversion, reuse, openLoop, closedLoop, combustion, composting, landfill, anaerobicDigestion, _none));
+                        temp.Add(new Disposal(rdr.GetString(0), conversion, reuse, openLoop, closedLoop, combustion, composting, landfill, anaerobicDigestion));
 
                     }
 

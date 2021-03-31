@@ -17,7 +17,6 @@ namespace ReathUIv0._3.Models
         public float Composting { get; set; }
         public float Landfill { get; set; }
         public float AnaerobicDigestion { get; set; }
-        public float _none { get; set; }
 
         public Disposal()
         {
@@ -30,12 +29,10 @@ namespace ReathUIv0._3.Models
             Composting = 00.000F;
             Landfill = 0000.000F;
             AnaerobicDigestion = 00.000F;
-            // Carlos did this - remove comment
-            _none = 00.000F;
 
         }
 
-        public Disposal(string materialOption,float conversion,float reuse, float openLoop,float closedLoop,float combustion,float composting, float landfill, float anaerobicDigestion, float none)
+        public Disposal(string materialOption,float conversion,float reuse, float openLoop,float closedLoop,float combustion,float composting, float landfill, float anaerobicDigestion)
         {
             MaterialOption = materialOption;
             Conversion = conversion;
@@ -46,7 +43,6 @@ namespace ReathUIv0._3.Models
             Composting = composting;
             Landfill = landfill;
             AnaerobicDigestion = anaerobicDigestion;
-            _none = none;
         }
 
     }
