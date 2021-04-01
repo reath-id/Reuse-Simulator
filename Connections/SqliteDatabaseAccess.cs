@@ -14,11 +14,11 @@ namespace ReathUIv0._3.Connections
 {
     public class SqliteDatabaseAccess
     {
-        public static List<Material> LoadMaterials()
+        public static List<Manufacturing> LoadMaterials()
         {
             using(SQLiteConnection cnn = new SQLiteConnection(LoadConnection()))
             {
-                List<Material> temp = new List<Material>();
+                List<Manufacturing> temp = new List<Manufacturing>();
 
                 try
                 {
@@ -40,7 +40,7 @@ namespace ReathUIv0._3.Connections
 
                         
 
-                        temp.Add(new Material(rdr.GetString(0), cost, reuse, openLoop, closedLoop));
+                        temp.Add(new Manufacturing(rdr.GetString(0), cost, reuse, openLoop, closedLoop));
 
                     }
 
@@ -117,7 +117,7 @@ namespace ReathUIv0._3.Connections
 
                     while (rdr.Read())
                     {
-                        float conversion = (float)(double)rdr.GetValue(1);
+                        //float conversion = (float)(double)rdr.GetValue(1);
                         float reuse = (float)(double)rdr.GetValue(2);
                         float openLoop = (float)(double)rdr.GetValue(3);
                         float closedLoop = (float)(double)rdr.GetValue(4);
@@ -160,7 +160,7 @@ namespace ReathUIv0._3.Connections
 
                     while (rdr.Read())
                     {
-                        float conversion = (float)(double)rdr.GetValue(1);
+                        //float conversion = (float)(double)rdr.GetValue(1);
                         float reuse = (float)(double)rdr.GetValue(2);
                         float openLoop = (float)(double)rdr.GetValue(3);
                         float closedLoop = (float)(double)rdr.GetValue(4);
@@ -324,7 +324,7 @@ namespace ReathUIv0._3.Connections
 
                     while (rdr.Read())
                     {
-                        temp.IsRecylced = rdr.GetInt32(0);
+                        temp.IsRecycled = Convert.ToBoolean(rdr.GetInt32(0));
                         temp.RecycledPercentage = rdr.GetInt32(1);
                         temp.RecycledCountryOfOrigin = rdr.GetString(2);
                     }
@@ -339,7 +339,7 @@ namespace ReathUIv0._3.Connections
                     if (output.Count() == 1)
                     {
                         temp.PrimaryMaterial = output.First();
-                        temp.PrimaryMaterialManufacturing = ReusableAsset.StringToManufacturingMethod(output.First());
+                        temp.PrimaryManufacturingMethod_ = ReusableAsset.StringToManufacturingMethod(output.First());
                         return temp;
                     }
                     else
@@ -347,8 +347,8 @@ namespace ReathUIv0._3.Connections
                         
                         temp.PrimaryMaterial = output.First();
                         temp.AuxiliaryMaterial = output.ElementAt(1);
-                        temp.PrimaryMaterialManufacturing = ReusableAsset.StringToManufacturingMethod("Open Loop");
-                        temp.AuxiliaryMaterialManufacturing = ReusableAsset.StringToManufacturingMethod("Closed Loop");
+                        temp.PrimaryManufacturingMethod_ = ReusableAsset.StringToManufacturingMethod("Open Loop");
+                        temp.AuxiliaryManufacturingMethod_ = ReusableAsset.StringToManufacturingMethod("Closed Loop");
                         return temp;
                     }
                 }
@@ -360,11 +360,11 @@ namespace ReathUIv0._3.Connections
         }
 
         // Returns all Material data from database
-        public static List<Material> RetreiveMaterial()
+        public static List<Manufacturing> LoadManufacturing()
         {
             using (SQLiteConnection cnn = new SQLiteConnection(LoadConnection()))
             {
-                List<Material> temp = new List<Material>();
+                List<Manufacturing> temp = new List<Manufacturing>();
 
                 try
                 {
@@ -384,7 +384,7 @@ namespace ReathUIv0._3.Connections
                         float openLoop = (float)(double)rdr.GetValue(3);
                         float closedLoop = (float)(double)rdr.GetValue(4);
 
-                        temp.Add(new Material(rdr.GetString(0), production, reused, openLoop, closedLoop));
+                        temp.Add(new Manufacturing(rdr.GetString(0), production, reused, openLoop, closedLoop));
 
                     }
 
@@ -473,7 +473,7 @@ namespace ReathUIv0._3.Connections
                     SQLiteCommand cmd = new SQLiteCommand();
                     cmd.CommandText = @"INSERT INTO recycled(IsRecycled,RecycledPercentage,RecycledCountryOfOrigin) VALUES (@IsRecycled,@RecycledPercentage,@RecycledCountryOfOrigin)";
                     cmd.Connection = cnn;
-                    cmd.Parameters.Add(new SQLiteParameter("@IsRecycled", reusableAsset.IsRecylced));
+                    cmd.Parameters.Add(new SQLiteParameter("@IsRecycled", reusableAsset.IsRecycled));
                     cmd.Parameters.Add(new SQLiteParameter("@RecycledPercentage", reusableAsset.RecycledPercentage));
                     cmd.Parameters.Add(new SQLiteParameter("@RecycledCountryOfOrigin", reusableAsset.RecycledCountryOfOrigin));
 
@@ -522,11 +522,11 @@ namespace ReathUIv0._3.Connections
                     cmd.Parameters.Add(new SQLiteParameter("@PrimaryWeight", reusableAsset.PrimaryWeight));
                     cmd.Parameters.Add(new SQLiteParameter("@primaryDisposalMethod",reusableAsset.PrimaryDispoMethod));
                     cmd.Parameters.Add(new SQLiteParameter("@primaryCleaningMethod",reusableAsset.PrimaryCleaningMethod));
-                    cmd.Parameters.Add(new SQLiteParameter("@primaryEmission", reusableAsset.PrimaryMaterialEmission));
+                    cmd.Parameters.Add(new SQLiteParameter("@primaryEmission", reusableAsset.PrimaryManufacturingMethod));
                     cmd.Parameters.Add(new SQLiteParameter("@AuxiliarWeight", reusableAsset.AuxiliaryWeight));
                     cmd.Parameters.Add(new SQLiteParameter("@auxiliaryDisposalMethod",reusableAsset.AuxiliaryDispoMethod));
                     cmd.Parameters.Add(new SQLiteParameter("@auxiliaryCleaningMethod",reusableAsset.AuxiliaryCleaningMethod));
-                    cmd.Parameters.Add(new SQLiteParameter("@auxiliaryEmission", reusableAsset.AuxiliaryMaterialEmission));
+                    cmd.Parameters.Add(new SQLiteParameter("@auxiliaryEmission", reusableAsset.AuxiliaryManufacturingMethod));
                     cmd.Parameters.Add(new SQLiteParameter("@ReuseOccurence", reusableAsset.ReuseOccurence));
                     cmd.Parameters.Add(new SQLiteParameter("@MaximumReuses", reusableAsset.MaximumReuses));
                     cmd.Parameters.Add(new SQLiteParameter("@AverageDistanceToReuse", reusableAsset.AverageDistanceToReuse));

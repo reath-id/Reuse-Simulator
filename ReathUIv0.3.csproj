@@ -87,8 +87,7 @@
     <Compile Include="Connections\SqliteDatabaseAccess.cs" />
     <Compile Include="Models\CarbonCalculation.cs" />
     <Compile Include="Models\Disposal.cs" />
-    <Compile Include="Models\Material.cs" />
-    <Compile Include="Models\MockDB.cs" />
+    <Compile Include="Models\Manufacturing.cs" />
     <Compile Include="Models\Transport.cs" />
     <Compile Include="Services\RelayCommand.cs" />
     <Compile Include="Tests\CarbonCalcTests.cs" />

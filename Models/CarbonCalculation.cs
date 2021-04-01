@@ -8,13 +8,15 @@ namespace ReathUIv0._3
 {
     internal static class CarbonCalculation
     {
-        private static List<Material> manufacturingCosts = SqliteDatabaseAccess.RetreiveMaterial();
+        internal const float NOT_PRESENT = 0.0f;
+
+        private static List<Manufacturing> manufacturingCosts = SqliteDatabaseAccess.LoadManufacturing();
         private static List<Disposal> disposalCosts = SqliteDatabaseAccess.LoadDisposal();
         private static List<Transport> transportCosts = SqliteDatabaseAccess.LoadTransport();
 
         internal static class Testing
         {
-            public static void addManufacturing(Material m)
+            public static void addManufacturing(Manufacturing m)
             {
                 manufacturingCosts.Add(m);
             }
@@ -34,13 +36,13 @@ namespace ReathUIv0._3
         {
             public static float GetManufacturingCost(string material, ManufactoringMethod method, float weight, float noofitems)
             {
-                Material MatMFC = CarbonCalculation.GetManufacturingCost(material);
+                Manufacturing MatMFC = CarbonCalculation.GetManufacturingCost(material);
                 float CarbonFactor = ManufacturingCostFromEnum(MatMFC, method);
 
                 return CarbonFactor * 0.001f * weight * noofitems;             
             }
 
-            public static float GetDisposalCost(string material, EntireDisposalMethod method, float weight, float noofitems)
+            public static float GetDisposalCost(string material, DisposalMethod method, float weight, float noofitems)
             {
                 Disposal MatDSC = CarbonCalculation.GetDisposalCost(material);
                 float DisposalFactor = DisposalCostFromEnum(MatDSC, method);
@@ -53,14 +55,14 @@ namespace ReathUIv0._3
                 Transport Transport = CarbonCalculation.GetTransportCost(vehicle);
                 float TotalWeight = noofitems * weight;
 
-                return avgdist * TotalWeight * 0.001f * (Transport.CarbonCost + Transport.WttConvFactor);
+                return avgdist * TotalWeight * 0.001f * (Transport.TravelFactor + Transport.WTTFactor);
             }
         }
 
         public static CarbonResults CalculateCarbon(ReusableAsset Asset)
         {
 
-            manufacturingCosts = SqliteDatabaseAccess.RetreiveMaterial();
+            manufacturingCosts = SqliteDatabaseAccess.LoadManufacturing();
             disposalCosts = SqliteDatabaseAccess.LoadDisposal();
             transportCosts = SqliteDatabaseAccess.LoadTransport();
 
@@ -69,12 +71,12 @@ namespace ReathUIv0._3
                 throw new ArgumentException("Asset needs to be able to be used at least once.");
             }
 
-            float Mat1ManufacturingCost = Detail.GetManufacturingCost(Asset.PrimaryMaterial, Asset.PrimaryMaterialManufacturing, Asset.PrimaryWeight, Asset.SampleSize);
+            float Mat1ManufacturingCost = Detail.GetManufacturingCost(Asset.PrimaryMaterial, Asset.PrimaryManufacturingMethod_, Asset.PrimaryWeight, Asset.SampleSize);
             float Mat2ManufacturingCost = 0;
 
             if (!String.IsNullOrWhiteSpace(Asset.AuxiliaryMaterial))
             {
-                Mat2ManufacturingCost = Detail.GetManufacturingCost(Asset.AuxiliaryMaterial, Asset.AuxiliaryMaterialManufacturing, Asset.AuxiliaryWeight, Asset.SampleSize);
+                Mat2ManufacturingCost = Detail.GetManufacturingCost(Asset.AuxiliaryMaterial, Asset.AuxiliaryManufacturingMethod_, Asset.AuxiliaryWeight, Asset.SampleSize);
             }
 
             float ManufacturingCost = Mat1ManufacturingCost + Mat2ManufacturingCost;
@@ -127,81 +129,81 @@ namespace ReathUIv0._3
             return new CarbonResults(Mat1, Mat2, Total);
         }
 
-        public static float ManufacturingCostFromEnum(Material cost, ManufactoringMethod method)
+        public static float ManufacturingCostFromEnum(Manufacturing cost, ManufactoringMethod method)
         {
             switch (method)
             {
                 case ManufactoringMethod.Primary:
-                    if (cost.MaterialProduction != -1f)
+                    if (cost.Primary != NOT_PRESENT)
                     {
-                        return cost.MaterialProduction;
+                        return cost.Primary;
                     }
-                    else throw new ArgumentException(cost.ManufacturingMaterial + " cannot be produced raw.");
+                    else throw new ArgumentException(cost.Material + " cannot be produced raw.");
                 case ManufactoringMethod.Reused:
-                    if (cost.Reused != -1f)
+                    if (cost.Reused != NOT_PRESENT)
                     {
                         return cost.Reused;
                     }
-                    else throw new ArgumentException(cost.ManufacturingMaterial + " cannot be Reused.");
+                    else throw new ArgumentException(cost.Material + " cannot be Reused.");
                 case ManufactoringMethod.ClosedLoop:
-                    if (cost.ClosedLoopSource != -1f)
+                    if (cost.ClosedLoop != NOT_PRESENT)
                     {
-                        return cost.ClosedLoopSource;
+                        return cost.ClosedLoop;
                     }
-                    else throw new ArgumentException(cost.ManufacturingMaterial + " cannot be acquired from a Closed Loop.");
+                    else throw new ArgumentException(cost.Material + " cannot be acquired from a Closed Loop.");
                 case ManufactoringMethod.OpenLoop:
-                    if (cost.OpenLoopSource != -1f)
+                    if (cost.OpenLoop != NOT_PRESENT)
                     {
-                        return cost.OpenLoopSource;
+                        return cost.OpenLoop;
                     }
-                    else throw new ArgumentException(cost.ManufacturingMaterial + " cannot be acquired from an Open Loop.");
+                    else throw new ArgumentException(cost.Material + " cannot be acquired from an Open Loop.");
                 default:
-                    throw new ArgumentException(cost.ManufacturingMaterial + ": Invalid manufacturing method.");
+                    throw new ArgumentException(cost.Material + ": Invalid manufacturing method.");
             }
         }
 
-        public static float DisposalCostFromEnum(Disposal cost, EntireDisposalMethod method)
+        public static float DisposalCostFromEnum(Disposal cost, DisposalMethod method)
         {
             switch (method)
             {
-                case EntireDisposalMethod.Landfill:
-                    if (cost.Landfill != -1f)
+                case DisposalMethod.Landfill:
+                    if (cost.Landfill != NOT_PRESENT)
                     {
                         return cost.Landfill;
                     }
                     else throw new ArgumentException(cost.Material + " cannot be disposed to reuse.");
-                case EntireDisposalMethod.Reuse:
-                    if (cost.Reuse != -1f)
+                case DisposalMethod.Reuse:
+                    if (cost.Reuse != NOT_PRESENT)
                     {
                         return cost.Reuse;
                     }
                     else throw new ArgumentException(cost.Material + " cannot be disposed to reuse.");
-                case EntireDisposalMethod.ClosedLoop:
-                    if (cost.ClosedLoop != -1f)
+                case DisposalMethod.ClosedLoop:
+                    if (cost.ClosedLoop != NOT_PRESENT)
                     {
                         return cost.ClosedLoop;
                     }
                     else throw new ArgumentException(cost.Material + " cannot be disposed into a Closed Loop.");
-                case EntireDisposalMethod.OpenLoop:
-                    if (cost.OpenLoop != -1f)
+                case DisposalMethod.OpenLoop:
+                    if (cost.OpenLoop != NOT_PRESENT)
                     {
                         return cost.OpenLoop;
                     }
                     else throw new ArgumentException(cost.Material + " cannot be disposed into an Open Loop.");
-                case EntireDisposalMethod.Combustion:
-                    if (cost.Combustion != -1f)
+                case DisposalMethod.Combustion:
+                    if (cost.Combustion != NOT_PRESENT)
                     {
                         return cost.Combustion;
                     }
                     else throw new ArgumentException(cost.Material + " cannot be combusted.");
-                case EntireDisposalMethod.Composting:
-                    if (cost.Composting != -1f)
+                case DisposalMethod.Composting:
+                    if (cost.Composting != NOT_PRESENT)
                     {
                         return cost.Composting;
                     }
                     else throw new ArgumentException(cost.Material + " cannot be composed.");
-                case EntireDisposalMethod.Anaerobic:
-                    if (cost.AnaerobicDigestion != -1f)
+                case DisposalMethod.Anaerobic:
+                    if (cost.AnaerobicDigestion != NOT_PRESENT)
                     {
                         return cost.AnaerobicDigestion;
                     }
@@ -211,12 +213,12 @@ namespace ReathUIv0._3
             }
         }
 
-        public static Material GetManufacturingCost(string MaterialName)
+        public static Manufacturing GetManufacturingCost(string MaterialName)
         {
 
-            foreach (Material mat in manufacturingCosts)
+            foreach (Manufacturing mat in manufacturingCosts)
             {
-                if (mat.ManufacturingMaterial.Equals(MaterialName) == true)
+                if (mat.Material.Equals(MaterialName) == true)
                 {
                     return mat;
                 }
@@ -243,22 +245,13 @@ namespace ReathUIv0._3
         {
             foreach (Transport trans in transportCosts)
             {
-                if (trans.VehicleName.Equals(TransportName) == true)
+                if (trans.TransportMethod.Equals(TransportName) == true)
                 {
                     return trans;
                 }
             }
 
             throw new ArgumentException("Provided transportation method: " + TransportName + " does not have any transport cost associated with it..");
-        }
-
-        private static float EmptyToInv(string field)
-        {
-            if (string.IsNullOrWhiteSpace(field))
-            {
-                return -1;
-            }
-            else return float.Parse(field);
         }
     }
 
@@ -298,7 +291,4 @@ namespace ReathUIv0._3
             Total = Total_;
         }
     }
-   
-
-    
 }

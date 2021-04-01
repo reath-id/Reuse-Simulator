@@ -15,7 +15,7 @@ namespace ReathUIv0._3
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Material> materialChoices = new List<Material>();
+        private List<Manufacturing> materialChoices = new List<Manufacturing>();
         private List<Disposal> disposalChoices = new List<Disposal>();
         private List<string> cleaningMethodChoice = new List<string>();
         private List<string> materialEmissionChoice = new List<string>();
@@ -107,7 +107,7 @@ namespace ReathUIv0._3
                 dropDown_primaryManufacturingEmissions.Items.Add("Primary Manufacturing Emission");
                 dropDown_primaryManufacturingEmissions.SelectedIndex = 0;
                 dropDown_primaryManufacturingEmissions.IsEnabled = false;
-                reusableAsset.PrimaryMaterialEmission = "";
+                reusableAsset.PrimaryManufacturingMethod = "";
             }
         }
 
@@ -119,11 +119,11 @@ namespace ReathUIv0._3
 
             dropDown_primaryManufacturingEmissions.Items.Clear();
 
-            foreach (Material method in materialChoices)
+            foreach (Manufacturing method in materialChoices)
             {
-                if (dropDown_primaryMaterial.SelectedItem.ToString().Trim().Equals(method.ManufacturingMaterial))
+                if (dropDown_primaryMaterial.SelectedItem.ToString().Trim().Equals(method.Material))
                 {
-                    if (method.MaterialProduction != 0)
+                    if (method.Primary != 0)
                     {
                         materialEmissionChoice.Add("Primary");
                     }
@@ -133,12 +133,12 @@ namespace ReathUIv0._3
                         materialEmissionChoice.Add("Reuse");
                     }
 
-                    if (method.OpenLoopSource != 0)
+                    if (method.OpenLoop != 0)
                     {
                         materialEmissionChoice.Add("Open Loop");
                     }
 
-                    if (method.ClosedLoopSource != 0)
+                    if (method.ClosedLoop != 0)
                     {
                         materialEmissionChoice.Add("Closed Loop");
                     }
@@ -165,13 +165,13 @@ namespace ReathUIv0._3
             {
                 if (dropDown_primaryManufacturingEmissions.SelectedItem.ToString().Equals("Primary Manufacturing Emission") == false)
                 {
-                    reusableAsset.PrimaryMaterialEmission = dropDown_primaryManufacturingEmissions.SelectedItem.ToString().Trim();
+                    reusableAsset.PrimaryManufacturingMethod = dropDown_primaryManufacturingEmissions.SelectedItem.ToString().Trim();
                     Console.WriteLine(dropDown_primaryManufacturingEmissions.SelectedItem.ToString().Trim());
                 }
             }
             else
             {
-                reusableAsset.PrimaryMaterialEmission = "";
+                reusableAsset.PrimaryManufacturingMethod = "";
             }
         }
 
@@ -201,7 +201,7 @@ namespace ReathUIv0._3
                 dropDown_auxiliaryManufacturingEmissions.Items.Add("Auxiliary Manufacturing Emission");
                 dropDown_auxiliaryManufacturingEmissions.SelectedIndex = 0;
                 dropDown_auxiliaryManufacturingEmissions.IsEnabled = false;
-                reusableAsset.AuxiliaryMaterialEmission = "";
+                reusableAsset.AuxiliaryManufacturingMethod = "";
             }
         }
 
@@ -213,11 +213,11 @@ namespace ReathUIv0._3
 
             dropDown_auxiliaryManufacturingEmissions.Items.Clear();
 
-            foreach (Material method in materialChoices)
+            foreach (Manufacturing method in materialChoices)
             {
-                if (dropDown_auxMaterial.SelectedItem.ToString().Trim().Equals(method.ManufacturingMaterial))
+                if (dropDown_auxMaterial.SelectedItem.ToString().Trim().Equals(method.Material))
                 {
-                    if (method.MaterialProduction != 0)
+                    if (method.Primary != 0)
                     {
                         materialEmissionChoice.Add("Primary");
                     }
@@ -227,12 +227,12 @@ namespace ReathUIv0._3
                         materialEmissionChoice.Add("Reuse");
                     }
 
-                    if (method.OpenLoopSource != 0)
+                    if (method.OpenLoop != 0)
                     {
                         materialEmissionChoice.Add("Open Loop");
                     }
 
-                    if (method.ClosedLoopSource != 0)
+                    if (method.ClosedLoop != 0)
                     {
                         materialEmissionChoice.Add("Closed Loop");
                     }
@@ -259,12 +259,12 @@ namespace ReathUIv0._3
             {
                 if (dropDown_auxiliaryManufacturingEmissions.SelectedItem.ToString().Equals("Auxiliary Manufacturing Emission") == false)
                 {
-                    reusableAsset.AuxiliaryMaterialEmission = dropDown_auxiliaryManufacturingEmissions.SelectedItem.ToString().Trim();
+                    reusableAsset.AuxiliaryManufacturingMethod = dropDown_auxiliaryManufacturingEmissions.SelectedItem.ToString().Trim();
                 }
             }
             else
             {
-                reusableAsset.PrimaryMaterialEmission = "";
+                reusableAsset.PrimaryManufacturingMethod = "";
             }
         }
 
@@ -447,18 +447,18 @@ namespace ReathUIv0._3
         {
             if (dropDown_isRecycled.SelectedItem.ToString() == "Yes")
             {
-                reusableAsset.IsRecylced = 1;
+                reusableAsset.IsRecycled = true;
                 textBox_RecycledPercent.IsEnabled = true;
                 dropDown_recycledCountryOfOrigin.IsEnabled = true;
             }
-            else if (dropDown_isRecycled.SelectedItem.ToString().Equals("Is the Item Recycled"))
+            else if (dropDown_isRecycled.SelectedItem.ToString().Equals("Is the Item Recycled")) // TODO: why is this a branch
             {
-                reusableAsset.IsRecylced = 2;
+                reusableAsset.IsRecycled = false;
                 textBox_RecycledPercent.IsEnabled = false;
             }
             else
             {
-                reusableAsset.IsRecylced = 0;
+                reusableAsset.IsRecycled = false;
                 textBox_RecycledPercent.IsEnabled = false;
                 dropDown_recycledCountryOfOrigin.IsEnabled = false;
                 dropDown_recycledCountryOfOrigin.SelectedIndex = 0;
@@ -704,13 +704,13 @@ namespace ReathUIv0._3
             dropDown_primaryMaterial.Items.Add("Primary Material");
             dropDown_primaryMaterial.SelectedIndex = 0;
 
-            dropDown_auxMaterial.Items.Add("Auxiliar Material");
+            dropDown_auxMaterial.Items.Add("Auxiliary Material");
             dropDown_auxMaterial.SelectedIndex = 0;
 
-            foreach (Material material in materialChoices)
+            foreach (Manufacturing material in materialChoices)
             {
-                dropDown_primaryMaterial.Items.Add(material.ManufacturingMaterial);
-                dropDown_auxMaterial.Items.Add(material.ManufacturingMaterial);
+                dropDown_primaryMaterial.Items.Add(material.Material);
+                dropDown_auxMaterial.Items.Add(material.Material);
             }
         }
 
@@ -776,6 +776,8 @@ namespace ReathUIv0._3
             {
                 reusableAsset.AuxiliaryDispoMethod = "None";
                 reusableAsset.AuxiliaryCleaningMethod = "None";
+
+                dropDown_auxDisposalMethod.Items.Add("None");
 
                 if (dropDown_auxDisposalMethod.Items.Count.Equals(1))
                 {
@@ -843,12 +845,12 @@ namespace ReathUIv0._3
 
         private void dropDown_isRecycled_Loaded(object sender, RoutedEventArgs e)
         {
-            dropDown_isRecycled.Items.Add("Is the Item Recycled");
+            //dropDown_isRecycled.Items.Add("Is the Item Recycled");
             dropDown_isRecycled.Items.Add("Yes");
             dropDown_isRecycled.Items.Add("No");
 
-            dropDown_isRecycled.SelectedIndex = 0;
-            reusableAsset.IsRecylced = 2;
+            dropDown_isRecycled.SelectedIndex = 1;
+            reusableAsset.IsRecycled = false;
         }
 
         private void dropDown_countryOfOrigin_Loaded(object sender, RoutedEventArgs e)

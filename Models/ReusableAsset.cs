@@ -6,65 +6,55 @@ using System.Threading.Tasks;
 
 namespace ReathUIv0._3.Models
 {
+    /// <summary>
+    /// Class representing all the data associated with a single batch of reusable assets. 
+    /// </summary>
     public class ReusableAsset
     {
-        public int SampleSize { get; set; }
-        public string DateRange { get; set; }
-        public string AssetName { get; set; }
-        public float UnitCost { get; set; }
-        public float UnitWeight { get; set; }
-        public string AssetCountryOfOrigin { get; set;}
-        public string PrimaryMaterial { get; set; }
-        public float PrimaryWeight { get; set; }
-        public string PrimaryMaterialEmission { get; set; }
-        public string PrimaryDispoMethod { get; set; }
-        public string PrimaryCleaningMethod { get; set; }
-        public string AuxiliaryMaterial { get; set; }
-        public float AuxiliaryWeight { get; set; }
-        public string AuxiliaryMaterialEmission { get; set; }
-        public string AuxiliaryDispoMethod { get; set; }
-        public string AuxiliaryCleaningMethod { get; set; }
-        public int IsRecylced { get; set; }
-        public int RecycledPercentage { get; set; }
-        public string RecycledCountryOfOrigin { get; set; }
-        public string ReuseOccurence { get; set; }
-        public int AverageDistanceToReuse { get; set; }
-        public float MaximumReuses { get; set; }
-        public float PercentageOfManufacturingCarbon { get; set; }
-        public ManufactoringMethod PrimaryMaterialManufacturing { get; set; }
-        public ManufactoringMethod AuxiliaryMaterialManufacturing { get; set; }
-        public EntireDisposalMethod PrimaryDisposalMethod { get; set; }
-        public EntireDisposalMethod AuxiliaryDisposalMethod { get; set; }
+        // Misc Data
+        public string DateRange = string.Empty;
+        public string AssetCountryOfOrigin = string.Empty;
+
+        // Asset Data
+        public string AssetName = string.Empty;
+        public int SampleSize = 0;
+        public float UnitWeight = 0.0f; // TODO: Remove, adjust GUI
+        public float UnitCost = 0.0f;
 
 
-        public ReusableAsset()
-        {
-            SampleSize = 0;
-            DateRange = string.Empty;
-            AssetName = string.Empty;
-            UnitCost = 0F;
-            UnitWeight = 0F;
-            AssetCountryOfOrigin = string.Empty;
-            PrimaryMaterial = string.Empty;
-            PrimaryWeight = 0F;
-            PrimaryMaterialEmission = string.Empty;
-            PrimaryDispoMethod = string.Empty;
-            PrimaryCleaningMethod = string.Empty;
-            AuxiliaryMaterial = string.Empty;
-            AuxiliaryWeight = 0F;
-            AuxiliaryMaterialEmission = string.Empty;
-            AuxiliaryDispoMethod = string.Empty;
-            AuxiliaryCleaningMethod = string.Empty;
-            IsRecylced = 0;
-            RecycledPercentage = 0;
-            RecycledCountryOfOrigin = string.Empty;
-            ReuseOccurence = string.Empty;
-            AverageDistanceToReuse = 0;
-            MaximumReuses = 0F;
-            PercentageOfManufacturingCarbon = 0F;
-        }
+        // Primary Data
+        public string PrimaryMaterial = string.Empty;
+        public float PrimaryWeight = 0.0f;
+        public string PrimaryManufacturingMethod = string.Empty;
+        public string PrimaryDispoMethod = string.Empty;
+        public string PrimaryCleaningMethod = string.Empty;
+        public ManufactoringMethod PrimaryManufacturingMethod_;
+        public DisposalMethod PrimaryDisposalMethod;
 
-        public ReusableAsset(int sampleSize,string dateRange,string assetName ,float unitCost, float unitWeight,string assetCountryOfOrigin, float primaryWeight,float auxiliaryWeight,string reuseOccurence,int averageDistanceToReuse,float maximumReuses,float percentageOfManufacturingCarbon,string primaryMaterialEmission,string auxiliaryMaterialEmission)
+
+        // Auxiliary Data
+        public string AuxiliaryMaterial = string.Empty;
+        public float AuxiliaryWeight = 0.0f;
+        public string AuxiliaryManufacturingMethod = string.Empty;
+        public string AuxiliaryDispoMethod = string.Empty;
+        public string AuxiliaryCleaningMethod = string.Empty;
+        public ManufactoringMethod AuxiliaryManufacturingMethod_;
+        public DisposalMethod AuxiliaryDisposalMethod;
+
+
+        // Recycle Data
+        public bool IsRecycled = false;
+        public int RecycledPercentage = 0;
+        public string RecycledCountryOfOrigin = string.Empty;
+        public string ReuseOccurence = string.Empty;
+        public int AverageDistanceToReuse = 0;
+        public float MaximumReuses = 0.0f;
+        public float PercentageOfManufacturingCarbon = 0.0f;
+
+
+        public ReusableAsset() { }
+
+        public ReusableAsset(int sampleSize, string dateRange, string assetName, float unitCost, float unitWeight, string assetCountryOfOrigin, float primaryWeight, float auxiliaryWeight, string reuseOccurence, int averageDistanceToReuse, float maximumReuses, float percentageOfManufacturingCarbon, string primaryMaterialEmission, string auxiliaryMaterialEmission)
         {
             SampleSize = sampleSize;
             DateRange = dateRange;
@@ -73,15 +63,15 @@ namespace ReathUIv0._3.Models
             UnitWeight = unitWeight;
             AssetCountryOfOrigin = assetCountryOfOrigin;
             PrimaryMaterial = string.Empty;
-            PrimaryMaterialManufacturing = 0;
+            PrimaryManufacturingMethod_ = 0;
             PrimaryWeight = primaryWeight;
-            PrimaryMaterialEmission = primaryMaterialEmission;
+            PrimaryManufacturingMethod = primaryMaterialEmission;
             PrimaryDisposalMethod = 0;
             AuxiliaryMaterial = string.Empty;
-            AuxiliaryMaterialManufacturing = 0;
+            AuxiliaryManufacturingMethod_ = 0;
             AuxiliaryWeight = auxiliaryWeight;
-            AuxiliaryMaterialEmission = auxiliaryMaterialEmission;
-            IsRecylced = 0; ;
+            AuxiliaryManufacturingMethod = auxiliaryMaterialEmission;
+            IsRecycled = false;
             RecycledPercentage = 0;
             RecycledCountryOfOrigin = string.Empty;
             ReuseOccurence = reuseOccurence;
@@ -112,52 +102,47 @@ namespace ReathUIv0._3.Models
             else throw new ArgumentException("Manufacturing Method " + s + " doesn't exist.");
         }
 
-        public static EntireDisposalMethod StringToDisposalMethod(string s)
+        public static DisposalMethod StringToDisposalMethod(string s)
         {
             if (s == "Landfill")
             {
-                return EntireDisposalMethod.Landfill;
+                return DisposalMethod.Landfill;
             }
             else if (s == "Reuse")
             {
-                return EntireDisposalMethod.Reuse;
+                return DisposalMethod.Reuse;
             }
             else if (s == "Open Loop")
             {
-                return EntireDisposalMethod.OpenLoop;
+                return DisposalMethod.OpenLoop;
             }
             else if (s == "Closed Loop")
             {
-                return EntireDisposalMethod.ClosedLoop;
+                return DisposalMethod.ClosedLoop;
             }
             else if (s == "Combustion")
             {
-                return EntireDisposalMethod.Combustion;
+                return DisposalMethod.Combustion;
             }
             else if (s == "Composting")
             {
-                return EntireDisposalMethod.Composting;
+                return DisposalMethod.Composting;
             }
             else if (s == "Anaerobic")
             {
-                return EntireDisposalMethod.Anaerobic;
-            }            
-            else if (s == "None")
-            {
-                return EntireDisposalMethod.None;
+                return DisposalMethod.Anaerobic;
             }
             else throw new ArgumentException("Disposal Method " + s + " doesn't exist.");
         }
-    
 
         public enum ManufactoringMethod
         {
             Primary, Reused, OpenLoop, ClosedLoop
         }
-        
-        public enum EntireDisposalMethod
+
+        public enum DisposalMethod
         {
-            Reuse, OpenLoop, ClosedLoop, Combustion, Composting, Landfill, Anaerobic, None
+            Reuse, OpenLoop, ClosedLoop, Combustion, Composting, Landfill, Anaerobic
         }
     }
 }

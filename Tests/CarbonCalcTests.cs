@@ -24,7 +24,7 @@ namespace ReathUIv0._3.Tests
             ReusableAsset BlankAsset = new ReusableAsset();
             BlankAsset.PrimaryMaterial = "Construction: Aggregates";
             BlankAsset.MaximumReuses = 1;
-            BlankAsset.PrimaryMaterialManufacturing = ReusableAsset.ManufactoringMethod.Primary;
+            BlankAsset.PrimaryManufacturingMethod_ = ReusableAsset.ManufactoringMethod.Primary;
 
             CarbonResults carbonResults = CarbonCalculation.CalculateCarbon(BlankAsset);
 
@@ -35,7 +35,7 @@ namespace ReathUIv0._3.Tests
         [Fact]
         public void TestManufacturingConstants()
         {
-            Material examplemat = new Material("TestManufacturingConstants", 1f, 2f, 3f, 4f);
+            Manufacturing examplemat = new Manufacturing("TestManufacturingConstants", 1f, 2f, 3f, 4f);
             CarbonCalculation.Testing.addManufacturing(examplemat);
 
             Assert.Equal(1f, CarbonCalculation.ManufacturingCostFromEnum(CarbonCalculation.GetManufacturingCost("TestManufacturingConstants"), ReusableAsset.ManufactoringMethod.Primary));
@@ -50,19 +50,19 @@ namespace ReathUIv0._3.Tests
             Disposal examplemat = new Disposal("TestDisposalConstants", 2f, 3f, 4f, 5f, 6f, 7f, 8f);
             CarbonCalculation.Testing.addDisposal(examplemat);
 
-            Assert.Equal(2f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.EntireDisposalMethod.Reuse));
-            Assert.Equal(3f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.EntireDisposalMethod.OpenLoop));
-            Assert.Equal(4f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.EntireDisposalMethod.ClosedLoop));
-            Assert.Equal(5f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.EntireDisposalMethod.Combustion));
-            Assert.Equal(6f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.EntireDisposalMethod.Composting));
-            Assert.Equal(7f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.EntireDisposalMethod.Landfill));
-            Assert.Equal(8f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.EntireDisposalMethod.Anaerobic));
+            Assert.Equal(2f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.DisposalMethod.Reuse));
+            Assert.Equal(3f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.DisposalMethod.OpenLoop));
+            Assert.Equal(4f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.DisposalMethod.ClosedLoop));
+            Assert.Equal(5f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.DisposalMethod.Combustion));
+            Assert.Equal(6f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.DisposalMethod.Composting));
+            Assert.Equal(7f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.DisposalMethod.Landfill));
+            Assert.Equal(8f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.DisposalMethod.Anaerobic));
         }
 
         [Fact]
         public void TestManufacturingResult()
         {
-            Material examplemat = new Material("TestManufacturingResult", 1.2f, 3f, 9f, -1f);
+            Manufacturing examplemat = new Manufacturing("TestManufacturingResult", 1.2f, 3f, 9f, -1f);
             CarbonCalculation.Testing.addManufacturing(examplemat);
 
             float carbonres1 = CarbonCalculation.Detail.GetManufacturingCost("TestManufacturingResult", ReusableAsset.ManufactoringMethod.Primary, 20, 20);
@@ -97,35 +97,35 @@ namespace ReathUIv0._3.Tests
         [Fact]
         public void TestDisposalResult()
         {
-            Disposal exampledisp = new Disposal("TestDisposalResult", 2f, 3f, 4f, 5f, 6f, 7f, -1f);
+            Disposal exampledisp = new Disposal("TestDisposalResult", 2f, 3f, 4f, 5f, 6f, 7f, CarbonCalculation.NOT_PRESENT);
             CarbonCalculation.Testing.addDisposal(exampledisp);
 
-            float carbonres1 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.EntireDisposalMethod.Reuse, 20, 20);
+            float carbonres1 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.DisposalMethod.Reuse, 20, 20);
 
             Assert.True(EpsilonCMP(2f * 20f * 20f * 0.001f, carbonres1));
 
 
-            float carbonres2 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.EntireDisposalMethod.OpenLoop, 1, 1000);
+            float carbonres2 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.DisposalMethod.OpenLoop, 1, 1000);
 
             Assert.True(EpsilonCMP(3f * 1f * 1000f * 0.001f, carbonres2));
 
 
-            float carbonres3 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.EntireDisposalMethod.ClosedLoop, 100, 2);
+            float carbonres3 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.DisposalMethod.ClosedLoop, 100, 2);
 
             Assert.True(EpsilonCMP(4f * 100f * 2f * 0.001f, carbonres3));
 
 
-            float carbonres4 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.EntireDisposalMethod.Combustion, 5, 5);
+            float carbonres4 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.DisposalMethod.Combustion, 5, 5);
 
             Assert.True(EpsilonCMP(5f * 5 * 5f * 0.001f, carbonres4));
 
 
-            float carbonres5 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.EntireDisposalMethod.Composting, 0.1f, 1600);
+            float carbonres5 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.DisposalMethod.Composting, 0.1f, 1600);
 
             Assert.True(EpsilonCMP(6f * 0.1f * 1600f * 0.001f, carbonres5));
 
 
-            float carbonres6 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.EntireDisposalMethod.Landfill, 0.001f, 1000000);
+            float carbonres6 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.DisposalMethod.Landfill, 0.001f, 1000000);
 
             Assert.True(EpsilonCMP(7f * 0.001f * 1000000f * 0.001f, carbonres6));
 
@@ -134,7 +134,7 @@ namespace ReathUIv0._3.Tests
 
             try
             {
-                float carbonres7 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.EntireDisposalMethod.Anaerobic, 1, 1);
+                float carbonres7 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.DisposalMethod.Anaerobic, 1, 1);
             }
             catch (ArgumentException)
             {
@@ -180,13 +180,13 @@ namespace ReathUIv0._3.Tests
         [Fact]
         public void TestValidManufacturing()
         {
-            Material examplemat = new Material("TestValidManufacturing", 60f, -1, -1, -1);
+            Manufacturing examplemat = new Manufacturing("TestValidManufacturing", 60f, CarbonCalculation.NOT_PRESENT, CarbonCalculation.NOT_PRESENT, CarbonCalculation.NOT_PRESENT);
             CarbonCalculation.Testing.addManufacturing(examplemat);
 
             string validmaterial = "TestValidManufacturing";
             ReusableAsset.ManufactoringMethod validmethod = ReusableAsset.ManufactoringMethod.Primary;
 
-            Material material = CarbonCalculation.GetManufacturingCost(validmaterial);
+            Manufacturing material = CarbonCalculation.GetManufacturingCost(validmaterial);
             float manufacturingcost = CarbonCalculation.ManufacturingCostFromEnum(material, validmethod);
 
             Assert.NotNull(material);
@@ -196,11 +196,11 @@ namespace ReathUIv0._3.Tests
         [Fact]
         public void TestValidDisposal()
         {
-            Disposal exampledisp = new Disposal("TestValidDisposal", -1, -1, -1, -1, -1, 60f, -1);
+            Disposal exampledisp = new Disposal("TestValidDisposal", CarbonCalculation.NOT_PRESENT, CarbonCalculation.NOT_PRESENT, CarbonCalculation.NOT_PRESENT, CarbonCalculation.NOT_PRESENT, CarbonCalculation.NOT_PRESENT, 60f, CarbonCalculation.NOT_PRESENT);
             CarbonCalculation.Testing.addDisposal(exampledisp);
 
             string validmaterial = "TestValidDisposal";
-            ReusableAsset.EntireDisposalMethod validmethod = ReusableAsset.EntireDisposalMethod.Landfill;
+            ReusableAsset.DisposalMethod validmethod = ReusableAsset.DisposalMethod.Landfill;
 
             Disposal disposal = CarbonCalculation.GetDisposalCost(validmaterial);
             float disposalcost = CarbonCalculation.DisposalCostFromEnum(disposal, validmethod);
@@ -220,8 +220,8 @@ namespace ReathUIv0._3.Tests
             Transport transport = CarbonCalculation.GetTransportCost(validtransport);
 
             Assert.NotNull(transport);
-            Assert.Equal(1f, transport.CarbonCost);
-            Assert.Equal(2f, transport.WttConvFactor);
+            Assert.Equal(1f, transport.TravelFactor);
+            Assert.Equal(2f, transport.WTTFactor);
         }
 
         [Fact]
@@ -231,8 +231,8 @@ namespace ReathUIv0._3.Tests
             string invalidmaterial = "Invalid Material";
             ReusableAsset.ManufactoringMethod invalidmethod = (ReusableAsset.ManufactoringMethod)9;
 
-            Material validmat = CarbonCalculation.GetManufacturingCost(validmaterial);
-            Material invalidmat = null;
+            Manufacturing validmat = CarbonCalculation.GetManufacturingCost(validmaterial);
+            Manufacturing invalidmat = null;
 
             bool invmatexception = false;
             bool invmetexception = false;
@@ -268,7 +268,7 @@ namespace ReathUIv0._3.Tests
         {
             string validmaterial = "Construction: Aggregates";
             string invalidmaterial = "Invalid Material";
-            ReusableAsset.EntireDisposalMethod invalidmethod = (ReusableAsset.EntireDisposalMethod)16;
+            ReusableAsset.DisposalMethod invalidmethod = (ReusableAsset.DisposalMethod)16;
 
             Disposal validmat = CarbonCalculation.GetDisposalCost(validmaterial);
             Disposal invalidmat = null;

@@ -186,20 +186,20 @@ namespace ReathUIv0._3.ViewModel
         /// <returns></returns>
         private bool CheckMaterialEmission()
         {
-            if (reusableAsset.PrimaryMaterialEmission.Length == 0)
+            if (reusableAsset.PrimaryManufacturingMethod.Length == 0)
             {
                 InfoBoxText = "No Primary Emission method has been selected. Please select a Primary Emission method";
                 return false;
             }
 
 
-            if (reusableAsset.AuxiliaryMaterialEmission.Length == 0 && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
+            if (reusableAsset.AuxiliaryManufacturingMethod.Length == 0 && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
             {
                 InfoBoxText = "No Auxiliary Emission method has been selected. Please select a Auxiliary Emission method";
                 return false;
             }
 
-            if (reusableAsset.PrimaryMaterialEmission.Length == 0 && string.IsNullOrEmpty(reusableAsset.PrimaryMaterial) == false)
+            if (reusableAsset.PrimaryManufacturingMethod.Length == 0 && string.IsNullOrEmpty(reusableAsset.PrimaryMaterial) == false)
             {
                 InfoBoxText = "No Primary Emission method has been selected. Please select a Primary Emission method";
                 return false;
@@ -386,12 +386,13 @@ namespace ReathUIv0._3.ViewModel
         /// <returns></returns>
         private bool CheckRecycleData(string dataRecycledPercent)
         {
-            if (reusableAsset.IsRecylced == 2)
+            /*if (reusableAsset.IsRecycled == 2)
             {
                 InfoBoxText = "If the asset has been recycled has not been selected. Please ensure that either yes or no has been selected ";
                 return false;
             }
-            else if(reusableAsset.IsRecylced == 1)
+            else*/ 
+            if(reusableAsset.IsRecycled == true)
             {
 
                 int recycledPercent = 0;
