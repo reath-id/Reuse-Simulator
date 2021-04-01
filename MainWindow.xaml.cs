@@ -82,67 +82,90 @@ namespace ReathUIv0._3
         //Primary Material [7]
         private void dropDown_primaryMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dropDown_primaryMaterial.SelectedItem.ToString().Equals("Primary Material") == false)
+           // if (dropDown_primaryMaterial.SelectedItem.ToString().Equals("Primary Material") == false)
+           // {
+            textBox_primaryMaterialPercent.IsEnabled = true;
+            reusableAsset.PrimaryMaterial = dropDown_primaryMaterial.SelectedItem.ToString().Trim();
+
+            reusableAsset.PrimaryManufacturingMethod = ReusableAsset.ManufactoringMethod.None;
+            reusableAsset.PrimaryDisposalMethod = ReusableAsset.DisposalMethod.None;
+
+            dropDown_primaryDisposalMethod.SelectedIndex = -1;
+            dropDown_primaryManufacturingEmissions.SelectedIndex = -1;
+            dropDown_primaryCleaningMethod.SelectedIndex = -1;
+
+            materialEmissionChoice.Clear();
+            dropDown_primaryDisposalMethod.Items.Clear();
+
+            Disposal disposal = CarbonCalculation.GetDisposalCost(reusableAsset.PrimaryMaterial);
+
+            if (disposal.Landfill != CarbonCalculation.NOT_PRESENT)
             {
-                textBox_primaryMaterialPercent.IsEnabled = true;
-                reusableAsset.PrimaryMaterial = dropDown_primaryMaterial.SelectedItem.ToString().Trim();
-                FillPrimaryDisposalMethod(dropDown_primaryMaterial.SelectedItem.ToString().Trim());
-                FillPrimaryEmissions();
+                materialEmissionChoice.Add("Landfill");
             }
-            else
+
+            if (disposal.Reuse != CarbonCalculation.NOT_PRESENT)
             {
-                textBox_primaryMaterialPercent.Text = "Primary Weight";
-                textBox_primaryMaterialPercent.IsEnabled = false;
-                reusableAsset.PrimaryMaterial = null;
-                reusableAsset.PrimaryDispoMethod = "";
-                reusableAsset.PrimaryCleaningMethod = "";
-                dropDown_primaryDisposalMethod.SelectedIndex = 0;
-
-                if (dropDown_primaryDisposalMethod.Items.Count.Equals(2) == true)
-                {
-                    dropDown_primaryDisposalMethod.Items.RemoveAt(1);
-                }
-
-                dropDown_primaryManufacturingEmissions.Items.Clear();
-                dropDown_primaryManufacturingEmissions.Items.Add("Primary Manufacturing Emission");
-                dropDown_primaryManufacturingEmissions.SelectedIndex = 0;
-                dropDown_primaryManufacturingEmissions.IsEnabled = false;
-                reusableAsset.PrimaryManufacturingMethod = "";
+                materialEmissionChoice.Add("Reuse");
             }
-        }
 
-        private void FillPrimaryEmissions()
-        {
-            //reusableAsset.DisposalMethod = dropDown_methodOfDisposal.SelectedItem.ToString().Trim();
+            if (disposal.OpenLoop != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Open Loop");
+            }
+
+            if (disposal.ClosedLoop != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Closed Loop");
+            }
+
+            if (disposal.Composting != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Composting");
+            }
+
+            if (disposal.Combustion != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Combustion");
+            }
+
+            if (disposal.AnaerobicDigestion != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Anaerobic");
+            }
+
+            foreach (string matEmissionMethod in materialEmissionChoice)
+            {
+                dropDown_primaryDisposalMethod.Items.Add(matEmissionMethod);
+            }
+
+            dropDown_primaryDisposalMethod.IsEnabled = true;
+
 
             materialEmissionChoice.Clear();
 
             dropDown_primaryManufacturingEmissions.Items.Clear();
 
-            foreach (Manufacturing method in materialChoices)
+            Manufacturing method = CarbonCalculation.GetManufacturingCost(dropDown_primaryMaterial.SelectedItem.ToString().Trim());
+
+            if (method.Primary != CarbonCalculation.NOT_PRESENT)
             {
-                if (dropDown_primaryMaterial.SelectedItem.ToString().Trim().Equals(method.Material))
-                {
-                    if (method.Primary != 0)
-                    {
-                        materialEmissionChoice.Add("Primary");
-                    }
+                materialEmissionChoice.Add("Primary");
+            }
 
-                    if (method.Reused != 0)
-                    {
-                        materialEmissionChoice.Add("Reuse");
-                    }
+            if (method.Reused != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Reused");
+            }
 
-                    if (method.OpenLoop != 0)
-                    {
-                        materialEmissionChoice.Add("Open Loop");
-                    }
+            if (method.OpenLoop != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Open Loop");
+            }
 
-                    if (method.ClosedLoop != 0)
-                    {
-                        materialEmissionChoice.Add("Closed Loop");
-                    }
-                }
+            if (method.ClosedLoop != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Closed Loop");
             }
 
             foreach (string matEmissionMethod in materialEmissionChoice)
@@ -151,6 +174,43 @@ namespace ReathUIv0._3
             }
 
             dropDown_primaryManufacturingEmissions.IsEnabled = true;
+        }
+
+        private void FillPrimaryEmissions()
+        {
+            //reusableAsset.DisposalMethod = dropDown_methodOfDisposal.SelectedItem.ToString().Trim();
+
+            
+
+            /*
+
+            foreach (Manufacturing method in materialChoices)
+            {
+                if (dropDown_primaryMaterial.SelectedItem.ToString().Trim().Equals(method.Material))
+                {
+                    if (method.Primary != CarbonCalculation.NOT_PRESENT)
+                    {
+                        materialEmissionChoice.Add("Primary");
+                    }
+
+                    if (method.Reused != CarbonCalculation.NOT_PRESENT)
+                    {
+                        materialEmissionChoice.Add("Reuse");
+                    }
+
+                    if (method.OpenLoop != CarbonCalculation.NOT_PRESENT)
+                    {
+                        materialEmissionChoice.Add("Open Loop");
+                    }
+
+                    if (method.ClosedLoop != CarbonCalculation.NOT_PRESENT)
+                    {
+                        materialEmissionChoice.Add("Closed Loop");
+                    }
+                }
+            }*/
+
+
         }
 
         //P M % [7.1]
@@ -165,19 +225,113 @@ namespace ReathUIv0._3
             {
                 if (dropDown_primaryManufacturingEmissions.SelectedItem.ToString().Equals("Primary Manufacturing Emission") == false)
                 {
-                    reusableAsset.PrimaryManufacturingMethod = dropDown_primaryManufacturingEmissions.SelectedItem.ToString().Trim();
+                    //reusableAsset.PrimaryManufString = dropDown_primaryManufacturingEmissions.SelectedItem.ToString().Trim();
+                    reusableAsset.PrimaryManufacturingMethod = ReusableAsset.StringToManufacturingMethod(dropDown_primaryManufacturingEmissions.SelectedItem.ToString().Trim());
+
                     Console.WriteLine(dropDown_primaryManufacturingEmissions.SelectedItem.ToString().Trim());
                 }
             }
             else
             {
-                reusableAsset.PrimaryManufacturingMethod = "";
+                //reusableAsset.PrimaryManufString = "";
             }
         }
 
         //Aux Material [8]
         private void dropDown_auxMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            textBox_auxMaterialPercent.IsEnabled = true;
+            reusableAsset.AuxiliaryMaterial = dropDown_auxMaterial.SelectedItem.ToString().Trim();
+
+            reusableAsset.AuxiliaryManufacturingMethod = ReusableAsset.ManufactoringMethod.None;
+            reusableAsset.AuxiliaryDisposalMethod = ReusableAsset.DisposalMethod.None;
+
+            dropDown_auxDisposalMethod.SelectedIndex = -1;
+            dropDown_auxiliaryManufacturingEmissions.SelectedIndex = -1;
+            dropDown_auxCleaningMethod.SelectedIndex = -1;
+
+            materialEmissionChoice.Clear();
+            dropDown_auxDisposalMethod.Items.Clear();
+
+            Disposal disposal = CarbonCalculation.GetDisposalCost(reusableAsset.AuxiliaryMaterial);
+
+            if (disposal.Landfill != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Landfill");
+            }
+
+            if (disposal.Reuse != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Reuse");
+            }
+
+            if (disposal.OpenLoop != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Open Loop");
+            }
+
+            if (disposal.ClosedLoop != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Closed Loop");
+            }
+
+            if (disposal.Composting != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Composting");
+            }
+
+            if (disposal.Combustion != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Combustion");
+            }
+
+            if (disposal.AnaerobicDigestion != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Anaerobic");
+            }
+
+            foreach (string matEmissionMethod in materialEmissionChoice)
+            {
+                dropDown_auxDisposalMethod.Items.Add(matEmissionMethod);
+            }
+
+            dropDown_auxDisposalMethod.IsEnabled = true;
+
+
+            materialEmissionChoice.Clear();
+
+            dropDown_auxiliaryManufacturingEmissions.Items.Clear();
+
+            Manufacturing method = CarbonCalculation.GetManufacturingCost(reusableAsset.AuxiliaryMaterial);
+
+            if (method.Primary != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Primary");
+            }
+
+            if (method.Reused != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Reused");
+            }
+
+            if (method.OpenLoop != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Open Loop");
+            }
+
+            if (method.ClosedLoop != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Closed Loop");
+            }
+
+            foreach (string matEmissionMethod in materialEmissionChoice)
+            {
+                dropDown_auxiliaryManufacturingEmissions.Items.Add(matEmissionMethod);
+            }
+
+            dropDown_auxiliaryManufacturingEmissions.IsEnabled = true;
+
+            /*
             if (dropDown_auxMaterial.SelectedItem.ToString().Equals("Auxiliar Material") == false)
             {
                 textBox_auxMaterialPercent.IsEnabled = true;
@@ -192,7 +346,7 @@ namespace ReathUIv0._3
                 textBox_auxMaterialPercent.Text = "Aux Weight";
                 textBox_auxMaterialPercent.IsEnabled = false;
                 dropDown_auxDisposalMethod.IsEnabled = false;
-                reusableAsset.AuxiliaryDispoMethod = "";
+                reusableAsset.AuxiliaryDispoString = "";
                 reusableAsset.AuxiliaryCleaningMethod = "";
                 dropDown_auxDisposalMethod.SelectedIndex = 0;
                 dropDown_auxCleaningMethod.SelectedIndex = 0;
@@ -201,42 +355,37 @@ namespace ReathUIv0._3
                 dropDown_auxiliaryManufacturingEmissions.Items.Add("Auxiliary Manufacturing Emission");
                 dropDown_auxiliaryManufacturingEmissions.SelectedIndex = 0;
                 dropDown_auxiliaryManufacturingEmissions.IsEnabled = false;
-                reusableAsset.AuxiliaryManufacturingMethod = "";
-            }
+                reusableAsset.AuxiliaryManufString = "";
+            }*/
         }
 
         private void FillAuxiliaryEmissions()
         {
-            //reusableAsset.DisposalMethod = dropDown_methodOfDisposal.SelectedItem.ToString().Trim();
 
             materialEmissionChoice.Clear();
 
             dropDown_auxiliaryManufacturingEmissions.Items.Clear();
 
-            foreach (Manufacturing method in materialChoices)
+            Manufacturing method = CarbonCalculation.GetManufacturingCost(dropDown_auxMaterial.SelectedItem.ToString().Trim());
+
+            if (method.Primary != CarbonCalculation.NOT_PRESENT)
             {
-                if (dropDown_auxMaterial.SelectedItem.ToString().Trim().Equals(method.Material))
-                {
-                    if (method.Primary != 0)
-                    {
-                        materialEmissionChoice.Add("Primary");
-                    }
+                materialEmissionChoice.Add("Primary");
+            }
 
-                    if (method.Reused != 0)
-                    {
-                        materialEmissionChoice.Add("Reuse");
-                    }
+            if (method.Reused != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Reuse");
+            }
 
-                    if (method.OpenLoop != 0)
-                    {
-                        materialEmissionChoice.Add("Open Loop");
-                    }
+            if (method.OpenLoop != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Open Loop");
+            }
 
-                    if (method.ClosedLoop != 0)
-                    {
-                        materialEmissionChoice.Add("Closed Loop");
-                    }
-                }
+            if (method.ClosedLoop != CarbonCalculation.NOT_PRESENT)
+            {
+                materialEmissionChoice.Add("Closed Loop");
             }
 
             foreach (string matEmissionMethod in materialEmissionChoice)
@@ -259,12 +408,13 @@ namespace ReathUIv0._3
             {
                 if (dropDown_auxiliaryManufacturingEmissions.SelectedItem.ToString().Equals("Auxiliary Manufacturing Emission") == false)
                 {
-                    reusableAsset.AuxiliaryManufacturingMethod = dropDown_auxiliaryManufacturingEmissions.SelectedItem.ToString().Trim();
+                   // reusableAsset.AuxiliaryManufString = dropDown_auxiliaryManufacturingEmissions.SelectedItem.ToString().Trim();
+                    reusableAsset.AuxiliaryManufacturingMethod = ReusableAsset.StringToManufacturingMethod(dropDown_auxiliaryManufacturingEmissions.SelectedItem.ToString().Trim());
                 }
             }
             else
             {
-                reusableAsset.PrimaryManufacturingMethod = "";
+               // reusableAsset.PrimaryManufString = "";
             }
         }
 
@@ -273,9 +423,12 @@ namespace ReathUIv0._3
         {
             if (dropDown_primaryDisposalMethod.SelectedItem.ToString().Equals("Method of Disposal") == false)
             {
+                reusableAsset.PrimaryDisposalMethod = ReusableAsset.StringToDisposalMethod(dropDown_primaryDisposalMethod.SelectedItem.ToString().Trim());
+            }
+                /*
                 dropDown_primaryDisposalMethod.IsEnabled = true;
 
-                reusableAsset.PrimaryDispoMethod = dropDown_primaryDisposalMethod.SelectedItem.ToString().Trim();
+                reusableAsset.PrimaryDispoString = dropDown_primaryDisposalMethod.SelectedItem.ToString().Trim();
 
                 cleaningMethodChoice.Clear();
 
@@ -321,7 +474,7 @@ namespace ReathUIv0._3
                         }
                     }
                 }
-
+            /*
                 foreach (string cleaningMethod in cleaningMethodChoice)
                 {
                     dropDown_primaryCleaningMethod.Items.Add(cleaningMethod);
@@ -335,24 +488,25 @@ namespace ReathUIv0._3
                 dropDown_primaryCleaningMethod.Items.Add("Cleaning Method");
                 dropDown_primaryCleaningMethod.SelectedIndex = 0;
                 dropDown_primaryCleaningMethod.IsEnabled = false;
-                reusableAsset.PrimaryDispoMethod = "";
-            }
+                reusableAsset.PrimaryDispoString = "";
+            }*/
         }
 
         //Primary Cleaning Method
         private void dropDown_primaryCleaningMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dropDown_primaryCleaningMethod.SelectedItem != null)
+            /*if (dropDown_primaryCleaningMethod.SelectedItem != null)
             {
                 if (dropDown_primaryCleaningMethod.SelectedItem.ToString().Equals("Cleaning Method") == false)
                 {
                     reusableAsset.PrimaryCleaningMethod = dropDown_primaryCleaningMethod.SelectedItem.ToString().Trim();
+
                 }
             }
             else
             {
                 reusableAsset.PrimaryCleaningMethod = "";
-            }
+            }*/
         }
 
         //Auxiliary Disposal Method
@@ -360,9 +514,12 @@ namespace ReathUIv0._3
         {
             if (dropDown_auxDisposalMethod.SelectedItem.ToString().Equals("Method of Disposal") == false)
             {
+                reusableAsset.AuxiliaryDisposalMethod = ReusableAsset.StringToDisposalMethod(dropDown_auxDisposalMethod.SelectedItem.ToString().Trim());
+            }
+                /*
                 dropDown_auxDisposalMethod.IsEnabled = true;
 
-                reusableAsset.AuxiliaryDispoMethod = dropDown_auxDisposalMethod.SelectedItem.ToString().Trim();
+                reusableAsset.AuxiliaryDispoString = dropDown_auxDisposalMethod.SelectedItem.ToString().Trim();
 
                 cleaningMethodChoice.Clear();
 
@@ -422,14 +579,14 @@ namespace ReathUIv0._3
                 dropDown_auxCleaningMethod.Items.Add("Cleaning Method");
                 dropDown_auxCleaningMethod.SelectedIndex = 0;
                 dropDown_auxCleaningMethod.IsEnabled = false;
-                reusableAsset.AuxiliaryDispoMethod = "";
-            }
+                reusableAsset.AuxiliaryDispoString = "";
+            }*/
         }
 
         //Auxiliary Cleaning Method
         private void dropDown_auxCleaningMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dropDown_auxCleaningMethod.SelectedItem != null)
+            /*if (dropDown_auxCleaningMethod.SelectedItem != null)
             {
                 if (dropDown_auxCleaningMethod.SelectedItem.ToString().Equals("Cleaning Method") == false)
                 {
@@ -439,7 +596,7 @@ namespace ReathUIv0._3
             else
             {
                 reusableAsset.AuxiliaryCleaningMethod = "";
-            }
+            }*/
         }
 
         //Is Recycled? [9]
@@ -639,10 +796,11 @@ namespace ReathUIv0._3
             //reusetimecycle
             dropDown_reuseTimeCycle.SelectedIndex = rnd.Next(1, 6);
 
-            /*
+            
             //disposalmethod
-            dropDown_methodOfDisposal.SelectedIndex = rnd.Next(dropDown_methodOfDisposal.Items.Count);
-
+            dropDown_primaryDisposalMethod.SelectedIndex = rnd.Next(dropDown_primaryDisposalMethod.Items.Count);
+            dropDown_auxDisposalMethod.SelectedIndex = rnd.Next(dropDown_auxDisposalMethod.Items.Count);
+            /*
             //cleaningmethod
             dropDown_cleaningMethod.SelectedIndex = rnd.Next(dropDown_cleaningMethod.Items.Count);
             */
@@ -665,10 +823,10 @@ namespace ReathUIv0._3
             dropDown_auxiliaryManufacturingEmissions.SelectedIndex = rnd.Next(dropDown_auxiliaryManufacturingEmissions.Items.Count);
 
             //Primary Disposal Method
-            dropDown_primaryCleaningMethod.SelectedIndex = rnd.Next(dropDown_primaryCleaningMethod.Items.Count);
+           //dropDown_primaryCleaningMethod.SelectedIndex = rnd.Next(dropDown_primaryCleaningMethod.Items.Count);
 
             //Auxiliary Disposal Method
-            dropDown_auxCleaningMethod.SelectedIndex = rnd.Next(dropDown_auxCleaningMethod.Items.Count);
+            //dropDown_auxCleaningMethod.SelectedIndex = rnd.Next(dropDown_auxCleaningMethod.Items.Count);
         }
 
         #region Loading data/When loaded
@@ -701,11 +859,11 @@ namespace ReathUIv0._3
         {
             materialChoices = SqliteDatabaseAccess.LoadMaterials();
 
-            dropDown_primaryMaterial.Items.Add("Primary Material");
-            dropDown_primaryMaterial.SelectedIndex = 0;
+            //dropDown_primaryMaterial.Items.Add("Primary Material");
+            dropDown_primaryMaterial.SelectedIndex = -1;
 
-            dropDown_auxMaterial.Items.Add("Auxiliary Material");
-            dropDown_auxMaterial.SelectedIndex = 0;
+           // dropDown_auxMaterial.Items.Add("Auxiliary Material");
+            dropDown_auxMaterial.SelectedIndex = -1;
 
             foreach (Manufacturing material in materialChoices)
             {
@@ -716,17 +874,18 @@ namespace ReathUIv0._3
 
         private void dropDown_primaryDisposalMethod_Loaded(object sender, RoutedEventArgs e)
         {
-            dropDown_primaryDisposalMethod.Items.Add("Method of Disposal");
-            dropDown_primaryDisposalMethod.SelectedIndex = 0;
+           // dropDown_primaryDisposalMethod.Items.Add("Method of Disposal");
+            dropDown_primaryDisposalMethod.SelectedIndex = -1;
         }
 
+        /*
         private void FillPrimaryDisposalMethod(string selectionMade)
         {
             disposalChoices = SqliteDatabaseAccess.LoadDisposal(selectionMade);
 
             if (disposalChoices.Count() <= 0)
             {
-                reusableAsset.PrimaryDispoMethod = "None";
+                reusableAsset.PrimaryDispoString = "None";
                 reusableAsset.PrimaryCleaningMethod = "None";
 
                 if (dropDown_primaryDisposalMethod.Items.Count.Equals(1))
@@ -766,15 +925,15 @@ namespace ReathUIv0._3
                     dropDown_primaryDisposalMethod.SelectedIndex = 1;
                 }
             }
-        }
-
+        }*/
+        /*
         private void FillAuxiliaryDisposalMethod(string selectionMade)
         {
             disposalChoices = SqliteDatabaseAccess.LoadDisposal(selectionMade);
 
             if (disposalChoices.Count() <= 0)
             {
-                reusableAsset.AuxiliaryDispoMethod = "None";
+                reusableAsset.AuxiliaryDispoString = "None";
                 reusableAsset.AuxiliaryCleaningMethod = "None";
 
                 dropDown_auxDisposalMethod.Items.Add("None");
@@ -816,25 +975,25 @@ namespace ReathUIv0._3
                     dropDown_auxDisposalMethod.SelectedIndex = 1;
                 }
             }
-        }
+        }*/
 
         private void dropDown_auxDisposalMethod_Loaded(object sender, RoutedEventArgs e)
         {
-            dropDown_auxDisposalMethod.Items.Add("Method of Disposal");
-            dropDown_auxDisposalMethod.SelectedIndex = 0;
+           // dropDown_auxDisposalMethod.Items.Add("Method of Disposal");
+            dropDown_auxDisposalMethod.SelectedIndex = -1;
         }
 
         private void dropDown_primaryManufacturingEmissions_Loaded(object sender, RoutedEventArgs e)
         {
-            dropDown_primaryManufacturingEmissions.Items.Add("Primary Manufacturing Emission");
-            dropDown_primaryManufacturingEmissions.SelectedIndex = 0;
+           // dropDown_primaryManufacturingEmissions.Items.Add("Primary Manufacturing Emission");
+            dropDown_primaryManufacturingEmissions.SelectedIndex = -1;
             dropDown_primaryManufacturingEmissions.IsEnabled = false;
         }
 
         private void dropDown_auxiliaryManufacturingEmissions_Loaded(object sender, RoutedEventArgs e)
         {
-            dropDown_auxiliaryManufacturingEmissions.Items.Add("Auxiliary Manufacturing Emission");
-            dropDown_auxiliaryManufacturingEmissions.SelectedIndex = 0;
+            //dropDown_auxiliaryManufacturingEmissions.Items.Add("Auxiliary Manufacturing Emission");
+            dropDown_auxiliaryManufacturingEmissions.SelectedIndex = -1;
             dropDown_auxiliaryManufacturingEmissions.IsEnabled = false;
         }
 

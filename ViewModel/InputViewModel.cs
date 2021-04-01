@@ -186,24 +186,24 @@ namespace ReathUIv0._3.ViewModel
         /// <returns></returns>
         private bool CheckMaterialEmission()
         {
-            if (reusableAsset.PrimaryManufacturingMethod.Length == 0)
+            if (reusableAsset.PrimaryManufacturingMethod == ReusableAsset.ManufactoringMethod.None)
             {
                 InfoBoxText = "No Primary Emission method has been selected. Please select a Primary Emission method";
                 return false;
             }
 
 
-            if (reusableAsset.AuxiliaryManufacturingMethod.Length == 0 && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
+            if (reusableAsset.AuxiliaryManufacturingMethod == ReusableAsset.ManufactoringMethod.None && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
             {
                 InfoBoxText = "No Auxiliary Emission method has been selected. Please select a Auxiliary Emission method";
                 return false;
             }
 
-            if (reusableAsset.PrimaryManufacturingMethod.Length == 0 && string.IsNullOrEmpty(reusableAsset.PrimaryMaterial) == false)
+           /* if (reusableAsset.PrimaryManufString.Length == 0 && string.IsNullOrEmpty(reusableAsset.PrimaryMaterial) == false)
             {
                 InfoBoxText = "No Primary Emission method has been selected. Please select a Primary Emission method";
                 return false;
-            }
+            }*/
 
             return true;
         }
@@ -344,29 +344,29 @@ namespace ReathUIv0._3.ViewModel
         /// <returns></returns>
         private bool CheckDisposalMethods()
         {
-            if (reusableAsset.PrimaryDispoMethod.Length == 0)
+            if (reusableAsset.PrimaryDisposalMethod == ReusableAsset.DisposalMethod.None)
             {
                 InfoBoxText = "No Primary disposal method has been selected. Please select a Primary disposal method";
                 return false;
             }
 
-            if (reusableAsset.PrimaryCleaningMethod.Length == 0)
-            {
-                InfoBoxText = "No cleaning method has been selected. Please select a cleaning method";
-                return false;
-            }
+           // if (reusableAsset.PrimaryCleaningMethod.Length == 0)
+          //  {
+          //      InfoBoxText = "No cleaning method has been selected. Please select a cleaning method";
+           //     return false;
+           // }
 
-            if (reusableAsset.AuxiliaryDispoMethod.Length == 0 && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
+            if (reusableAsset.AuxiliaryDisposalMethod == ReusableAsset.DisposalMethod.None && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
             {
                 InfoBoxText = "No Auxiliary disposal method has been selected. Please select a Auxiliary disposal method";
                 return false;
             }
 
-            if (reusableAsset.AuxiliaryCleaningMethod.Length == 0 && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
-            {
-                InfoBoxText = "No Auxiliary cleaning method has been selected. Please select a Auxiliary cleaning method";
-                return false;
-            }
+           // if (reusableAsset.AuxiliaryCleaningMethod.Length == 0 && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
+           // {
+           //     InfoBoxText = "No Auxiliary cleaning method has been selected. Please select a Auxiliary cleaning method";
+           //     return false;
+           // }
 
             return true;
         }

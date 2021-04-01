@@ -10,9 +10,9 @@ namespace ReathUIv0._3
     {
         internal const float NOT_PRESENT = 0.0f;
 
-        private static List<Manufacturing> manufacturingCosts = SqliteDatabaseAccess.LoadManufacturing();
-        private static List<Disposal> disposalCosts = SqliteDatabaseAccess.LoadDisposal();
-        private static List<Transport> transportCosts = SqliteDatabaseAccess.LoadTransport();
+        public static List<Manufacturing> manufacturingCosts = SqliteDatabaseAccess.LoadManufacturing();
+        public static List<Disposal> disposalCosts = SqliteDatabaseAccess.LoadDisposal();
+        public static List<Transport> transportCosts = SqliteDatabaseAccess.LoadTransport();
 
         internal static class Testing
         {
@@ -71,12 +71,12 @@ namespace ReathUIv0._3
                 throw new ArgumentException("Asset needs to be able to be used at least once.");
             }
 
-            float Mat1ManufacturingCost = Detail.GetManufacturingCost(Asset.PrimaryMaterial, Asset.PrimaryManufacturingMethod_, Asset.PrimaryWeight, Asset.SampleSize);
+            float Mat1ManufacturingCost = Detail.GetManufacturingCost(Asset.PrimaryMaterial, Asset.PrimaryManufacturingMethod, Asset.PrimaryWeight, Asset.SampleSize);
             float Mat2ManufacturingCost = 0;
 
             if (!String.IsNullOrWhiteSpace(Asset.AuxiliaryMaterial))
             {
-                Mat2ManufacturingCost = Detail.GetManufacturingCost(Asset.AuxiliaryMaterial, Asset.AuxiliaryManufacturingMethod_, Asset.AuxiliaryWeight, Asset.SampleSize);
+                Mat2ManufacturingCost = Detail.GetManufacturingCost(Asset.AuxiliaryMaterial, Asset.AuxiliaryManufacturingMethod, Asset.AuxiliaryWeight, Asset.SampleSize);
             }
 
             float ManufacturingCost = Mat1ManufacturingCost + Mat2ManufacturingCost;

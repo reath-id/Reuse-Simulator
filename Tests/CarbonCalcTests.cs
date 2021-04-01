@@ -24,7 +24,7 @@ namespace ReathUIv0._3.Tests
             ReusableAsset BlankAsset = new ReusableAsset();
             BlankAsset.PrimaryMaterial = "Construction: Aggregates";
             BlankAsset.MaximumReuses = 1;
-            BlankAsset.PrimaryManufacturingMethod_ = ReusableAsset.ManufactoringMethod.Primary;
+            BlankAsset.PrimaryManufacturingMethod = ReusableAsset.ManufactoringMethod.Primary;
 
             CarbonResults carbonResults = CarbonCalculation.CalculateCarbon(BlankAsset);
 

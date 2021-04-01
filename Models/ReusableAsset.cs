@@ -25,20 +25,20 @@ namespace ReathUIv0._3.Models
         // Primary Data
         public string PrimaryMaterial = string.Empty;
         public float PrimaryWeight = 0.0f;
-        public string PrimaryManufacturingMethod = string.Empty;
-        public string PrimaryDispoMethod = string.Empty;
-        public string PrimaryCleaningMethod = string.Empty;
-        public ManufactoringMethod PrimaryManufacturingMethod_;
+        //public string PrimaryManufString = string.Empty;
+        //public string PrimaryDispoString = string.Empty;
+        //public string PrimaryCleaningMethod = string.Empty;
+        public ManufactoringMethod PrimaryManufacturingMethod;
         public DisposalMethod PrimaryDisposalMethod;
 
 
         // Auxiliary Data
         public string AuxiliaryMaterial = string.Empty;
         public float AuxiliaryWeight = 0.0f;
-        public string AuxiliaryManufacturingMethod = string.Empty;
-        public string AuxiliaryDispoMethod = string.Empty;
-        public string AuxiliaryCleaningMethod = string.Empty;
-        public ManufactoringMethod AuxiliaryManufacturingMethod_;
+        //public string AuxiliaryManufString = string.Empty;
+        //public string AuxiliaryDispoString = string.Empty;
+        //public string AuxiliaryCleaningMethod = string.Empty;
+        public ManufactoringMethod AuxiliaryManufacturingMethod;
         public DisposalMethod AuxiliaryDisposalMethod;
 
 
@@ -63,14 +63,14 @@ namespace ReathUIv0._3.Models
             UnitWeight = unitWeight;
             AssetCountryOfOrigin = assetCountryOfOrigin;
             PrimaryMaterial = string.Empty;
-            PrimaryManufacturingMethod_ = 0;
+            PrimaryManufacturingMethod = 0;
             PrimaryWeight = primaryWeight;
-            PrimaryManufacturingMethod = primaryMaterialEmission;
+           // PrimaryManufString = primaryMaterialEmission;
             PrimaryDisposalMethod = 0;
             AuxiliaryMaterial = string.Empty;
-            AuxiliaryManufacturingMethod_ = 0;
+            AuxiliaryManufacturingMethod = 0;
             AuxiliaryWeight = auxiliaryWeight;
-            AuxiliaryManufacturingMethod = auxiliaryMaterialEmission;
+            //  AuxiliaryManufString = auxiliaryMaterialEmission;
             IsRecycled = false;
             RecycledPercentage = 0;
             RecycledCountryOfOrigin = string.Empty;
@@ -135,14 +135,54 @@ namespace ReathUIv0._3.Models
             else throw new ArgumentException("Disposal Method " + s + " doesn't exist.");
         }
 
+        public static string ManufacturingMethodToString(ManufactoringMethod m)
+        {
+            switch (m)
+            {
+                case ManufactoringMethod.Primary:
+                    return "Primary";
+                case ManufactoringMethod.Reused:
+                    return "Reused";
+                case ManufactoringMethod.ClosedLoop:
+                    return "Closed Loop";
+                case ManufactoringMethod.OpenLoop:
+                    return "Open Loop";
+                default:
+                    throw new ArgumentException(m.ToString() + ": Invalid manufacturing method.");
+            }
+        }
+
+        public static string DisposalMethodToString(DisposalMethod m)
+        {
+            switch (m)
+            {
+                case DisposalMethod.Landfill:
+                    return "Landfill";
+                case DisposalMethod.Reuse:
+                    return "Reuse";
+                case DisposalMethod.ClosedLoop:
+                    return "Closed Loop";
+                case DisposalMethod.OpenLoop:
+                    return "Open Loop";
+                case DisposalMethod.Combustion:
+                    return "Combustion";
+                case DisposalMethod.Composting:
+                    return "Composting";
+                case DisposalMethod.Anaerobic:
+                    return "Anaerobic";
+                default:
+                    throw new ArgumentException(m.ToString() + ": Invalid disposal method.");
+            }
+        }
+
         public enum ManufactoringMethod
         {
-            Primary, Reused, OpenLoop, ClosedLoop
+            Primary, Reused, OpenLoop, ClosedLoop, None
         }
 
         public enum DisposalMethod
         {
-            Reuse, OpenLoop, ClosedLoop, Combustion, Composting, Landfill, Anaerobic
+            Reuse, OpenLoop, ClosedLoop, Combustion, Composting, Landfill, Anaerobic, None
         }
     }
 }

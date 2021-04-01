@@ -308,6 +308,8 @@ namespace ReathUIv0._3.Connections
                         temp.PrimaryDisposalMethod = ReusableAsset.StringToDisposalMethod(rdr.GetString(15));
                         temp.AuxiliaryDisposalMethod = ReusableAsset.StringToDisposalMethod(rdr.GetString(17));
 
+                        temp.PrimaryManufacturingMethod = ReusableAsset.StringToManufacturingMethod(rdr.GetString(18));
+                        temp.AuxiliaryManufacturingMethod = ReusableAsset.StringToManufacturingMethod(rdr.GetString(19));
                     }
 
                     rdr.Close();
@@ -339,7 +341,7 @@ namespace ReathUIv0._3.Connections
                     if (output.Count() == 1)
                     {
                         temp.PrimaryMaterial = output.First();
-                        temp.PrimaryManufacturingMethod_ = ReusableAsset.StringToManufacturingMethod(output.First());
+                        temp.PrimaryManufacturingMethod = ReusableAsset.StringToManufacturingMethod(output.First());
                         return temp;
                     }
                     else
@@ -347,8 +349,8 @@ namespace ReathUIv0._3.Connections
                         
                         temp.PrimaryMaterial = output.First();
                         temp.AuxiliaryMaterial = output.ElementAt(1);
-                        temp.PrimaryManufacturingMethod_ = ReusableAsset.StringToManufacturingMethod("Open Loop");
-                        temp.AuxiliaryManufacturingMethod_ = ReusableAsset.StringToManufacturingMethod("Closed Loop");
+                        temp.PrimaryManufacturingMethod = ReusableAsset.StringToManufacturingMethod("Invalid Method");
+                        temp.AuxiliaryManufacturingMethod = ReusableAsset.StringToManufacturingMethod("Invalid Method");
                         return temp;
                     }
                 }
@@ -520,18 +522,20 @@ namespace ReathUIv0._3.Connections
                     cmd.Parameters.Add(new SQLiteParameter("@UnitWeight", reusableAsset.UnitWeight));
                     cmd.Parameters.Add(new SQLiteParameter("@AssetCountryOfOrigin", reusableAsset.AssetCountryOfOrigin));
                     cmd.Parameters.Add(new SQLiteParameter("@PrimaryWeight", reusableAsset.PrimaryWeight));
-                    cmd.Parameters.Add(new SQLiteParameter("@primaryDisposalMethod",reusableAsset.PrimaryDispoMethod));
-                    cmd.Parameters.Add(new SQLiteParameter("@primaryCleaningMethod",reusableAsset.PrimaryCleaningMethod));
-                    cmd.Parameters.Add(new SQLiteParameter("@primaryEmission", reusableAsset.PrimaryManufacturingMethod));
+                    cmd.Parameters.Add(new SQLiteParameter("@primaryDisposalMethod",ReusableAsset.DisposalMethodToString(reusableAsset.PrimaryDisposalMethod)));
+                   // cmd.Parameters.Add(new SQLiteParameter("@primaryCleaningMethod",reusableAsset.PrimaryCleaningMethod));
+                    cmd.Parameters.Add(new SQLiteParameter("@primaryEmission", ReusableAsset.ManufacturingMethodToString(reusableAsset.PrimaryManufacturingMethod)));
                     cmd.Parameters.Add(new SQLiteParameter("@AuxiliarWeight", reusableAsset.AuxiliaryWeight));
-                    cmd.Parameters.Add(new SQLiteParameter("@auxiliaryDisposalMethod",reusableAsset.AuxiliaryDispoMethod));
-                    cmd.Parameters.Add(new SQLiteParameter("@auxiliaryCleaningMethod",reusableAsset.AuxiliaryCleaningMethod));
-                    cmd.Parameters.Add(new SQLiteParameter("@auxiliaryEmission", reusableAsset.AuxiliaryManufacturingMethod));
+                    cmd.Parameters.Add(new SQLiteParameter("@auxiliaryDisposalMethod", ReusableAsset.ManufacturingMethodToString(reusableAsset.AuxiliaryManufacturingMethod)));
+                    //cmd.Parameters.Add(new SQLiteParameter("@auxiliaryCleaningMethod",reusableAsset.AuxiliaryCleaningMethod));
+                    cmd.Parameters.Add(new SQLiteParameter("@auxiliaryEmission", ReusableAsset.DisposalMethodToString(reusableAsset.AuxiliaryDisposalMethod)));
                     cmd.Parameters.Add(new SQLiteParameter("@ReuseOccurence", reusableAsset.ReuseOccurence));
                     cmd.Parameters.Add(new SQLiteParameter("@MaximumReuses", reusableAsset.MaximumReuses));
                     cmd.Parameters.Add(new SQLiteParameter("@AverageDistanceToReuse", reusableAsset.AverageDistanceToReuse));
                     cmd.Parameters.Add(new SQLiteParameter("@PercentageOfManufacturingCarbon", reusableAsset.PercentageOfManufacturingCarbon));
                     cmd.Parameters.Add(new SQLiteParameter("@recycleId", recycleId));
+
+
 
                     cnn.Open();
 
