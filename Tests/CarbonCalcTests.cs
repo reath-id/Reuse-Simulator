@@ -145,6 +145,39 @@ namespace ReathUIv0._3.Tests
         }
 
         [Fact]
+        public void TestTransportResult()
+        {
+            Transport exampletrans = new Transport("TestTransportResult", 12f, 14f);
+            CarbonCalculation.Testing.addTransport(exampletrans);
+
+            float carbonres1 = CarbonCalculation.Detail.GetTransportCost("TestTransportResult", 3f, 1000f, 250f);
+
+            Assert.True(EpsilonCMP(26f * 3f * 1000f * 250f * 0.001f, carbonres1));
+
+            float carbonres2 = CarbonCalculation.Detail.GetTransportCost("TestTransportResult", 0.2f, 100000f, 27.5f);
+
+            Assert.True(EpsilonCMP(26f * 0.2f * 100000f * 27.5f * 0.001f, carbonres2));
+
+            float carbonres3 = CarbonCalculation.Detail.GetTransportCost("TestTransportResult", 1f, 245f, 0.5f);
+
+            Assert.True(EpsilonCMP(26f * 1f * 245 * 0.5f * 0.001f, carbonres3));
+
+            bool invalidexception = false;
+
+            try
+            {
+                float carbonres4 = CarbonCalculation.Detail.GetTransportCost("Nonexistent", 0.2f, 100000f, 27.5f);
+            }
+            catch (ArgumentException)
+            {
+                invalidexception = true;
+            }
+
+            Assert.True(invalidexception);
+
+        }
+
+        [Fact]
         public void TestValidManufacturing()
         {
             Material examplemat = new Material("TestValidManufacturing", 60f, -1, -1, -1);
@@ -174,6 +207,21 @@ namespace ReathUIv0._3.Tests
 
             Assert.NotNull(disposal);
             Assert.Equal(60f, disposalcost);
+        }
+
+        [Fact]
+        public void TestValidTransport()
+        {
+            Transport exampledisp = new Transport("TestValidTransport", 1f, 2f);
+            CarbonCalculation.Testing.addTransport(exampledisp);
+
+            string validtransport = "TestValidTransport";
+
+            Transport transport = CarbonCalculation.GetTransportCost(validtransport);
+
+            Assert.NotNull(transport);
+            Assert.Equal(1f, transport.CarbonCost);
+            Assert.Equal(2f, transport.WttConvFactor);
         }
 
         [Fact]
@@ -252,6 +300,26 @@ namespace ReathUIv0._3.Tests
             Assert.Null(invalidmat);
             Assert.True(invmatexception);
             Assert.True(invmetexception);
+        }
+
+        [Fact]
+        public void TestInvalidTransport()
+        {
+            string invalidtransport = "Invalid Transport";
+
+            bool invtrexception = false;
+
+            try
+            {
+                Transport invalidtr = CarbonCalculation.GetTransportCost(invalidtransport);
+            }
+            catch (ArgumentException)
+            {
+
+                invtrexception = true;
+            }
+
+            Assert.True(invtrexception);
         }
     }
 }

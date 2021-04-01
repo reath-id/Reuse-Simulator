@@ -23,6 +23,11 @@ namespace ReathUIv0._3
             {
                 disposalCosts.Add(m);
             }
+
+            public static void addTransport(Transport m)
+            {
+                transportCosts.Add(m);
+            }
         }
 
 
@@ -218,7 +223,7 @@ namespace ReathUIv0._3
                 }
             }
 
-            throw new ArgumentException("Provided material: " + MaterialName + " does not exist.");
+            throw new ArgumentException("Provided material: " + MaterialName + " does not have any manufacturing cost associated with it.");
         }
 
         public static Disposal GetDisposalCost(string DisposalName)
@@ -232,7 +237,7 @@ namespace ReathUIv0._3
                 }
             }
 
-            throw new ArgumentException("Provided material does not exist.");
+            throw new ArgumentException("Provided material: " + DisposalName + " does not have any disposal cost associated with it.");
         }
 
         public static Transport GetTransportCost(string TransportName)
@@ -245,7 +250,7 @@ namespace ReathUIv0._3
                 }
             }
 
-            throw new ArgumentException("Provided transportation method does not exist.");
+            throw new ArgumentException("Provided transportation method: " + TransportName + " does not have any transport cost associated with it..");
         }
 
         private static float EmptyToInv(string field)
