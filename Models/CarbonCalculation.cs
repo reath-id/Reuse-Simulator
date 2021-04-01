@@ -30,7 +30,6 @@ namespace ReathUIv0._3
             }
         }
 
-
         internal static class Detail
         {
             public static float GetManufacturingCost(string material, ManufactoringMethod method, float weight, float noofitems)
@@ -170,45 +169,45 @@ namespace ReathUIv0._3
                     {
                         return cost.Landfill;
                     }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be disposed to reuse.");
+                    else throw new ArgumentException(cost.Material + " cannot be disposed to reuse.");
                 case EntireDisposalMethod.Reuse:
                     if (cost.Reuse != -1f)
                     {
                         return cost.Reuse;
                     }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be disposed to reuse.");
+                    else throw new ArgumentException(cost.Material + " cannot be disposed to reuse.");
                 case EntireDisposalMethod.ClosedLoop:
                     if (cost.ClosedLoop != -1f)
                     {
                         return cost.ClosedLoop;
                     }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be disposed into a Closed Loop.");
+                    else throw new ArgumentException(cost.Material + " cannot be disposed into a Closed Loop.");
                 case EntireDisposalMethod.OpenLoop:
                     if (cost.OpenLoop != -1f)
                     {
                         return cost.OpenLoop;
                     }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be disposed into an Open Loop.");
+                    else throw new ArgumentException(cost.Material + " cannot be disposed into an Open Loop.");
                 case EntireDisposalMethod.Combustion:
                     if (cost.Combustion != -1f)
                     {
                         return cost.Combustion;
                     }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be combusted.");
+                    else throw new ArgumentException(cost.Material + " cannot be combusted.");
                 case EntireDisposalMethod.Composting:
                     if (cost.Composting != -1f)
                     {
                         return cost.Composting;
                     }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be composed.");
+                    else throw new ArgumentException(cost.Material + " cannot be composed.");
                 case EntireDisposalMethod.Anaerobic:
                     if (cost.AnaerobicDigestion != -1f)
                     {
                         return cost.AnaerobicDigestion;
                     }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be digested anaerobically.");                          
+                    else throw new ArgumentException(cost.Material + " cannot be digested anaerobically.");                          
                 default:
-                    throw new ArgumentException(cost.MaterialOption + ": Invalid disposal method.");
+                    throw new ArgumentException(cost.Material + ": Invalid disposal method.");
             }
         }
 
@@ -231,7 +230,7 @@ namespace ReathUIv0._3
 
             foreach (Disposal dispo in disposalCosts)
             {
-                if (dispo.MaterialOption.Equals(DisposalName) == true)
+                if (dispo.Material.Equals(DisposalName) == true)
                 {
                     return dispo;
                 }

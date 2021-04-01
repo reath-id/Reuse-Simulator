@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace ReathUIv0._3.Models
 {
+
+    // Class representing the carbon cost factors associated with various methods of disposing a given material.
     public class Disposal
     {
-        public string MaterialOption { get; set; }
-        public float Conversion { get; set; }
+        public string Material { get; set; }
         public float Reuse { get; set; }
         public float OpenLoop { get; set; }
         public float ClosedLoop { get; set; }
@@ -20,22 +21,20 @@ namespace ReathUIv0._3.Models
 
         public Disposal()
         {
-            MaterialOption = string.Empty;
-            Conversion = 0.0000000F;
-            Reuse = 00.0000F;
-            OpenLoop = 00.000F;
-            ClosedLoop = 00.000F;
-            Combustion = 00.000F;
-            Composting = 00.000F;
-            Landfill = 0000.000F;
-            AnaerobicDigestion = 00.000F;
+            Material = string.Empty;
+            Reuse = 0.0f;
+            OpenLoop = 0.0f;
+            ClosedLoop = 0.0f;
+            Combustion = 0.0f;
+            Composting = 0.0f;
+            Landfill = 0.0f;
+            AnaerobicDigestion = 0.0f;
 
         }
 
-        public Disposal(string materialOption,float conversion,float reuse, float openLoop,float closedLoop,float combustion,float composting, float landfill, float anaerobicDigestion)
+        public Disposal(string materialOption, float reuse, float openLoop, float closedLoop, float combustion, float composting, float landfill, float anaerobicDigestion)
         {
-            MaterialOption = materialOption;
-            Conversion = conversion;
+            Material = materialOption;
             Reuse = reuse;
             OpenLoop = openLoop;
             ClosedLoop = closedLoop;

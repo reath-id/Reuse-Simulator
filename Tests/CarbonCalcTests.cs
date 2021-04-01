@@ -47,7 +47,7 @@ namespace ReathUIv0._3.Tests
         [Fact]
         public void TestDisposalConstants()
         {
-            Disposal examplemat = new Disposal("TestDisposalConstants", 1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f);
+            Disposal examplemat = new Disposal("TestDisposalConstants", 2f, 3f, 4f, 5f, 6f, 7f, 8f);
             CarbonCalculation.Testing.addDisposal(examplemat);
 
             Assert.Equal(2f, CarbonCalculation.DisposalCostFromEnum(CarbonCalculation.GetDisposalCost("TestDisposalConstants"), ReusableAsset.EntireDisposalMethod.Reuse));
@@ -97,7 +97,7 @@ namespace ReathUIv0._3.Tests
         [Fact]
         public void TestDisposalResult()
         {
-            Disposal exampledisp = new Disposal("TestDisposalResult", 1f, 2f, 3f, 4f, 5f, 6f, 7f, -1f);
+            Disposal exampledisp = new Disposal("TestDisposalResult", 2f, 3f, 4f, 5f, 6f, 7f, -1f);
             CarbonCalculation.Testing.addDisposal(exampledisp);
 
             float carbonres1 = CarbonCalculation.Detail.GetDisposalCost("TestDisposalResult", ReusableAsset.EntireDisposalMethod.Reuse, 20, 20);
@@ -196,7 +196,7 @@ namespace ReathUIv0._3.Tests
         [Fact]
         public void TestValidDisposal()
         {
-            Disposal exampledisp = new Disposal("TestValidDisposal", -1, -1, -1, -1, -1, -1, 60f, -1);
+            Disposal exampledisp = new Disposal("TestValidDisposal", -1, -1, -1, -1, -1, 60f, -1);
             CarbonCalculation.Testing.addDisposal(exampledisp);
 
             string validmaterial = "TestValidDisposal";

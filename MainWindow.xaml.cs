@@ -283,7 +283,7 @@ namespace ReathUIv0._3
 
                 foreach (Disposal method in disposalChoices)
                 {
-                    if (dropDown_primaryDisposalMethod.SelectedItem.ToString().Trim().Equals(method.MaterialOption))
+                    if (dropDown_primaryDisposalMethod.SelectedItem.ToString().Trim().Equals(method.Material))
                     {
                         if (method.Reuse != 0)
                         {
@@ -370,7 +370,7 @@ namespace ReathUIv0._3
 
                 foreach (Disposal method in disposalChoices)
                 {
-                    if (dropDown_auxDisposalMethod.SelectedItem.ToString().Trim().Equals(method.MaterialOption))
+                    if (dropDown_auxDisposalMethod.SelectedItem.ToString().Trim().Equals(method.Material))
                     {
                         if (method.Reuse != 0)
                         {

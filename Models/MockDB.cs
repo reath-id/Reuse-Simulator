@@ -83,7 +83,7 @@ namespace ReathUIv0._3
 
             foreach (Disposal dispo in disposalCosts)
             {
-                if (dispo.MaterialOption.Equals(MaterialName) == true)
+                if (dispo.Material.Equals(MaterialName) == true)
                 {
                     return dispo;
                 }
