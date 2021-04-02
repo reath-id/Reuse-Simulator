@@ -236,6 +236,8 @@ namespace ReathUIv0._3.Views
         {
             currentAsset = SqliteDatabaseAccess.RetrieveAssets(loadedAssets[AssetSelected]);
 
+
+
             if (currentAsset != null) // Check if currentAsset is not null
             {
                 // Using hte currentAsset information to perform the calculations necessary for the graphs
