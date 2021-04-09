@@ -20,23 +20,28 @@
         <Image x:Name="img_logo_text_teal_1x_png" Margin="10,10,1602,1002" Source="../resources/img_logo-text_teal@1x.png" Stretch="Fill" Width="300" Height="60" />
         <Image x:Name="Circular_Economy_Simulator_ALT_color_png" Margin="315,45,1205,999" Source="../resources/Circular Economy Simulator ALT color.png" Stretch="Fill" Width="392" Height="28" />
 
-        <StackPanel Height="60" Margin="0,110,0,900" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Height="60" Margin="0,110,-140,900" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Width="200" Height="30" FontSize="18" FontWeight="Black">SELECT YOUR ASSET:</TextBlock>
-            <ComboBox x:Name="dropDown_assetSelection" Width="300" Height="40" FontSize="18" Loaded="dropDown_AssetSelection_Loaded"
+            <ComboBox x:Name="ComboBoxAssetSelection" Width="300" Height="40" FontSize="18" ItemsSource="{Binding AssetsLoad}"
                        SelectedIndex="{Binding AssetSelected, Mode=TwoWay}" />
+            <TextBlock Width="140" Height="30" FontSize="18" FontWeight="Black" Margin="30, 0, 0, 0"> COMPARE TO:</TextBlock>
+            <ComboBox x:Name="ComboBoxCompareSelection" Width="300" Height="40" FontSize="18" ItemsSource="{Binding CompareAssetFirstList, Mode=TwoWay}"
+                       SelectedIndex="{Binding CompareSelected, Mode=TwoWay}" />
+            <ComboBox x:Name="ComboBoxCompareSelection2" Width="300" Height="40" FontSize="18"  Margin="30, 0, 0, 0" ItemsSource="{Binding CompareAssetSecondList, Mode=TwoWay}"
+                       SelectedIndex="{Binding CompareSelected2, Mode=TwoWay}" />
         </StackPanel>
 
         <StackPanel x:Name="stackPanel_graphLeft" Margin="315,190,917,170" Background="White" Width="680" Height="720">
-            <Label Content="{Binding TitleLabelText}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" FontFamily="FiraCode Nerd Font"></Label>
+            <TextBlock Text="{Binding TitleLeftGraph}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" TextWrapping="Wrap" FontFamily="FiraCode Nerd Font"></TextBlock>
             <Border BorderBrush="Black" BorderThickness="0" Height="620" Width="640">
                 <lvc:CartesianChart LegendLocation="{Binding LegendPosition,UpdateSourceTrigger=PropertyChanged}" Background="White"
                                     FontSize="12" FontFamily="Roboto" FontWeight="Normal" AnimationsSpeed="{Binding SpeedValue, UpdateSourceTrigger=PropertyChanged}"
-                                    Series="{Binding EnvironmnetalSeriesCollection, Mode=TwoWay}">
+                                    Series="{Binding EnvironmentalSeriesCollection, Mode=TwoWay}">
 
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis Title="{Binding XLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="14" Foreground="Black"
                                       FontFamily="Roboto" FontWeight="Normal"
-                                      Labels="{Binding Labels}" LabelsRotation="{Binding XRotationText,UpdateSourceTrigger=PropertyChanged}">
+                                      Labels="{Binding LabelLeftGraph}" LabelsRotation="{Binding XRotationText,UpdateSourceTrigger=PropertyChanged}">
                             <lvc:Axis.Separator>
                                 <lvc:Separator Stroke="Transparent" />
                             </lvc:Axis.Separator>
@@ -44,7 +49,7 @@
                     </lvc:CartesianChart.AxisX>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Title="{Binding YLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="12" Foreground="#424548"
-                                      LabelFormatter="{Binding Formatter,UpdateSourceTrigger=PropertyChanged}" FontFamily="Roboto" FontWeight="Normal"
+                                      LabelFormatter="{Binding FormatterLeftGraph,UpdateSourceTrigger=PropertyChanged}" FontFamily="Roboto" FontWeight="Normal"
                                       LabelsRotation="{Binding YRotationText,UpdateSourceTrigger=PropertyChanged}">
                             <lvc:Axis.Separator>
                                 <lvc:Separator Stroke="#4C3F54" />
@@ -55,7 +60,7 @@
             </Border>
             <StackPanel Orientation="Horizontal" Margin="20" HorizontalAlignment="Center" Height="40">
                 <TextBlock Width="150" Height="30" FontSize="18" FontWeight="Black">SELECT THEME:</TextBlock>
-                <ComboBox x:Name="dropDown_themeEnvironmentalImpact" Width="240" Height="40" FontSize="18" Loaded="dropDown_themeEnvironmentalImpact_Loaded"
+                <ComboBox x:Name="EnvironmentalThemeComboBox" Width="240" Height="40" FontSize="18" Loaded="LoadEnvironmentalThemeComboBox"
                        SelectedIndex="{Binding EnvironmentalSelectedTheme, Mode=TwoWay}" />
             </StackPanel>
             <StackPanel.Effect>
@@ -64,16 +69,16 @@
         </StackPanel>
 
         <StackPanel x:Name="stackPanel_graphRight" Margin="1110,190,122,170" Background="White" Width="680" Height="720">
-            <Label Content="{Binding TitleLabelText2}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" FontFamily="FiraCode Nerd Font"></Label>
+            <TextBlock Text="{Binding TitleRightGraph}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" FontFamily="FiraCode Nerd Font"></TextBlock>
             <Border BorderBrush="Black" BorderThickness="0" Height="620" Width="640">
                 <lvc:CartesianChart LegendLocation="{Binding LegendPosition,UpdateSourceTrigger=PropertyChanged}" Background="White"
                                     FontSize="12" FontFamily="Roboto" FontWeight="Normal" AnimationsSpeed="{Binding SpeedValue, UpdateSourceTrigger=PropertyChanged}"
                                     Series="{Binding EconomicSeriesCollection, Mode=TwoWay}">
-                    
+
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis Title="{Binding XLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="14" Foreground="Black"
                                       FontFamily="Roboto" FontWeight="Normal"
-                                      Labels="{Binding Labels2}" LabelsRotation="{Binding XRotationText,UpdateSourceTrigger=PropertyChanged}">
+                                      Labels="{Binding LabelRigthGraph}" LabelsRotation="{Binding XRotationText,UpdateSourceTrigger=PropertyChanged}">
                             <lvc:Axis.Separator>
                                 <lvc:Separator Stroke="Transparent" />
                             </lvc:Axis.Separator>
@@ -81,7 +86,7 @@
                     </lvc:CartesianChart.AxisX>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Title="{Binding YLabelText,UpdateSourceTrigger=PropertyChanged}" FontSize="12" Foreground="#424548"
-                                      LabelFormatter="{Binding Formatter2,UpdateSourceTrigger=PropertyChanged}" FontFamily="Roboto" FontWeight="Normal"
+                                      LabelFormatter="{Binding FormatterRightGraph,UpdateSourceTrigger=PropertyChanged}" FontFamily="Roboto" FontWeight="Normal"
                                       LabelsRotation="{Binding YRotationText,UpdateSourceTrigger=PropertyChanged}">
                             <lvc:Axis.Separator>
                                 <lvc:Separator Stroke="#4C3F54" />
@@ -93,7 +98,7 @@
 
             <StackPanel Orientation="Horizontal" Margin="20" HorizontalAlignment="Center" Height="40">
                 <TextBlock Width="150" Height="30" FontSize="18" FontWeight="Black">SELECT THEME:</TextBlock>
-                <ComboBox x:Name="dropDown_themeEconomicImpact" Width="240" Height="40" FontSize="18" Loaded="dropDown_themeEconomicImpact_Loaded"
+                <ComboBox x:Name="EconomicThemeComboBox" Width="240" Height="40" FontSize="18" Loaded="LoadEconomicThemeComboBox"
                       SelectedIndex="{Binding EconomicsSelectedTheme, Mode=TwoWay}" />
             </StackPanel>
             <StackPanel.Effect>
@@ -106,7 +111,7 @@
         </StackPanel>
 
         <StackPanel Margin="1175,29,507,987" Orientation="Vertical">
-            <Button x:Name="btnGraphs" Content="Graphs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="230" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic" Command="{Binding GraphsCommand}" />
+            <Button x:Name="btnGraphs" Content="Graphs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="230" Height="56" IsDefault="True" Background="#FFE0EFEA" BorderBrush="#FF0E7E85" FontFamily="Nunito Sans" FontSize="20" FontStyle="Italic"/>
         </StackPanel>
 
         <StackPanel Margin="1410,29,282,987" Orientation="Vertical">
