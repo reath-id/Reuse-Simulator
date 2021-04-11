@@ -21,8 +21,8 @@ namespace ReathUIv0._3
         private List<string> materialEmissionChoice = new List<string>();
         private List<string> countries = new List<string>();
         private ReusableAsset reusableAsset = new ReusableAsset();
-        private string dataSampleSize, nameOfAsset, unitCost, unitWeight, primaryMaterialWeight, auxiliarMaterialWeight, recycledPercent, mePercent;
-
+        private string dataSampleSize, nameOfAsset, unitCost, unitWeight, primaryMaterialWeight, auxiliarMaterialWeight, recycledPercent, mePercent;        
+        //last edit 11:07 10/04/2021 sean mcallister
         public MainWindow()
         {
             InitializeComponent();
@@ -60,12 +60,6 @@ namespace ReathUIv0._3
             unitCost = textBox_unitCost.Text.ToString().Trim();
         }
 
-        //Unit Weight [5]
-        private void textBox_unitWeight_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            unitWeight = textBox_unitWeight.Text.ToString().Trim();
-        }
-
         //Country of Orgin [6]
         private void dropDown_countryOfOrigin_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -92,7 +86,6 @@ namespace ReathUIv0._3
 
             dropDown_primaryDisposalMethod.SelectedIndex = -1;
             dropDown_primaryManufacturingEmissions.SelectedIndex = -1;
-            dropDown_primaryCleaningMethod.SelectedIndex = -1;
 
             materialEmissionChoice.Clear();
             dropDown_primaryDisposalMethod.Items.Clear();
@@ -248,7 +241,6 @@ namespace ReathUIv0._3
 
             dropDown_auxDisposalMethod.SelectedIndex = -1;
             dropDown_auxiliaryManufacturingEmissions.SelectedIndex = -1;
-            dropDown_auxCleaningMethod.SelectedIndex = -1;
 
             materialEmissionChoice.Clear();
             dropDown_auxDisposalMethod.Items.Clear();
@@ -496,23 +488,6 @@ namespace ReathUIv0._3
             }*/
         }
 
-        //Primary Cleaning Method
-        private void dropDown_primaryCleaningMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            /*if (dropDown_primaryCleaningMethod.SelectedItem != null)
-            {
-                if (dropDown_primaryCleaningMethod.SelectedItem.ToString().Equals("Cleaning Method") == false)
-                {
-                    reusableAsset.PrimaryCleaningMethod = dropDown_primaryCleaningMethod.SelectedItem.ToString().Trim();
-
-                }
-            }
-            else
-            {
-                reusableAsset.PrimaryCleaningMethod = "";
-            }*/
-        }
-
         //Auxiliary Disposal Method
         private void dropDown_auxDisposalMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -589,22 +564,7 @@ namespace ReathUIv0._3
             dropDown_auxCleaningMethod.IsEnabled = false;
             reusableAsset.AuxiliaryDispoString = "";
         }*/
-        }
 
-        //Auxiliary Cleaning Method
-        private void dropDown_auxCleaningMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            /*if (dropDown_auxCleaningMethod.SelectedItem != null)
-            {
-                if (dropDown_auxCleaningMethod.SelectedItem.ToString().Equals("Cleaning Method") == false)
-                {
-                    reusableAsset.AuxiliaryCleaningMethod = dropDown_auxCleaningMethod.SelectedItem.ToString().Trim();
-                }
-            }
-            else
-            {
-                reusableAsset.AuxiliaryCleaningMethod = "";
-            }*/
         }
 
         //Is Recycled? [9]
@@ -710,9 +670,9 @@ namespace ReathUIv0._3
         //Tab button Input
         private void btnInput_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
+            //this.Hide();
+            //MainWindow mainWindow = new MainWindow();
+            //mainWindow.Show();
         }
 
         //Tab button Graphs
@@ -729,6 +689,10 @@ namespace ReathUIv0._3
         //Tab button Data
         private void btnData_Click(object sender, RoutedEventArgs e)
         {
+            Views.Data context = new Views.Data();
+            Window dataWindow = new Views.Data();
+            dataWindow.DataContext = context;
+            dataWindow.Show();
         }
 
         //Tab button Settings
@@ -764,7 +728,6 @@ namespace ReathUIv0._3
 
             //unitweight
             int unitweight = rnd.Next(400, 9999);
-            textBox_unitWeight.Text = Convert.ToString(unitweight);
 
             //countryoforigin
             dropDown_countryOfOrigin.SelectedIndex = rnd.Next(dropDown_countryOfOrigin.Items.Count);
@@ -1003,6 +966,11 @@ namespace ReathUIv0._3
             //dropDown_auxiliaryManufacturingEmissions.Items.Add("Auxiliary Manufacturing Emission");
             dropDown_auxiliaryManufacturingEmissions.SelectedIndex = -1;
             dropDown_auxiliaryManufacturingEmissions.IsEnabled = false;
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
         }
 
         public void textBox_infoBox_ErrorMessageDisplay(string errorMessage)
