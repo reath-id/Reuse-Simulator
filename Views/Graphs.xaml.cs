@@ -680,6 +680,10 @@ namespace ReathUIv0._3.Views
 
         private void btnData_Click(object sender, RoutedEventArgs e)
         {
+            Views.Data context = new Views.Data();
+            Window dataWindow = new Views.Data();
+            dataWindow.DataContext = context;
+            dataWindow.Show();
         }
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
@@ -751,6 +755,11 @@ namespace ReathUIv0._3.Views
             {
                 Environment.Exit(0);
             }
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

@@ -150,22 +150,23 @@ namespace ReathUIv0._3.ViewModel
             }
 
 
-            float unitWeight = 0;
+            //float unitWeight = 0;
 
-            if (dataUnitWeight.Length == 0 || !float.TryParse(dataUnitWeight, out unitWeight))
-            {
-                InfoBoxText = "There has been nothing entered into the unit weight box or the value inserted is not a valid number.";
-                return false;
-            }
-            else if (unitWeight <= 0)
-            {
-                InfoBoxText = "Unit weight entered is less than or equal to 0.  Please enter a sufficient amount";
-                return false;
-            }
-            else
-            {
-                reusableAsset.UnitWeight = unitWeight;
-            }
+            ////ERROR HERE DUE TO UNIT WEIGHT REFERENCE
+            //if (dataUnitWeight.Length == 0 || !float.TryParse(dataUnitWeight, out unitWeight))
+            //{
+            //    InfoBoxText = "There has been nothing entered into the unit weight box or the value inserted is not a valid number.";
+            //    return false;
+            //}
+            //else if (unitWeight <= 0)
+            //{
+            //    InfoBoxText = "Unit weight entered is less than or equal to 0.  Please enter a sufficient amount";
+            //    return false;
+            //}
+            //else
+            //{
+            //    reusableAsset.UnitWeight = unitWeight;
+            //}
               
 
             if(string.IsNullOrEmpty(reusableAsset.AssetCountryOfOrigin) == true)
@@ -327,11 +328,11 @@ namespace ReathUIv0._3.ViewModel
 
         }
 
-            if (reusableAsset.PrimaryWeight + reusableAsset.AuxiliaryWeight != reusableAsset.UnitWeight)
-            {
-                InfoBoxText = "Combined Weight is not the same as unit weight. Please input the weights correctly";
-                return false;
-            }
+            //if (reusableAsset.PrimaryWeight + reusableAsset.AuxiliaryWeight != reusableAsset.UnitWeight)
+            //{
+            //    InfoBoxText = "Combined Weight is not the same as unit weight. Please input the weights correctly";
+            //    return false;
+            //}
 
             return true;
         }
