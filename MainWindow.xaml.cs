@@ -725,10 +725,6 @@ namespace ReathUIv0._3
             gbp = Math.Round(gbp, 2);
             textBox_unitCost.Text = Convert.ToString(gbp);
 
-
-            //unitweight
-            int unitweight = rnd.Next(400, 9999);
-
             //countryoforigin
             dropDown_countryOfOrigin.SelectedIndex = rnd.Next(dropDown_countryOfOrigin.Items.Count);
 
@@ -736,18 +732,18 @@ namespace ReathUIv0._3
             dropDown_primaryMaterial.SelectedIndex = rnd.Next(1, 40);
 
             //primaryweight
-            int y = rnd.Next(1, 47);
-            int x = unitweight / 2 + y;
-            int primaryweight = x;
+            int primaryweight = rnd.Next(30, 70);
             textBox_primaryMaterialPercent.Text = Convert.ToString(primaryweight);
 
             //auxmaterial
             dropDown_auxMaterial.SelectedIndex = rnd.Next(1, 40);
 
             //auxweight
-            double auxweight = unitweight - primaryweight;
+            int auxweight = rnd.Next(1, 29);
             textBox_auxMaterialPercent.Text = Convert.ToString(auxweight);
 
+            //unitweight
+            int unitweight = primaryweight + auxweight;
 
             //isrecycled
             dropDown_isRecycled.SelectedIndex = rnd.Next(1, 3);
