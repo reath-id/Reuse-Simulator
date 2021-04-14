@@ -28,13 +28,13 @@
             
             <Grid>
                 
-            <ComboBox x:Name="comboBox_AssetSelection" Margin="176,192,0,0" Width="300" Height="60" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="comboBox_AssetSelection_SelectionChanged" >
+            <ComboBox x:Name="comboBox_AssetSelection" Margin="176,192,0,0" Width="300" Height="60" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="comboBox_AssetSelection_SelectionChanged" Loaded="comboBox_AssetSelection_Loaded" >
                     <ComboBox.Effect>
                         <DropShadowEffect/>
                     </ComboBox.Effect>
                 </ComboBox>
 
-                <TextBlock x:Name="textBlock_exportPath" TextWrapping="Wrap" Text="Export Directory Path" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="16" FontStretch="UltraExpanded" TextAlignment="Center" Margin="176,358,0,0" Width="300" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                <TextBlock x:Name="textBlock_exportPath" TextWrapping="Wrap" Text="Export Directory Path" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="16" FontStretch="UltraExpanded" TextAlignment="Center" Margin="176,358,0,0" Width="300" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Loaded="textBlock_exportPath_Loaded" >
                     <TextBlock.Effect>
                         <DropShadowEffect/>
                     </TextBlock.Effect>
@@ -50,7 +50,7 @@
                         <DropShadowEffect/>
                     </Button.Effect>
                 </Button>
-                <Button x:Name="button_exportPath" Content="Choose Path" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="16" FontStretch="UltraExpanded" Width="100" Height="60" Margin="530,358,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_exportPath_Click">
+                <Button x:Name="button_exportPath" Content="Choose Path" BorderBrush="#FF0E7E85" Background="#FFD9DCDF" FontFamily="Nunito Sans" FontSize="16" FontStretch="UltraExpanded" Width="100" Height="60" Margin="530,358,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_exportPath_Click" IsEnabled="False">
                     <Button.Effect>
                         <DropShadowEffect/>
                     </Button.Effect>

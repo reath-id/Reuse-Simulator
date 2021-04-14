@@ -493,6 +493,7 @@ namespace ReathUIv0._3.Views
                 LoadGraphLabels();
                 LoadEnvironmentalGraph();
                 LoadEconomicsGraph();
+
             }
         }
         private void UpdateCompareAsset() // Updates the the carbon results when comparing assets
