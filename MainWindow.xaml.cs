@@ -776,7 +776,7 @@ namespace ReathUIv0._3
             dropDown_averageDistancePerReuse.SelectedIndex = rnd.Next(1, 50);
 
             //maximumreuse
-            dropDown_maxReuseOfAsset.SelectedIndex = rnd.Next(1, 10);
+            dropDown_maxReuseOfAsset.SelectedIndex = rnd.Next(1, 30);
 
             //MEpercent
             double mepercent = rnd.NextDouble() * (100.00 - 1.00) + 1.01;
@@ -1039,7 +1039,7 @@ namespace ReathUIv0._3
             dropDown_maxReuseOfAsset.Items.Add("Maximum Reuse of Asset");
             dropDown_maxReuseOfAsset.SelectedIndex = 0;
 
-            for (int i = 1; i < 11; i++)
+            for (int i = 1; i < 31; i++)
             {
                 dropDown_maxReuseOfAsset.Items.Add(i);
             }
