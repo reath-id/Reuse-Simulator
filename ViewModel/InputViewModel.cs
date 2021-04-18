@@ -432,7 +432,7 @@ namespace ReathUIv0._3.ViewModel
 
                     if(reuseOcc <= 0 || reuseOcc > 500)
                     {
-                        InfoBoxText = "Reuse Time cycle is less than 0. Please input a number greater than 0";
+                        InfoBoxText = "Reuse Time cycle is less than 0 or greater than 500. Please input a number greater than 0";
                         return false;
                     }
                     else
