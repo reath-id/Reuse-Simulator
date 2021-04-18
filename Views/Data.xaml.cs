@@ -39,6 +39,11 @@ namespace ReathUIv0._3.Views
            assetSelect = SqliteDatabaseAccess.RetrieveAssets(comboBox_AssetSelection.SelectedItem.ToString().Trim());
         }
 
+        /// <summary>
+        /// Doubles used as if saved as float results are rounded up and don't match graphs
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_export_Click(object sender, RoutedEventArgs e)
         {
             if(textBlock_exportPath.Text.Equals("Select Export Path") || comboBox_AssetSelection.SelectedItem == null)

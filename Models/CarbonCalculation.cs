@@ -103,8 +103,12 @@ namespace ReathUIv0._3
             float Mat2ReuseManufacturingCost = Mat2ManufacturingCost / Asset.MaximumReuses;
 
             /// BACKHAUL COST
-            float Mat1TransportationCost = Detail.GetTransportCost("HGV", Asset.PrimaryWeight, Asset.SampleSize, Asset.AverageDistanceToReuse);              
-            float Mat2TransportationCost = Detail.GetTransportCost("HGV", Asset.AuxiliaryWeight, Asset.SampleSize, Asset.AverageDistanceToReuse);
+            /// 
+
+            float avgDistance = (float)Asset.AverageDistanceToReuse;
+
+            float Mat1TransportationCost = Detail.GetTransportCost("HGV", Asset.PrimaryWeight, Asset.SampleSize, avgDistance);              
+            float Mat2TransportationCost = Detail.GetTransportCost("HGV", Asset.AuxiliaryWeight, Asset.SampleSize, avgDistance);
             float TransportationCost = Mat1TransportationCost + Mat2TransportationCost;
 
             /// PREPARATION FOR REUSE COST

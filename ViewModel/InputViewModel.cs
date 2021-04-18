@@ -17,11 +17,8 @@ namespace ReathUIv0._3.ViewModel
         private List<int> idRetrieval = new List<int>();
 
         private static Regex assetNameRegex = new Regex(@"^[\w\s]{1,200}$");
-        private static Regex numbers = new Regex(@"^[0-9]{1,6}$");
-        private static Regex decimalNumbers = new Regex(@"^[0-9]{1,6}.[0-9]{2}$");
-        private static Regex weightsRegex = new Regex(@"^[0-9]{1,4}.[0-9]{3}$");
-        private static Regex recyledPercentReg = new Regex(@"^[0-9]{1,3}$");
-        private static Regex mePercentReg = new Regex(@"^[0-9]{1,3}.[0-9]{2}$");
+        private static Regex reuseOccurenceReg = new Regex(@"^[0-9]{1,3}.0|5{1}$");
+        private static Regex avgDistanceReg = new Regex(@"^[0-9]{1,4}.[0-9]{1}$");
 
         private static ReusableAsset reusableAsset = new ReusableAsset();
 
@@ -30,7 +27,7 @@ namespace ReathUIv0._3.ViewModel
             InfoBoxText = "Info Box";
         }
 
-        public InputViewModel(ReusableAsset partReusableAsset,string dataSampleSize, string nameOfAsset, string unitCost, string unitWeight, string primaryMaterialWeight, string auxiliarMaterialWeight, string recycledPercent, string mePercent)
+        public InputViewModel(ReusableAsset partReusableAsset,string dataSampleSize, string nameOfAsset, string unitCost, string unitWeight, string primaryMaterialWeight, string auxiliarMaterialWeight, string recycledPercent, string mePercent, string reuseOccurence, string avgDistance)
         {
 
             InfoBoxText = "Info Box";
@@ -56,7 +53,7 @@ namespace ReathUIv0._3.ViewModel
             {
                 InfoBoxText = "Part of the Recycle section Information has been entered incorrectly see below for more information. \n" + InfoBoxText;
             }
-            else if (CheckReuseData(mePercent) == false)
+            else if (CheckReuseData(mePercent,reuseOccurence,avgDistance) == false)
             {
                 InfoBoxText = "Part of the Reuse section information has been entered incorrectly see below for more information. \n" + InfoBoxText;
             }
@@ -199,12 +196,6 @@ namespace ReathUIv0._3.ViewModel
                 InfoBoxText = "No Auxiliary Emission method has been selected. Please select a Auxiliary Emission method";
                 return false;
             }
-
-           /* if (reusableAsset.PrimaryManufString.Length == 0 && string.IsNullOrEmpty(reusableAsset.PrimaryMaterial) == false)
-            {
-                InfoBoxText = "No Primary Emission method has been selected. Please select a Primary Emission method";
-                return false;
-            }*/
 
             return true;
         }
@@ -351,23 +342,11 @@ namespace ReathUIv0._3.ViewModel
                 return false;
             }
 
-           // if (reusableAsset.PrimaryCleaningMethod.Length == 0)
-          //  {
-          //      InfoBoxText = "No cleaning method has been selected. Please select a cleaning method";
-           //     return false;
-           // }
-
             if (reusableAsset.AuxiliaryDisposalMethod == ReusableAsset.DisposalMethod.None && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
             {
                 InfoBoxText = "No Auxiliary disposal method has been selected. Please select a Auxiliary disposal method";
                 return false;
             }
-
-           // if (reusableAsset.AuxiliaryCleaningMethod.Length == 0 && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
-           // {
-           //     InfoBoxText = "No Auxiliary cleaning method has been selected. Please select a Auxiliary cleaning method";
-           //     return false;
-           // }
 
             return true;
         }
@@ -387,12 +366,6 @@ namespace ReathUIv0._3.ViewModel
         /// <returns></returns>
         private bool CheckRecycleData(string dataRecycledPercent)
         {
-            /*if (reusableAsset.IsRecycled == 2)
-            {
-                InfoBoxText = "If the asset has been recycled has not been selected. Please ensure that either yes or no has been selected ";
-                return false;
-            }
-            else*/ 
             if(reusableAsset.IsRecycled == true)
             {
 
@@ -412,26 +385,6 @@ namespace ReathUIv0._3.ViewModel
                 {
                     reusableAsset.RecycledPercentage = recycledPercent;
                 }
-                  /*  try
-                    {
-                        int recyclePercent = Int32.Parse(dataRecycledPercent);
-
-                        if(recyclePercent <= 0 || recyclePercent > 100)
-                        {
-                            InfoBoxText = "Please ensure the number inputted is greater than 0 but no greater than 100.";
-                            return false;
-                        }
-                        else
-                        {
-                            reusableAsset.RecycledPercentage = recyclePercent;
-                        }
-                    }
-                    catch (FormatException)
-                    {
-                        InfoBoxText = "Error occured formatting the recycled percentage. Please try again";
-                        return false;
-                    }
-                }*/
 
                 if(reusableAsset.RecycledCountryOfOrigin.Length == 0)
                 {
@@ -458,19 +411,77 @@ namespace ReathUIv0._3.ViewModel
         /// </summary>
         /// <param name="mePercent"></param>
         /// <returns></returns>
-        private bool CheckReuseData(string mePercent)
+        private bool CheckReuseData(string mePercent,string reuseOccurence,string avgDistance)
         {
-            if(reusableAsset.ReuseOccurence.Length == 0)
+            if(reuseOccurence.Length == 0)
             {
-                InfoBoxText = "No reuse time cycle has been selected. Please select a time cycle.";
+                InfoBoxText = "No reuse time cycle has been inputted. Please input a time cycle.";
                 return false;
             }
 
-            if (reusableAsset.AverageDistanceToReuse == 0)
+            if(reuseOccurenceReg.IsMatch(reuseOccurence) == false)
             {
-                InfoBoxText = "No average distance to recycle selected. Please select the average distance from the dropdown";
+                InfoBoxText = "Reuse Time Cycle inputted incorrectly. Please input with a number greater than 0 but no greater than 500 and either 0 or 5 after the decimal with 5 being a half day";
                 return false;
             }
+            else
+            {
+                try
+                {
+                    double reuseOcc = double.Parse(reuseOccurence);
+
+                    if(reuseOcc <= 0 || reuseOcc > 500)
+                    {
+                        InfoBoxText = "Reuse Time cycle is less than 0. Please input a number greater than 0";
+                        return false;
+                    }
+                    else
+                    {
+                        reusableAsset.ReuseOccurence = reuseOcc;
+                    }
+
+                } catch (FormatException e)
+                {
+                    InfoBoxText = e.Message;
+                    return false;
+                }  
+            }
+
+            if (avgDistance.Length == 0)
+            {
+                InfoBoxText = "No average distance to recycle inputted. Please input the average distance into the text box";
+                return false;
+            }
+
+            if (avgDistanceReg.IsMatch(avgDistance) == false)
+            {
+                InfoBoxText = "Average distance inputted incorrectly. Please input in the format '0.0' as the minimum and '0000.0' as the maximum";
+                return false;
+            }
+            else
+            {
+                try
+                {
+                    double avgDis = double.Parse(avgDistance);
+
+                    if(avgDis <= 0 || avgDis > 1000)
+                    {
+                        InfoBoxText = "Average Distance is less than 0 or greater than 1000. Please input a number greater than 0";
+                        return false;
+                    }
+                    else
+                    {
+                        reusableAsset.AverageDistanceToReuse = avgDis;
+                    }
+
+                } catch (FormatException e)
+                {
+                    InfoBoxText = e.Message;
+                    return false;
+                }
+            }
+
+
 
             if(reusableAsset.MaximumReuses == 0)
             {
@@ -495,29 +506,6 @@ namespace ReathUIv0._3.ViewModel
                 reusableAsset.PercentageOfManufacturingCarbon = carbonPercent;
                 return true;
             }
-            /*
-                try
-                {
-                    float manufacturingCarbonPercent = float.Parse(mePercent);
-
-                    if(manufacturingCarbonPercent < 0 || manufacturingCarbonPercent > 100)
-                    {
-                        InfoBoxText = "Please ensure the ME Percent entered is not less than 0 or greater than 100";
-                        return false;
-                    }
-                    else
-                    {
-                        reusableAsset.PercentageOfManufacturingCarbon = manufacturingCarbonPercent;
-                        return true;
-                    }
-                }
-                catch (FormatException)
-                {
-                    InfoBoxText = "Error occured converting ME Percent to float. Please try again";
-                    return false;
-                }
-            }
-            */
         }
         #endregion
 

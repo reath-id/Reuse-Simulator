@@ -287,9 +287,9 @@ namespace ReathUIv0._3.Connections
                         string assetCountryOfOrigin = rdr.GetString(6);
                         float primaryWeight = rdr.GetFloat(7);
                         float auxiliaryWeight = rdr.GetFloat(8);
-                        string reuseOccurence = rdr.GetString(9);
+                        double reuseOccurence = rdr.GetDouble(9);
                         int maximumReuses = rdr.GetInt32(10);
-                        int averageDistanceToReuse = rdr.GetInt32(11);
+                        double averageDistanceToReuse = rdr.GetDouble(11);
                         float percentageOfManufacturingCarbon = (float)(double)rdr.GetValue(12);
                         string primaryDispoMethod = rdr.GetString(14);
                         string primaryCleaningMethod = rdr.GetString(15);
