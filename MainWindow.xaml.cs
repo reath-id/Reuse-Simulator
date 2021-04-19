@@ -517,33 +517,27 @@ namespace ReathUIv0._3
             textBox_nameOfAsset.Text = "Asset" + rnd.Next(1, 50);
 
             //unitcost
-            double gbp = rnd.NextDouble() * (9999.00 - 1.01) + 1.01 + 00.01;
-            gbp = Math.Round(gbp, 2);
+            int gbp = rnd.Next(1, 20);
             textBox_unitCost.Text = Convert.ToString(gbp);
 
 
-            //unitweight
-            int unitweight = rnd.Next(400, 9999);
-
             //countryoforigin
-            dropDown_countryOfOrigin.SelectedIndex = rnd.Next(dropDown_countryOfOrigin.Items.Count);
+            dropDown_countryOfOrigin.SelectedIndex = rnd.Next(dropDown_countryOfOrigin.Items.Count + 1);
+
 
             //primarymaterial
             dropDown_primaryMaterial.SelectedIndex = rnd.Next(1, 40);
 
             //primaryweight
-            int y = rnd.Next(1, 47);
-            int x = unitweight / 2 + y;
-            int primaryweight = x;
+            double primaryweight = rnd.Next(5, 1000);
             textBox_primaryMaterialPercent.Text = Convert.ToString(primaryweight);
 
             //auxmaterial
             dropDown_auxMaterial.SelectedIndex = rnd.Next(1, 40);
 
             //auxweight
-            double auxweight = unitweight - primaryweight;
+            double auxweight = rnd.Next(1, 150);
             textBox_auxMaterialPercent.Text = Convert.ToString(auxweight);
-
 
             //isrecycled
             dropDown_isRecycled.SelectedIndex = rnd.Next(1, 3);
@@ -558,20 +552,34 @@ namespace ReathUIv0._3
             if (dropDown_isRecycled.SelectedIndex == 1)
             {
                 dropDown_recycledCountryOfOrigin.SelectedIndex = rnd.Next(dropDown_recycledCountryOfOrigin.Items.Count);
+                while (dropDown_recycledCountryOfOrigin.SelectedIndex == 0)
+                {
+                    dropDown_recycledCountryOfOrigin.SelectedIndex = rnd.Next(dropDown_recycledCountryOfOrigin.Items.Count);
+                }
             }
 
-            //reusetimecycle
-            //dropDown_reuseTimeCycle.SelectedIndex = rnd.Next(1, 6);
+            //singlecycletime
+            double singlecycle = rnd.Next(1, 120);
+            int chance = rnd.Next(1, 2);
+            if(chance == 1)
+            {
+                textbox_reuseTimeCycle.Text = Convert.ToString(singlecycle) + ".0";
+            }
+            else
+            {
+                textbox_reuseTimeCycle.Text = Convert.ToString(singlecycle) + ".5";
+            }
 
             //disposalmethod
             dropDown_primaryDisposalMethod.SelectedIndex = rnd.Next(dropDown_primaryDisposalMethod.Items.Count);
             dropDown_auxDisposalMethod.SelectedIndex = rnd.Next(dropDown_auxDisposalMethod.Items.Count);
 
             //reusedistance
-            //dropDown_averageDistancePerReuse.SelectedIndex = rnd.Next(1, 50);
+            double dist = rnd.Next(1, 500);
+            textbox_averageDistancePerReuse.Text = Convert.ToString(dist) + ".0";
 
             //maximumreuse
-            dropDown_maxReuseOfAsset.SelectedIndex = rnd.Next(1, 10);
+            dropDown_maxReuseOfAsset.SelectedIndex = rnd.Next(1, 25);
 
             //MEpercent
             double mepercent = rnd.NextDouble() * (100.00 - 1.00) + 1.01;
@@ -707,7 +715,7 @@ namespace ReathUIv0._3
             dropDown_maxReuseOfAsset.Items.Add("Maximum Reuse of Asset");
             dropDown_maxReuseOfAsset.SelectedIndex = 0;
 
-            for (int i = 1; i < 11; i++)
+            for (int i = 5; i < 31; i++)
             {
                 dropDown_maxReuseOfAsset.Items.Add(i);
             }
