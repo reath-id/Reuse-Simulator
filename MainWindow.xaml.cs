@@ -553,13 +553,17 @@ namespace ReathUIv0._3
             }
 
             //recycledcountry
-            if (dropDown_isRecycled.SelectedIndex == 1)
+            if (dropDown_isRecycled.SelectedIndex == 0)
             {
                 dropDown_recycledCountryOfOrigin.SelectedIndex = rnd.Next(dropDown_recycledCountryOfOrigin.Items.Count);
                 while (dropDown_recycledCountryOfOrigin.SelectedIndex == 0)
                 {
                     dropDown_recycledCountryOfOrigin.SelectedIndex = rnd.Next(dropDown_recycledCountryOfOrigin.Items.Count);
                 }
+            }
+            else
+            {
+                dropDown_recycledCountryOfOrigin.SelectedIndex = 0;
             }
 
             //singlecycletime
