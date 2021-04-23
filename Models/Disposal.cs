@@ -6,35 +6,24 @@ using System.Threading.Tasks;
 
 namespace ReathUIv0._3.Models
 {
+    /// <summary>
+    /// Class representing the carbon cost factors associated with various methods of disposing a given material. 
+    /// All factors are measured in kgCO2e per tonne of the material.
+    /// </summary>
     public class Disposal
     {
-        public string MaterialOption { get; set; }
-        public float Conversion { get; set; }
-        public float Reuse { get; set; }
-        public float OpenLoop { get; set; }
-        public float ClosedLoop { get; set; }
-        public float Combustion { get; set; }
-        public float Composting { get; set; }
-        public float Landfill { get; set; }
-        public float AnaerobicDigestion { get; set; }
+        public string Material = string.Empty;
+        public float Reuse = CarbonCalculation.NOT_PRESENT;
+        public float OpenLoop = CarbonCalculation.NOT_PRESENT;
+        public float ClosedLoop = CarbonCalculation.NOT_PRESENT;
+        public float Combustion = CarbonCalculation.NOT_PRESENT;
+        public float Composting = CarbonCalculation.NOT_PRESENT;
+        public float Landfill = CarbonCalculation.NOT_PRESENT;
+        public float AnaerobicDigestion = CarbonCalculation.NOT_PRESENT;
 
-        public Disposal()
+        public Disposal(string materialOption, float reuse, float openLoop, float closedLoop, float combustion, float composting, float landfill, float anaerobicDigestion)
         {
-            MaterialOption = string.Empty;
-            Conversion = 0.0000000F;
-            Reuse = 00.0000F;
-            OpenLoop = 00.000F;
-            ClosedLoop = 00.000F;
-            Combustion = 00.000F;
-            Composting = 00.000F;
-            Landfill = 0000.000F;
-            AnaerobicDigestion = 00.000F;
-        }
-
-        public Disposal(string materialOption,float conversion,float reuse, float openLoop,float closedLoop,float combustion,float composting, float landfill, float anaerobicDigestion)
-        {
-            MaterialOption = materialOption;
-            Conversion = conversion;
+            Material = materialOption;
             Reuse = reuse;
             OpenLoop = openLoop;
             ClosedLoop = closedLoop;

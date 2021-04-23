@@ -17,11 +17,8 @@ namespace ReathUIv0._3.ViewModel
         private List<int> idRetrieval = new List<int>();
 
         private static Regex assetNameRegex = new Regex(@"^[\w\s]{1,200}$");
-        private static Regex numbers = new Regex(@"^[0-9]{1,6}$");
-        private static Regex decimalNumbers = new Regex(@"^[0-9]{1,6}.[0-9]{2}$");
-        private static Regex weightsRegex = new Regex(@"^[0-9]{1,4}.[0-9]{3}$");
-        private static Regex recyledPercentReg = new Regex(@"^[0-9]{1,3}$");
-        private static Regex mePercentReg = new Regex(@"^[0-9]{1,3}.[0-9]{2}$");
+        private static Regex reuseOccurenceReg = new Regex(@"^[0-9]{1,3}.0|5{1}$");
+        private static Regex avgDistanceReg = new Regex(@"^[0-9]{1,4}.[0-9]{1}$");
 
         private static ReusableAsset reusableAsset = new ReusableAsset();
 
@@ -30,7 +27,7 @@ namespace ReathUIv0._3.ViewModel
             InfoBoxText = "Info Box";
         }
 
-        public InputViewModel(ReusableAsset partReusableAsset,string dataSampleSize, string nameOfAsset, string unitCost, string unitWeight, string primaryMaterialWeight, string auxiliarMaterialWeight, string recycledPercent, string mePercent)
+        public InputViewModel(ReusableAsset partReusableAsset,string dataSampleSize, string nameOfAsset, string unitCost, string unitWeight, string primaryMaterialWeight, string auxiliarMaterialWeight, string recycledPercent, string mePercent, string reuseOccurence, string avgDistance)
         {
 
             InfoBoxText = "Info Box";
@@ -56,7 +53,7 @@ namespace ReathUIv0._3.ViewModel
             {
                 InfoBoxText = "Part of the Recycle section Information has been entered incorrectly see below for more information. \n" + InfoBoxText;
             }
-            else if (CheckReuseData(mePercent) == false)
+            else if (CheckReuseData(mePercent,reuseOccurence,avgDistance) == false)
             {
                 InfoBoxText = "Part of the Reuse section information has been entered incorrectly see below for more information. \n" + InfoBoxText;
             }
@@ -82,40 +79,29 @@ namespace ReathUIv0._3.ViewModel
         /// </summary>
         /// <param name="dataSampleSize"></param>
         /// <param name="nameOfAsset"></param>
-        /// <param name="unitCost"></param>
-        /// <param name="unitWeight"></param>
+        /// <param name="dataUnitCost"></param>
+        /// <param name="dataUnitWeight"></param>
         /// <returns></returns>
-        private bool CheckAssetDataInputs(string dataSampleSize,string nameOfAsset,string unitCost,string unitWeight)
+        private bool CheckAssetDataInputs(string dataSampleSize,string nameOfAsset,string dataUnitCost,string dataUnitWeight)
         {
-            if (dataSampleSize.Length == 0 || numbers.IsMatch(dataSampleSize) == false)
+
+            int sampleSize = 0;
+                
+            if (dataSampleSize.Length == 0 || !int.TryParse(dataSampleSize, out sampleSize))
             {
-                InfoBoxText = "Nothing has been inputted for the data sample,anything other than a number has been inputted or input is greater than the range allowed. The maximum number allowed is '999999'.";
+                InfoBoxText = "There has been nothing entered into the data sample size box or the value inserted is not a valid integer.";
+                return false;
+            }
+            else if (sampleSize <= 0 || sampleSize > 999999)
+            {
+                InfoBoxText = "The sample size entered is outside the permitted range of 1-999999.";
                 return false;
             }
             else
             {
-                try
-                {
-                    int sampleSize = Int32.Parse(dataSampleSize);
-
-                    if(sampleSize  <= 0)
-                    {
-                        InfoBoxText = "The sample size entered is less than or equal to 0. Please enter a sufficient amount";
-                        return false;
-                    }
-                    else
-                    {
-                        reusableAsset.SampleSize = sampleSize;
-                    }
-
-                }
-                catch (FormatException)
-                {
-                    InfoBoxText = "Error occured formatting Sample size into a integer. Please try again";
-                    return false;
-                }
+                reusableAsset.SampleSize = sampleSize;
             }
-
+              
             
             if(reusableAsset.DateRange.Length <= 0 || reusableAsset.DateRange.Equals("Date Range of Sample Size") == true)
             {
@@ -142,64 +128,43 @@ namespace ReathUIv0._3.ViewModel
                 
             }
 
-            if(unitCost.Length == 0 || decimalNumbers.IsMatch(unitCost) == false)
+
+            float unitCost = 0;
+
+            if (dataUnitCost.Length == 0 || !float.TryParse(dataUnitCost, out unitCost))
             {
-                InfoBoxText = "There has been nothing entered into the unit cost box or does not match the format. The format must follow '0.00' being the minimum and '000000.00' being the maximum to enter";
+                InfoBoxText = "There has been nothing entered into the unit cost box or the value inserted is not a valid number.";
+                return false;
+            }
+            else if (unitCost <= 0)
+            {
+                InfoBoxText = "Unit Cost entered is less than or equal to 0. Please enter a sufficient amount";
                 return false;
             }
             else
             {
-                try
-                {
-                    float unitCosts = float.Parse(unitCost);
-
-                    if(unitCosts <= 0.00)
-                    {
-                        InfoBoxText = "Unit Cost entered is less than or equal to 0. Please enter a sufficient amount";
-                        return false;
-                    }
-                    else
-                    {
-                        reusableAsset.UnitCost = unitCosts;
-                    }
-
-                }
-                catch (FormatException)
-                {
-                    InfoBoxText = "Error occured formatting unit cost into a float. Please try again";
-                    return false;
-                }
+                reusableAsset.UnitCost = unitCost;
             }
 
-            if(unitWeight.Length == 0 || weightsRegex.IsMatch(unitWeight) == false)
-            {
-                InfoBoxText = "Please ensure numbers have been entered or the unit weight entered is in the incorrect format. Format should be '0.000' being the minimum with '0000.000' being the maximum";
-                return false;
-            }
-            else
-            {
-                try
-                {
-                    float unitsWeight = float.Parse(unitWeight);
-                    
 
-                    if(unitsWeight <= 0.00)
-                    {
-                        InfoBoxText = "Unit weight entered is less than or equal to 0.  Please enter a sufficient amount";
-                        return false;
-                    }
-                    else
-                    {
-                        reusableAsset.UnitWeight = unitsWeight;
-                    }
+            //float unitWeight = 0;
 
-                }
-                catch (FormatException)
-                {
-                    InfoBoxText = "Error occured formatting unit weight into a float. Please try again";
-                    return false;
-                }
-            }
+            ////ERROR HERE DUE TO UNIT WEIGHT REFERENCE
+            //if (dataUnitWeight.Length == 0 || !float.TryParse(dataUnitWeight, out unitWeight))
+            //{
+            //    InfoBoxText = "There has been nothing entered into the unit weight box or the value inserted is not a valid number.";
+            //    return false;
+            //}
+            //else if (unitWeight <= 0)
+            //{
+            //    InfoBoxText = "Unit weight entered is less than or equal to 0.  Please enter a sufficient amount";
+            //    return false;
+            //}
+            //else
+            //{
+            //    reusableAsset.UnitWeight = unitWeight;
+            //}
+              
 
             if(string.IsNullOrEmpty(reusableAsset.AssetCountryOfOrigin) == true)
             {
@@ -219,22 +184,16 @@ namespace ReathUIv0._3.ViewModel
         /// <returns></returns>
         private bool CheckMaterialEmission()
         {
-            if (reusableAsset.PrimaryMaterialEmission.Length == 0)
+            if (reusableAsset.PrimaryManufacturingMethod == ReusableAsset.ManufactoringMethod.None)
             {
                 InfoBoxText = "No Primary Emission method has been selected. Please select a Primary Emission method";
                 return false;
             }
 
 
-            if (reusableAsset.AuxiliaryMaterialEmission.Length == 0 && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
+            if (reusableAsset.AuxiliaryManufacturingMethod == ReusableAsset.ManufactoringMethod.None && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
             {
                 InfoBoxText = "No Auxiliary Emission method has been selected. Please select a Auxiliary Emission method";
-                return false;
-            }
-
-            if (reusableAsset.PrimaryMaterialEmission.Length == 0 && string.IsNullOrEmpty(reusableAsset.PrimaryMaterial) == false)
-            {
-                InfoBoxText = "No Primary Emission method has been selected. Please select a Primary Emission method";
                 return false;
             }
 
@@ -253,110 +212,118 @@ namespace ReathUIv0._3.ViewModel
         /// Checks to make sure the auxiliar weight matches the regex if so it is then compared to the primary material weight to ensure it is less than it 
         /// If less than the primary weight it will be assigned the value in the reusableAsset object
         /// </summary>
-        /// <param name="primaryMaterialWeight"></param>
-        /// <param name="auxiliarMaterialWeight"></param>
+        /// <param name="dataPrimaryWeight"></param>
+        /// <param name="dataAuxillaryWeight"></param>
         /// <returns></returns>
-        private bool CheckAssetMaterial(string primaryMaterialWeight, string auxiliarMaterialWeight)
+        private bool CheckAssetMaterial(string dataPrimaryWeight, string dataAuxillaryWeight)
         {
-            if(string.IsNullOrEmpty(reusableAsset.PrimaryMaterial) == true)
+            if (string.IsNullOrEmpty(reusableAsset.PrimaryMaterial) == true)
             {
                 InfoBoxText = "No Primary Material Selected. Please ensure a Primary Material is selected";
                 return false;
             }
 
-            if(primaryMaterialWeight.Length <= 0 || weightsRegex.IsMatch(primaryMaterialWeight) == false)
+
+            float primaryWeight = 0;
+
+            if (dataPrimaryWeight.Length <= 0 || !float.TryParse(dataPrimaryWeight, out primaryWeight))
             {
-                InfoBoxText = "Primary material weight either hasn't been entered or has been inputted incorrectly. The format should be 0.000 but should not be less than or equal to 0";
+                InfoBoxText = "Primary material weight either hasn't been entered or the value inserted is not a valid number.";
+                return false;
+            }
+            else if (primaryWeight <= 0)
+            {
+                InfoBoxText = "Primary material weight inputted is less than or equal to 0. Please input a sufficient number";
                 return false;
             }
             else
             {
-                try
-                {
-                    float primaryWeight = float.Parse(primaryMaterialWeight);
+                reusableAsset.PrimaryWeight = primaryWeight;
+            }
 
-                    if(primaryWeight <= 0)
-                    {
-                        InfoBoxText = "Primary material weight inputted is less than or equal to 0. Please input a sufficient number";
-                        return false;
-                    }
-                    else
-                    {
-                        reusableAsset.PrimaryWeight = primaryWeight;
-                    }
-                }
-                catch (FormatException)
+
+            float auxillaryWeight = 0;
+
+            if (string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
+            {
+
+               // if (!dataAuxillaryWeight.Equals("Aux Weight") && dataAuxillaryWeight.Length > 0)
+               // {
+               //     InfoBoxText = "You have inputted data into the auxiliar weight input but no auxiliar material selected or have removed the aux weight from the input box either remove everything from the auxiliar weight box or retype 'Aux Weight'.";
+                //    return false;
+               // }              
+
+                if ((dataAuxillaryWeight.Length <= 0 || dataAuxillaryWeight.Equals("Aux Weight") ||!float.TryParse(dataAuxillaryWeight, out auxillaryWeight)))
                 {
-                    InfoBoxText = "Error occured formatting primary weight to float. Please try again";
+                    InfoBoxText = "Auxillary material weight either hasn't been entered or the value inserted is not a valid number.";
                     return false;
                 }
-                
-            }
-
-            if(string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == true && !auxiliarMaterialWeight.Equals("Aux Weight") && auxiliarMaterialWeight.Length > 0)
-            {
-                InfoBoxText = "You have inputted data into the auxiliar weight input but no auxiliar material selected or have removed the aux weight from the input box either remove everything from the auxiliar weight box or retype 'Aux Weight'.";
-                return false;
-            }
-
-
-            if(string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false && auxiliarMaterialWeight.Length > 0)
-            {
-                
-                if(weightsRegex.IsMatch(auxiliarMaterialWeight) == true)
+                else if (auxillaryWeight <= 0)
                 {
-                    try
-                    {
-                        float auxiliarWeight = float.Parse(auxiliarMaterialWeight);
-
-                        if(auxiliarWeight == reusableAsset.PrimaryWeight || auxiliarWeight < reusableAsset.PrimaryWeight)
-                        {
-                            float temp = 0.00F;
-                                
-                            temp = reusableAsset.PrimaryWeight + auxiliarWeight;
-
-                            if(temp == reusableAsset.UnitWeight)
-                            {
-                                reusableAsset.AuxiliaryWeight = auxiliarWeight;
-                                return true;
-                            }
-                            else
-                            {
-                                InfoBoxText = "The inputted weights of both primary and auxiliar do not equal unit weight. Please try again."+ "\n Auxiliar Weight: " + auxiliarWeight  + "\n Primary Weight: " + reusableAsset.PrimaryWeight + "\n Combined Weight: " + temp;
-                                return false;
-                            }
-                        }
-                        else
-                        {
-
-                            InfoBoxText = "Auxiliar weight is greater than Primary weight or weights to do not equal unit weight. Please input weight correctly.";
-                            return false;
-                        }
-                    }
-                    catch (FormatException)
-                    {
-                        InfoBoxText = "Error occured formatting auxiliar weight to float. Please try again";
-                        return false;
-                    }
+                    InfoBoxText = "Auxillary material weight inputted is less than or equal to 0. Please input a sufficient number";
+                    return false;
                 }
                 else
                 {
-                    InfoBoxText = "Auxiliar weight inputted incorrectly please ensure the format being '0.000'. Please try again";
-                    return false;
+                    reusableAsset.AuxiliaryWeight = auxillaryWeight;
                 }
+                /*
+                    if (weightsRegex.IsMatch(dataAuxillaryWeight) == true)
+                    {
+                        try
+                        {
+                            float auxiliarWeight = float.Parse(dataAuxillaryWeight);
+
+                            if (auxiliarWeight == reusableAsset.PrimaryWeight || auxiliarWeight < reusableAsset.PrimaryWeight)
+                            {
+                                float temp = 0.00F;
+
+                                temp = reusableAsset.PrimaryWeight + auxiliarWeight;
+
+                                if (temp == reusableAsset.UnitWeight)
+                                {
+                                    reusableAsset.AuxiliaryWeight = auxiliarWeight;
+                                    return true;
+                                }
+                                else
+                                {
+                                    InfoBoxText = "The inputted weights of both primary and auxiliar do not equal unit weight. Please try again." + "\n Auxiliar Weight: " + auxiliarWeight + "\n Primary Weight: " + reusableAsset.PrimaryWeight + "\n Combined Weight: " + temp;
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+
+                                InfoBoxText = "Auxiliar weight is greater than Primary weight or weights to do not equal unit weight. Please input weight correctly.";
+                                return false;
+                            }
+                        }
+                        catch (FormatException)
+                        {
+                            InfoBoxText = "Error occured formatting auxiliar weight to float. Please try again";
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        InfoBoxText = "Auxiliar weight inputted incorrectly please ensure the format being '0.000'. Please try again";
+                        return false;
+                    }
             }
-            else if(string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false && string.IsNullOrEmpty(auxiliarMaterialWeight) == true)
+            else if (string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false && string.IsNullOrEmpty(dataAuxillaryWeight) == true)
             {
                 InfoBoxText = "Please ensure a Weight has been entered if a Auxiliar material has been selected";
                 return false;
             }
+            **/
 
+        }
 
-            if (reusableAsset.PrimaryWeight != reusableAsset.UnitWeight)
-            {
-                InfoBoxText = "Primary Weight is not the same as unit weight. Please input the weight correctly";
-                return false;
-            }
+            //if (reusableAsset.PrimaryWeight + reusableAsset.AuxiliaryWeight != reusableAsset.UnitWeight)
+            //{
+            //    InfoBoxText = "Combined Weight is not the same as unit weight. Please input the weights correctly";
+            //    return false;
+            //}
 
             return true;
         }
@@ -369,27 +336,15 @@ namespace ReathUIv0._3.ViewModel
         /// <returns></returns>
         private bool CheckDisposalMethods()
         {
-            if (reusableAsset.PrimaryDispoMethod.Length == 0)
+            if (reusableAsset.PrimaryDisposalMethod == ReusableAsset.DisposalMethod.None)
             {
                 InfoBoxText = "No Primary disposal method has been selected. Please select a Primary disposal method";
                 return false;
             }
 
-            if (reusableAsset.PrimaryCleaningMethod.Length == 0)
-            {
-                InfoBoxText = "No cleaning method has been selected. Please select a cleaning method";
-                return false;
-            }
-
-            if (reusableAsset.AuxiliaryDispoMethod.Length == 0 && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
+            if (reusableAsset.AuxiliaryDisposalMethod == ReusableAsset.DisposalMethod.None && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
             {
                 InfoBoxText = "No Auxiliary disposal method has been selected. Please select a Auxiliary disposal method";
-                return false;
-            }
-
-            if (reusableAsset.AuxiliaryCleaningMethod.Length == 0 && string.IsNullOrEmpty(reusableAsset.AuxiliaryMaterial) == false)
-            {
-                InfoBoxText = "No Auxiliary cleaning method has been selected. Please select a Auxiliary cleaning method";
                 return false;
             }
 
@@ -406,44 +361,29 @@ namespace ReathUIv0._3.ViewModel
         /// then checks the country of origin making sure it has a selected value will then do the same with the cleaning method
         /// Will return true if everything is good
         /// </summary>
-        /// <param name="recycledPercent"></param>
+        /// <param name="dataRecycledPercent"></param>
         /// <param name="mePercent"></param>
         /// <returns></returns>
-        private bool CheckRecycleData(string recycledPercent)
+        private bool CheckRecycleData(string dataRecycledPercent)
         {
-            if (reusableAsset.IsRecylced == 2)
+            if(reusableAsset.IsRecycled == true)
             {
-                InfoBoxText = "If the asset has been recycled has not been selected. Please ensure that either yes or no has been selected ";
-                return false;
-            }
-            else if(reusableAsset.IsRecylced == 1)
-            {
-                if(recycledPercent.Length == 0 || recyledPercentReg.IsMatch(recycledPercent) == false)
+
+                int recycledPercent = 0;
+
+                if (dataRecycledPercent.Length == 0 || !int.TryParse(dataRecycledPercent, out recycledPercent))
                 {
-                    InfoBoxText = "Please ensure the Recycled percent has an input if the item is being recycled and also ensure a number has been inputted. Please try again";
+                    InfoBoxText = "Please ensure the Recycled percent has an input if the item is being recycled and that the value inserted is a valid number.";
+                    return false;
+                }
+                else if (recycledPercent <= 0 || recycledPercent > 100)
+                {
+                    InfoBoxText = "Please ensure the number inputted is greater than 0 but no greater than 100.";
                     return false;
                 }
                 else
                 {
-                    try
-                    {
-                        int recyclePercent = Int32.Parse(recycledPercent);
-
-                        if(recyclePercent <= 0 || recyclePercent > 100)
-                        {
-                            InfoBoxText = "Please ensure the number inputted is greater than 0 but no greater than 100.";
-                            return false;
-                        }
-                        else
-                        {
-                            reusableAsset.RecycledPercentage = recyclePercent;
-                        }
-                    }
-                    catch (FormatException)
-                    {
-                        InfoBoxText = "Error occured formatting the recycled percentage. Please try again";
-                        return false;
-                    }
+                    reusableAsset.RecycledPercentage = recycledPercent;
                 }
 
                 if(reusableAsset.RecycledCountryOfOrigin.Length == 0)
@@ -471,19 +411,77 @@ namespace ReathUIv0._3.ViewModel
         /// </summary>
         /// <param name="mePercent"></param>
         /// <returns></returns>
-        private bool CheckReuseData(string mePercent)
+        private bool CheckReuseData(string mePercent,string reuseOccurence,string avgDistance)
         {
-            if(reusableAsset.ReuseOccurence.Length == 0)
+            if(reuseOccurence.Length == 0)
             {
-                InfoBoxText = "No reuse time cycle has been selected. Please select a time cycle.";
+                InfoBoxText = "No reuse time cycle has been inputted. Please input a time cycle.";
                 return false;
             }
 
-            if (reusableAsset.AverageDistanceToReuse == 0)
+            if(reuseOccurenceReg.IsMatch(reuseOccurence) == false)
             {
-                InfoBoxText = "No average distance to recycle selected. Please select the average distance from the dropdown";
+                InfoBoxText = "Reuse Time Cycle inputted incorrectly. Please input with a number greater than 0 but no greater than 500 and either 0 or 5 after the decimal with 5 being a half day";
                 return false;
             }
+            else
+            {
+                try
+                {
+                    double reuseOcc = double.Parse(reuseOccurence);
+
+                    if(reuseOcc <= 0 || reuseOcc > 500)
+                    {
+                        InfoBoxText = "Reuse Time cycle is less than 0 or greater than 500. Please input a number greater than 0";
+                        return false;
+                    }
+                    else
+                    {
+                        reusableAsset.ReuseOccurence = reuseOcc;
+                    }
+
+                } catch (FormatException e)
+                {
+                    InfoBoxText = e.Message;
+                    return false;
+                }  
+            }
+
+            if (avgDistance.Length == 0)
+            {
+                InfoBoxText = "No average distance to recycle inputted. Please input the average distance into the text box";
+                return false;
+            }
+
+            if (avgDistanceReg.IsMatch(avgDistance) == false)
+            {
+                InfoBoxText = "Average distance inputted incorrectly. Please input in the format '0.0' as the minimum and '0000.0' as the maximum";
+                return false;
+            }
+            else
+            {
+                try
+                {
+                    double avgDis = double.Parse(avgDistance);
+
+                    if(avgDis <= 0 || avgDis > 1000)
+                    {
+                        InfoBoxText = "Average Distance is less than 0 or greater than 1000. Please input a number greater than 0";
+                        return false;
+                    }
+                    else
+                    {
+                        reusableAsset.AverageDistanceToReuse = avgDis;
+                    }
+
+                } catch (FormatException e)
+                {
+                    InfoBoxText = e.Message;
+                    return false;
+                }
+            }
+
+
 
             if(reusableAsset.MaximumReuses == 0)
             {
@@ -491,33 +489,22 @@ namespace ReathUIv0._3.ViewModel
                 return false;
             }
 
-            if(mePercent.Length == 0 || mePercentReg.IsMatch(mePercent) == false)
+            float carbonPercent = 0;
+
+            if (mePercent.Length == 0 || !float.TryParse(mePercent, out carbonPercent))
             {
-                InfoBoxText = "The ME Percent either has nothing inputted or does not match the format. Please ensure when entering the ME Percent the format is '0.00' but not less than 0.00 or greater than 100.00";
+                InfoBoxText = "The ME Percent either has nothing inputted or the value inserted is not a valid number.";
+                return false;
+            }
+            else if (carbonPercent < 0 || carbonPercent > 100)
+            {
+                InfoBoxText = "Please ensure the ME Percent entered is not less than 0 or greater than 100";
                 return false;
             }
             else
             {
-                try
-                {
-                    float manufacturingCarbonPercent = float.Parse(mePercent);
-
-                    if(manufacturingCarbonPercent < 0 || manufacturingCarbonPercent > 100)
-                    {
-                        InfoBoxText = "Please ensure the ME Percent entered is not less than 0 or greater than 100";
-                        return false;
-                    }
-                    else
-                    {
-                        reusableAsset.PercentageOfManufacturingCarbon = manufacturingCarbonPercent;
-                        return true;
-                    }
-                }
-                catch (FormatException)
-                {
-                    InfoBoxText = "Error occured converting ME Percent to float. Please try again";
-                    return false;
-                }
+                reusableAsset.PercentageOfManufacturingCarbon = carbonPercent;
+                return true;
             }
         }
         #endregion
@@ -546,11 +533,13 @@ namespace ReathUIv0._3.ViewModel
 
             idRetrieval = SqliteDatabaseAccess.RetrieveMaterialId(reusableAsset.AuxiliaryMaterial);
 
-            auxiliarId = idRetrieval[0];
-
-            if(auxiliarId == 0)
+            if (idRetrieval.Count.Equals(0))
             {
-             
+                auxiliarId = 0;
+            }
+            else
+            {
+                auxiliarId = idRetrieval[0];
             }
 
             idRetrieval = SqliteDatabaseAccess.RetrieveRecycleId();

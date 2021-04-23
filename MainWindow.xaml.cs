@@ -21,8 +21,7 @@ namespace ReathUIv0._3
         private List<string> materialEmissionChoice = new List<string>();
         private List<string> countries = new List<string>();
         private ReusableAsset reusableAsset = new ReusableAsset();
-        private string dataSampleSize, nameOfAsset, unitCost, unitWeight, primaryMaterialWeight, auxiliarMaterialWeight, recycledPercent, mePercent, reuseOccurence, avgDistance;        
-        //last edit 11:07 10/04/2021 sean mcallister
+        private string dataSampleSize, nameOfAsset, unitCost, unitWeight, primaryMaterialWeight, auxiliarMaterialWeight, recycledPercent, mePercent, reuseOccurence, avgDistance;                
         public MainWindow()
         {
             InitializeComponent();
@@ -47,11 +46,11 @@ namespace ReathUIv0._3
                 reusableAsset.DateRange = "Date Range of Sample Size";
             }
         }
-
+        
         //Name of Asset [3]
         private void textBox_nameOfAsset_TextChanged(object sender, TextChangedEventArgs e)
         {
-            nameOfAsset = textBox_nameOfAsset.Text.ToString().Trim();
+            nameOfAsset = textBox_nameOfAsset.Text.ToString().Trim();            
         }
 
         //Unit Cost GBP [4]
@@ -466,15 +465,12 @@ namespace ReathUIv0._3
         //Tab button Input
         private void btnInput_Click(object sender, RoutedEventArgs e)
         {
-            //this.Hide();
-            //MainWindow mainWindow = new MainWindow();
-            //mainWindow.Show();
+            
         }
 
         //Tab button Graphs
         private void btnGraphs_Click(object sender, RoutedEventArgs e)
         {
-            //I changed this in order to get INotifyProperty working on Graphs
             this.Hide();
             Views.Graphs context = new Views.Graphs();
             Window window = new Views.Graphs();
@@ -540,30 +536,22 @@ namespace ReathUIv0._3
             textBox_auxMaterialPercent.Text = Convert.ToString(auxweight);
 
             //isrecycled
-            dropDown_isRecycled.SelectedIndex = rnd.Next(0, 2);
+            dropDown_isRecycled.SelectedIndex = rnd.Next(1, 3);
 
             //recycledpercent
-            if (dropDown_isRecycled.SelectedIndex == 0)
+            if (dropDown_isRecycled.SelectedIndex == 1)
             {
                 textBox_RecycledPercent.Text = Convert.ToString(rnd.Next(1, 100));
             }
-            else
-            {
-                textBox_RecycledPercent.Text = "";
-            }
 
             //recycledcountry
-            if (dropDown_isRecycled.SelectedIndex == 0)
+            if (dropDown_isRecycled.SelectedIndex == 1)
             {
                 dropDown_recycledCountryOfOrigin.SelectedIndex = rnd.Next(dropDown_recycledCountryOfOrigin.Items.Count);
                 while (dropDown_recycledCountryOfOrigin.SelectedIndex == 0)
                 {
                     dropDown_recycledCountryOfOrigin.SelectedIndex = rnd.Next(dropDown_recycledCountryOfOrigin.Items.Count);
                 }
-            }
-            else
-            {
-                dropDown_recycledCountryOfOrigin.SelectedIndex = 0;
             }
 
             //singlecycletime

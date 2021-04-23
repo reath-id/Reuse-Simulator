@@ -8,176 +8,227 @@ namespace ReathUIv0._3
 {
     internal static class CarbonCalculation
     {
-        private static List<Material> manufacturingCosts = SqliteDatabaseAccess.RetreiveMaterial();
-        private static List<Disposal> disposalCosts = SqliteDatabaseAccess.LoadDisposal();
-        private static List<Transport> transportCosts = SqliteDatabaseAccess.LoadTransport();
+        internal const float NOT_PRESENT = 0.0f;
+
+        public static List<Manufacturing> manufacturingCosts = SqliteDatabaseAccess.LoadManufacturing();
+        public static List<Disposal> disposalCosts = SqliteDatabaseAccess.LoadDisposal();
+        public static List<Transport> transportCosts = SqliteDatabaseAccess.LoadTransport();
+
+        internal static class Testing
+        {
+            public static void addManufacturing(Manufacturing m)
+            {
+                manufacturingCosts.Add(m);
+            }
+
+            public static void addDisposal(Disposal m)
+            {
+                disposalCosts.Add(m);
+            }
+
+            public static void addTransport(Transport m)
+            {
+                transportCosts.Add(m);
+            }
+        }
+
+        internal static class Detail
+        {
+            public static float GetManufacturingCost(string material, ManufactoringMethod method, float weight, float noofitems)
+            {
+                Manufacturing MatMFC = CarbonCalculation.GetManufacturingCost(material);
+                float CarbonFactor = ManufacturingCostFromEnum(MatMFC, method);
+
+                return CarbonFactor * 0.001f * weight * noofitems;             
+            }
+
+            public static float GetDisposalCost(string material, DisposalMethod method, float weight, float noofitems)
+            {
+                Disposal MatDSC = CarbonCalculation.GetDisposalCost(material);
+                float DisposalFactor = DisposalCostFromEnum(MatDSC, method);
+                
+                return DisposalFactor * 0.001f * weight * noofitems;
+            }
+
+            public static float GetTransportCost(string vehicle, float weight, float noofitems, float avgdist)
+            {
+                Transport Transport = CarbonCalculation.GetTransportCost(vehicle);
+                float TotalWeight = noofitems * weight;
+
+                return avgdist * TotalWeight * 0.001f * (Transport.TravelFactor + Transport.WTTFactor);
+            }
+        }
 
         public static CarbonResults CalculateCarbon(ReusableAsset Asset)
         {
 
-            manufacturingCosts = SqliteDatabaseAccess.RetreiveMaterial();
+            manufacturingCosts = SqliteDatabaseAccess.LoadManufacturing();
             disposalCosts = SqliteDatabaseAccess.LoadDisposal();
             transportCosts = SqliteDatabaseAccess.LoadTransport();
 
-            /// MANUFACTURING COSTS
-            Material Mat1MFC = GetManufacturingCost(Asset.PrimaryMaterial);
-            float primaryMaterialcarbonfactor = ManufacturingCostFromEnum(Mat1MFC, Asset.PrimaryMaterialManufacturing);
+            if (Asset.MaximumReuses < 1)
+            {
+                throw new ArgumentException("Asset needs to be able to be used at least once.");
+            }
 
-            float primaryMaterialcarboncost = primaryMaterialcarbonfactor * 0.001f * Asset.PrimaryWeight * Asset.SampleSize;
-            float AuxiliaryMaterialcarboncost = 0;
+            float Mat1ManufacturingCost = Detail.GetManufacturingCost(Asset.PrimaryMaterial, Asset.PrimaryManufacturingMethod, Asset.PrimaryWeight, Asset.SampleSize);
+            float Mat2ManufacturingCost = 0;
 
             if (!String.IsNullOrWhiteSpace(Asset.AuxiliaryMaterial))
             {
-                Material Mat2MFC = GetManufacturingCost(Asset.AuxiliaryMaterial);
-                float mat2carbonfactor = ManufacturingCostFromEnum(Mat2MFC, Asset.AuxiliaryMaterialManufacturing);
-                AuxiliaryMaterialcarboncost = mat2carbonfactor * 0.001f * Asset.AuxiliaryWeight * Asset.SampleSize;
+                Mat2ManufacturingCost = Detail.GetManufacturingCost(Asset.AuxiliaryMaterial, Asset.AuxiliaryManufacturingMethod, Asset.AuxiliaryWeight, Asset.SampleSize);
             }
 
-            float ManufacturingCost = primaryMaterialcarboncost + AuxiliaryMaterialcarboncost;
+            float ManufacturingCost = Mat1ManufacturingCost + Mat2ManufacturingCost;
 
-            /// DISPOSAL COSTS
-            Disposal Mat1DSC = GetDisposalCost(Asset.PrimaryMaterial);
-            float primaryMaterialdisposalfactor = DisposalCostFromEnum(Mat1DSC, Asset.PrimaryDisposalMethod);
-            float primaryMaterialdisposalcost = primaryMaterialdisposalfactor * 0.001f * Asset.PrimaryWeight * Asset.SampleSize;
-            float AuxiliaryMaterialdisposalcost = 0;
+            /// DISPOSAL COSTS         
+            float Mat1DisposalCost = Detail.GetDisposalCost(Asset.PrimaryMaterial, Asset.PrimaryDisposalMethod, Asset.PrimaryWeight, Asset.SampleSize);
+            float Mat2DisposalCost = 0;
 
             if (!String.IsNullOrWhiteSpace(Asset.AuxiliaryMaterial))
             {
-                Disposal Mat2DSC = GetDisposalCost(Asset.AuxiliaryMaterial);
-                float AuxiliaryMaterialdisposalfactor = DisposalCostFromEnum(Mat2DSC, Asset.AuxiliaryDisposalMethod);
-                AuxiliaryMaterialdisposalcost = AuxiliaryMaterialdisposalfactor * 0.001f * Asset.AuxiliaryWeight * Asset.SampleSize;
+                Mat2DisposalCost = Detail.GetDisposalCost(Asset.AuxiliaryMaterial, Asset.AuxiliaryDisposalMethod, Asset.AuxiliaryWeight, Asset.SampleSize);
             }
-            float DisposalCost = primaryMaterialdisposalcost + AuxiliaryMaterialdisposalcost;
+
+            float DisposalCost = Mat1DisposalCost + Mat2DisposalCost;
 
             /// LINEAR COST
-            float linearcost = ManufacturingCost + DisposalCost;
-            float primaryMaterialLinearCost = primaryMaterialcarboncost + primaryMaterialdisposalcost;
-            float AuxiliaryMaterialLinearCost = AuxiliaryMaterialcarboncost + AuxiliaryMaterialdisposalcost;
+            float LinearCost = ManufacturingCost + DisposalCost;
+            float Mat1LinearCost = Mat1ManufacturingCost + Mat1DisposalCost;
+            float Mat2LinearCost = Mat2ManufacturingCost + Mat2DisposalCost;
 
             /// REUSE MODEL
-            float reusemanufacturingcarbon = ManufacturingCost / Asset.MaximumReuses;
-            float primaryMaterialReusemanuFacturingCarbon = primaryMaterialcarboncost / Asset.MaximumReuses;
-            float AuxiliaryMaterialReusemanuFacturingCarbon = AuxiliaryMaterialcarboncost / Asset.MaximumReuses;
+            float ReuseManufacturingCost = ManufacturingCost / Asset.MaximumReuses;
+            float Mat1ReuseManufacturingCost = Mat1ManufacturingCost / Asset.MaximumReuses;
+            float Mat2ReuseManufacturingCost = Mat2ManufacturingCost / Asset.MaximumReuses;
 
             /// BACKHAUL COST
-            Transport exampletransport = GetTransportCost("HGV");
-            float totalweight = Asset.SampleSize * (Asset.PrimaryWeight + Asset.AuxiliaryWeight);
-            float transportcarbon = Asset.AverageDistanceToReuse * totalweight * 0.001f * (exampletransport.CarbonCost + exampletransport.WttConvFactor);
-            float primaryMaterialTransportCarbon = Asset.AverageDistanceToReuse * Asset.PrimaryWeight * 0.001f * (exampletransport.CarbonCost + exampletransport.WttConvFactor);
-            float AuxiliaryMaterialTransportCarbon = Asset.AverageDistanceToReuse * Asset.AuxiliaryWeight * 0.001f * (exampletransport.CarbonCost + exampletransport.WttConvFactor);
+            /// 
+
+            float avgDistance = (float)Asset.AverageDistanceToReuse;
+
+            float Mat1TransportationCost = Detail.GetTransportCost("HGV", Asset.PrimaryWeight, Asset.SampleSize, avgDistance);              
+            float Mat2TransportationCost = Detail.GetTransportCost("HGV", Asset.AuxiliaryWeight, Asset.SampleSize, avgDistance);
+            float TransportationCost = Mat1TransportationCost + Mat2TransportationCost;
 
             /// PREPARATION FOR REUSE COST
-            float prepreusecarbon = Asset.PercentageOfManufacturingCarbon * ManufacturingCost;
-            float primaryMaterialPrePreuseCarbon = Asset.PercentageOfManufacturingCarbon * primaryMaterialcarboncost;
-            float AuxiliaryMaterialPrePreuseCarbon = Asset.PercentageOfManufacturingCarbon * AuxiliaryMaterialcarboncost;
+            float PrepReuseCost = Asset.PercentageOfManufacturingCarbon / 100 * ManufacturingCost;
+            float Mat1PrepReuseCost = Asset.PercentageOfManufacturingCarbon / 100 * Mat1ManufacturingCost;
+            float Mat2PrepReuseCost = Asset.PercentageOfManufacturingCarbon / 100 * Mat2ManufacturingCost;
 
             /// REUSE DISPOSAL
-            float reusedisposalcarbon = DisposalCost / Asset.MaximumReuses;
-            float primaryMaterialreusedisposalcarbon = primaryMaterialdisposalcost / Asset.MaximumReuses;
-            float AuxiliaryMaterialreusedisposalcarbon = AuxiliaryMaterialdisposalcost / Asset.MaximumReuses;
+            float ReuseDisposalCost = DisposalCost / Asset.MaximumReuses;
+            float Mat1ReuseDisposalCost = Mat1DisposalCost / Asset.MaximumReuses;
+            float Mat2ReuseDisposalCost = Mat2DisposalCost / Asset.MaximumReuses;
 
             /// CIRCULAR COST
-            float circularcost = reusemanufacturingcarbon + transportcarbon + prepreusecarbon + reusedisposalcarbon;
-            float primaryMaterialCircularCostt = primaryMaterialReusemanuFacturingCarbon + primaryMaterialTransportCarbon + primaryMaterialPrePreuseCarbon + primaryMaterialreusedisposalcarbon;
-            float AuxiliaryMaterialCircularCostt = AuxiliaryMaterialReusemanuFacturingCarbon + AuxiliaryMaterialTransportCarbon + AuxiliaryMaterialPrePreuseCarbon + AuxiliaryMaterialreusedisposalcarbon;
+            float CircularCost = ReuseManufacturingCost + TransportationCost + PrepReuseCost + ReuseDisposalCost;
+            float Mat1CircularCost = Mat1ReuseManufacturingCost + Mat1TransportationCost + Mat1PrepReuseCost + Mat1ReuseDisposalCost;
+            float Mat2CircularCost = Mat2ReuseManufacturingCost + Mat2TransportationCost + Mat2PrepReuseCost + Mat2ReuseDisposalCost;
 
-            return new CarbonResults(Asset.AssetName, linearcost, primaryMaterialLinearCost, AuxiliaryMaterialLinearCost,
-                                    circularcost, primaryMaterialCircularCostt, AuxiliaryMaterialCircularCostt,
-                                    ManufacturingCost, primaryMaterialcarboncost, AuxiliaryMaterialcarboncost,
-                                    DisposalCost, primaryMaterialdisposalcost, AuxiliaryMaterialdisposalcost,
-                                    transportcarbon);
+            CarbonMaterialResults Mat1 = new CarbonMaterialResults(Asset.PrimaryMaterial, Mat1LinearCost, Mat1CircularCost, Mat1ManufacturingCost, Mat1DisposalCost, Mat1TransportationCost);
+            CarbonMaterialResults Mat2 = new CarbonMaterialResults(Asset.AuxiliaryMaterial, Mat2LinearCost, Mat2CircularCost, Mat2ManufacturingCost, Mat2DisposalCost, Mat2TransportationCost);
+            CarbonMaterialResults Total = new CarbonMaterialResults(Asset.AssetName, LinearCost, CircularCost, ManufacturingCost, DisposalCost, TransportationCost);
+
+            return new CarbonResults(Mat1, Mat2, Total);
         }
 
-        private static float ManufacturingCostFromEnum(Material cost, ManufactoringMethod method)
+        public static float ManufacturingCostFromEnum(Manufacturing cost, ManufactoringMethod method)
         {
             switch (method)
             {
                 case ManufactoringMethod.Primary:
-                    return cost.MaterialProduction;
-
+                    if (cost.Primary != NOT_PRESENT)
+                    {
+                        return cost.Primary;
+                    }
+                    else throw new ArgumentException(cost.Material + " cannot be produced raw.");
                 case ManufactoringMethod.Reused:
-                    if (cost.Reused != -1f)
+                    if (cost.Reused != NOT_PRESENT)
                     {
                         return cost.Reused;
                     }
-                    else throw new ArgumentException(cost.ManufacturingMaterial + " cannot be Reused.");
+                    else throw new ArgumentException(cost.Material + " cannot be Reused.");
                 case ManufactoringMethod.ClosedLoop:
-                    if (cost.ClosedLoopSource != -1f)
-                    {
-                        return cost.ClosedLoopSource;
-                    }
-                    else throw new ArgumentException(cost.ManufacturingMaterial + " cannot be acquired from a Closed Loop.");
-                case ManufactoringMethod.OpenLoop:
-                    if (cost.OpenLoopSource != -1f)
-                    {
-                        return cost.OpenLoopSource;
-                    }
-                    else throw new ArgumentException(cost.ManufacturingMaterial + " cannot be acquired from an Open Loop.");
-                default:
-                    throw new ArgumentException(cost.ManufacturingMaterial + ": Invalid manufacturing method.");
-            }
-        }
-
-        private static float DisposalCostFromEnum(Disposal cost, EntireDisposalMethod method)
-        {
-            switch (method)
-            {
-                case EntireDisposalMethod.Landfill:
-                    return cost.Landfill;
-
-                case EntireDisposalMethod.Reuse:
-                    if (cost.Reuse != -1f)
-                    {
-                        return cost.Reuse;
-                    }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be disposed to reuse.");
-                case EntireDisposalMethod.ClosedLoop:
-                    if (cost.ClosedLoop != -1f)
+                    if (cost.ClosedLoop != NOT_PRESENT)
                     {
                         return cost.ClosedLoop;
                     }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be disposed into a Closed Loop.");
-                case EntireDisposalMethod.OpenLoop:
-                    if (cost.OpenLoop != -1f)
+                    else throw new ArgumentException(cost.Material + " cannot be acquired from a Closed Loop.");
+                case ManufactoringMethod.OpenLoop:
+                    if (cost.OpenLoop != NOT_PRESENT)
                     {
                         return cost.OpenLoop;
                     }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be disposed into an Open Loop.");
-                case EntireDisposalMethod.Combustion:
-                    if (cost.Combustion != -1f)
-                    {
-                        return cost.Combustion;
-                    }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be combusted.");
-                case EntireDisposalMethod.Composting:
-                    if (cost.Composting != -1f)
-                    {
-                        return cost.Composting;
-                    }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be composed.");
-                case EntireDisposalMethod.Anaerobic:
-                    if (cost.AnaerobicDigestion != -1f)
-                    {
-                        return cost.AnaerobicDigestion;
-                    }
-                    else throw new ArgumentException(cost.MaterialOption + " cannot be digested anaerobically.");
+                    else throw new ArgumentException(cost.Material + " cannot be acquired from an Open Loop.");
                 default:
-                    throw new ArgumentException(cost.MaterialOption + ": Invalid disposal method.");
+                    throw new ArgumentException(cost.Material + ": Invalid manufacturing method.");
             }
         }
 
-        public static Material GetManufacturingCost(string MaterialName)
+        public static float DisposalCostFromEnum(Disposal cost, DisposalMethod method)
+        {
+            switch (method)
+            {
+                case DisposalMethod.Landfill:
+                    if (cost.Landfill != NOT_PRESENT)
+                    {
+                        return cost.Landfill;
+                    }
+                    else throw new ArgumentException(cost.Material + " cannot be disposed to reuse.");
+                case DisposalMethod.Reuse:
+                    if (cost.Reuse != NOT_PRESENT)
+                    {
+                        return cost.Reuse;
+                    }
+                    else throw new ArgumentException(cost.Material + " cannot be disposed to reuse.");
+                case DisposalMethod.ClosedLoop:
+                    if (cost.ClosedLoop != NOT_PRESENT)
+                    {
+                        return cost.ClosedLoop;
+                    }
+                    else throw new ArgumentException(cost.Material + " cannot be disposed into a Closed Loop.");
+                case DisposalMethod.OpenLoop:
+                    if (cost.OpenLoop != NOT_PRESENT)
+                    {
+                        return cost.OpenLoop;
+                    }
+                    else throw new ArgumentException(cost.Material + " cannot be disposed into an Open Loop.");
+                case DisposalMethod.Combustion:
+                    if (cost.Combustion != NOT_PRESENT)
+                    {
+                        return cost.Combustion;
+                    }
+                    else throw new ArgumentException(cost.Material + " cannot be combusted.");
+                case DisposalMethod.Composting:
+                    if (cost.Composting != NOT_PRESENT)
+                    {
+                        return cost.Composting;
+                    }
+                    else throw new ArgumentException(cost.Material + " cannot be composed.");
+                case DisposalMethod.Anaerobic:
+                    if (cost.AnaerobicDigestion != NOT_PRESENT)
+                    {
+                        return cost.AnaerobicDigestion;
+                    }
+                    else throw new ArgumentException(cost.Material + " cannot be digested anaerobically.");                          
+                default:
+                    throw new ArgumentException(cost.Material + ": Invalid disposal method.");
+            }
+        }
+
+        public static Manufacturing GetManufacturingCost(string MaterialName)
         {
 
-            foreach (Material mat in manufacturingCosts)
+            foreach (Manufacturing mat in manufacturingCosts)
             {
-                if (mat.ManufacturingMaterial.Equals(MaterialName) == true)
+                if (mat.Material.Equals(MaterialName) == true)
                 {
                     return mat;
                 }
             }
 
-            return null;
+            throw new ArgumentException("Provided material: " + MaterialName + " does not have any manufacturing cost associated with it.");
         }
 
         public static Disposal GetDisposalCost(string DisposalName)
@@ -185,76 +236,63 @@ namespace ReathUIv0._3
 
             foreach (Disposal dispo in disposalCosts)
             {
-                if (dispo.MaterialOption.Equals(DisposalName) == true)
+                if (dispo.Material.Equals(DisposalName) == true)
                 {
                     return dispo;
                 }
             }
 
-            return null;
+            throw new ArgumentException("Provided material: " + DisposalName + " does not have any disposal cost associated with it.");
         }
 
         public static Transport GetTransportCost(string TransportName)
         {
             foreach (Transport trans in transportCosts)
             {
-                if (trans.VehicleName.Equals(TransportName) == true)
+                if (trans.TransportMethod.Equals(TransportName) == true)
                 {
                     return trans;
                 }
             }
 
-            return null;
+            throw new ArgumentException("Provided transportation method: " + TransportName + " does not have any transport cost associated with it..");
         }
+    }
 
-        private static float EmptyToInv(string field)
+
+    public struct CarbonMaterialResults
+    {
+        public string Name;
+        public float LinearCarbon;
+        public float CircularCarbon;
+        public float ManufacturingCarbon;
+        public float DisposalCarbon;
+        public float TransportCarbon;
+        public float ReuseAsPercent;
+
+        public CarbonMaterialResults(string Name_, float Linear, float Circular, float Manufacturing, float Disposal, float Transport)
         {
-            if (string.IsNullOrWhiteSpace(field))
-            {
-                return -1;
-            }
-            else return float.Parse(field);
+            Name = Name_;
+            LinearCarbon = Linear;
+            CircularCarbon = Circular;
+            ManufacturingCarbon = Manufacturing;
+            DisposalCarbon = Disposal;
+            TransportCarbon = Transport;
+            ReuseAsPercent = (1 - (Circular / Linear)) * 100;
         }
     }
 
     public struct CarbonResults
     {
-        public string AssetName;
-        public float LinearCarbonTotal;
-        public float PrimaryMaterialLinearCarbon;
-        public float AuxiliaryMaterialLinearCarbon;
-        public float CircularCarbonTotal;
-        public float PrimaryMaterialCircularCarbon;
-        public float AuxiliaryMaterialCircularCarbon;
-        public float RawManufacturingCarbon;
-        public float PrimaryMaterialManufacturingCarbon;
-        public float AuxiliaryMaterialManufacturingCarbon;
-        public float RawDisposalCarbon;
-        public float PrimaryMaterialDisposalCarbon;
-        public float AuxiliaryMaterialDisposalCarbon;
-        public float RawTransportCarbon;
-        public float ReuseAsPercent;
+        public CarbonMaterialResults Primary;
+        public CarbonMaterialResults Auxiliary;
+        public CarbonMaterialResults Total;
 
-        public CarbonResults(string Asset, float Linear, float Mat1Linear, float Mat2Linear, float Circular, float Mat1Circular, float Mat2Circular,
-            float Manuf, float Mat1M, float Mat2M, float Disp, float Mat1D, float Mat2D, float Trans)
+        public CarbonResults(CarbonMaterialResults Mat1, CarbonMaterialResults Mat2, CarbonMaterialResults Total_)
         {
-            AssetName = Asset;
-            LinearCarbonTotal = Linear;
-            PrimaryMaterialLinearCarbon = Mat1Linear;
-            AuxiliaryMaterialLinearCarbon = Mat2Linear;
-            CircularCarbonTotal = Circular;
-            PrimaryMaterialCircularCarbon = Mat1Circular;
-            AuxiliaryMaterialCircularCarbon = Mat2Circular;
-            ReuseAsPercent = (1 - (Circular / Linear)) * 100;
-            RawManufacturingCarbon = Manuf;
-            PrimaryMaterialManufacturingCarbon = Mat1M;
-            AuxiliaryMaterialManufacturingCarbon = Mat2M;
-            RawDisposalCarbon = Disp;
-            PrimaryMaterialDisposalCarbon = Mat1D;
-            AuxiliaryMaterialDisposalCarbon = Mat2D;
-            RawTransportCarbon = Trans;
+            Primary = Mat1;
+            Auxiliary = Mat2;
+            Total = Total_;
         }
     }
-
-    
 }
