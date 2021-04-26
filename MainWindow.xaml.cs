@@ -536,16 +536,20 @@ namespace ReathUIv0._3
             textBox_auxMaterialPercent.Text = Convert.ToString(auxweight);
 
             //isrecycled
-            dropDown_isRecycled.SelectedIndex = rnd.Next(1, 3);
+            dropDown_isRecycled.SelectedIndex = rnd.Next(0, 2);
 
             //recycledpercent
-            if (dropDown_isRecycled.SelectedIndex == 1)
+            if (dropDown_isRecycled.SelectedIndex == 0)
             {
                 textBox_RecycledPercent.Text = Convert.ToString(rnd.Next(1, 100));
             }
+            else
+            {
+                textBox_RecycledPercent.Text = "";
+            }
 
             //recycledcountry
-            if (dropDown_isRecycled.SelectedIndex == 1)
+            if (dropDown_isRecycled.SelectedIndex == 0)
             {
                 dropDown_recycledCountryOfOrigin.SelectedIndex = rnd.Next(dropDown_recycledCountryOfOrigin.Items.Count);
                 while (dropDown_recycledCountryOfOrigin.SelectedIndex == 0)
@@ -553,11 +557,15 @@ namespace ReathUIv0._3
                     dropDown_recycledCountryOfOrigin.SelectedIndex = rnd.Next(dropDown_recycledCountryOfOrigin.Items.Count);
                 }
             }
+            else
+            {
+                dropDown_recycledCountryOfOrigin.SelectedIndex = 0;
+            }
 
             //singlecycletime
             double singlecycle = rnd.Next(1, 120);
             int chance = rnd.Next(1, 2);
-            if(chance == 1)
+            if (chance == 1)
             {
                 textbox_reuseTimeCycle.Text = Convert.ToString(singlecycle) + ".0";
             }
